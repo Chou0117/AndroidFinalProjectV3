@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".AutomobileActivity">
+    tools:context=".ThermostatActivity">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Automobile"
+        android:text="House Thermostat"
         android:textSize = "44sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,8 +18,3 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
-=======
-    tools:context="com.example.antho.android_final.Automobile">
-
-</android.support.constraint.ConstraintLayout>
-

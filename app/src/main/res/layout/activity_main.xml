@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:rowCount="2"
+    android:columnCount="2"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.antho.android_final.MainActivity">
 
-    <TextView
+
+    <ImageButton
+        android:id="@+id/activityActivityButton"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:contentDescription="ActivityActivityButton"
+        android:src="@drawable/activity_activity_button"
+        />
+    <ImageButton
+        android:id="@+id/foodActivityButton"
+        android:layout_column="1"
+        android:layout_row="0"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="FoodActivityButton"
+        android:src="@drawable/food_activity_button"
+        />
+    <ImageButton
+        android:id="@+id/thermostatActivityButton"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="ThermostatActivityButton"
+        android:src="@drawable/thermostat_activity_button"
+        />
+    <ImageButton
+        android:id="@+id/automobileActivityButton"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="AutomobileActivityButton"
+        android:src="@drawable/automobile_activity_button"
+        />
 
-</android.support.constraint.ConstraintLayout>
+</GridLayout>
