@@ -20,7 +20,10 @@
             android:name=".Activity_Tracker"
             android:label="@string/title_activity__tracker"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FoodActivity"></activity>
+        <activity android:name=".FoodActivity" />
+        <activity android:name=".AutomobileActivity" />
+        <activity android:name=".ThermostatActivity" />
+        <activity android:name=".ActivityActivity"></activity>
     </application>
 
 </manifest>
