@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-
-      <module fileurl="file://C:\Users\Lewis User\AndroidStudioProjects\Android_Final_TheRealOne\Android_Final.iml" filepath="C:\Users\Lewis User\AndroidStudioProjects\Android_Final_TheRealOne\Android_Final.iml" />
       <module fileurl="file://$PROJECT_DIR$/Android_Final_TheRealOne.iml" filepath="$PROJECT_DIR$/Android_Final_TheRealOne.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/Android_Final.iml" filepath="$PROJECT_DIR$/Android_Final.iml" />
-
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
