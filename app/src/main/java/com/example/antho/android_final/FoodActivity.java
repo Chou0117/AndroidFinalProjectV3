@@ -35,7 +35,7 @@ public class FoodActivity extends AppCompatActivity {
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_food);
-
+//Test
         foodWindow = findViewById(R.id.foodWindow);
         foodEditText = findViewById(R.id.foodEditText);
         foodAddButton = findViewById(R.id.foodAddButton);
