@@ -5,24 +5,29 @@ import android.os.Bundle;
 
 //GENERAL REQUIREMENTS
 //A Fragment
-//Listview to present items; clicking shows item details
+//Listview* to present items; clicking shows item details
 //Items in the listview must be stored, adding and deletion of items
 //An Asynctask(open a database/retrieve data/save data)
 //Progressbar
-//Button
-//EditText and an associated text input method
-//Toast, Snackbar, custom dialog notification
+//Button*
+//EditText* and an associated text input method
+//Toast*, Snackbar, custom dialog notification*
 //Help menu that shows author, activity number and interface instructions
-//alternate language 
+//alternate language
 
 //ACTIVITY REQUIREMENTS
-//Lewis Last Edit on Dec 9th
 //User is able to select LITRES, PRICE, KILOMETRES
 //entries displayed in a listview
 //database stores the time the information was recorded
 //app should provide AVERAGE GAS PRICE for last month
 //how much gas was purchased LAST MONTH
 //AVERAGE GAS PER MONTH(?)
+
+//IMPLEMENTATION PLAN
+//Button that pops up a custom dialog to add a new item to the list
+//Listview that shows 4columns (Date, Litres, Price, KM(?))
+//Selecting items from the listview...
+//Toast that pops up when a new entry is made
 
 public class AutomobileActivity extends AppCompatActivity {
 
