@@ -6,38 +6,38 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/timeListView"
+        android:id="@+id/autoTimeListView"
         android:layout_width="50dp"
         android:layout_height="wrap_content">
     </ListView>
 
     <ListView
-        android:id="@+id/litresListView"
+        android:id="@+id/autoLitresListView"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/timeListView">
+        android:layout_toRightOf="@id/autoTimeListView">
     </ListView>
 
     <ListView
-        android:id="@+id/priceListView"
+        android:id="@+id/autoPriceListView"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/litresListView">
+        android:layout_toRightOf="@id/autoLitresListView">
     </ListView>
 
     <ListView
-        android:id="@+id/kiloListView"
+        android:id="@+id/autoKiloListView"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/priceListView">
+        android:layout_toRightOf="@id/autoPriceListView">
     </ListView>
 
     <Button
-        android:id="@+id/createEntryButton"
+        android:id="@+id/autoCreateEntryButton"
         android:text="Add Entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/kiloListView">
+        android:layout_toRightOf="@id/autoKiloListView">
     </Button>
 
 </RelativeLayout>

@@ -1,10 +1,15 @@
 package com.example.antho.android_final;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 //GENERAL REQUIREMENTS
 //A Fragment
@@ -35,7 +40,10 @@ import android.widget.Button;
 public class AutomobileActivity extends AppCompatActivity {
 
     private String ACTIVITY_NAME = "AutomobileActivity";
-    Button addEntryButton;
+    private String autoLitres;
+    private String autoPrice;
+    private String autoKilo;
+    Button autoCreateEntryButton;
 
 
     @Override
@@ -43,10 +51,34 @@ public class AutomobileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
 
-        addEntryButton.setOnClickListener(new View.OnClickListener() {
+        autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
+        autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "Entry button clicked");
+
+
+                LayoutInflater li= getLayoutInflater();
+                LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_custom_dialog_, null);
+                //final EditText tennisEditText = (EditText)rootTag.findViewById(R.id.newMessage);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
+                //AlertDialog alert = builder.create();
+
+                builder.setView(rootTag)
+                        .setPositiveButton("Confirm Message", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                              //  snackbarMessage = tennisEditText.getText().toString();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                builder.show();
+
             }
         });
     }
