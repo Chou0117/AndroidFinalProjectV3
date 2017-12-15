@@ -2,6 +2,9 @@ package com.example.antho.android_final;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 //GENERAL REQUIREMENTS
 //A Fragment
@@ -31,9 +34,20 @@ import android.os.Bundle;
 
 public class AutomobileActivity extends AppCompatActivity {
 
+    private String ACTIVITY_NAME = "AutomobileActivity";
+    Button addEntryButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
+
+        addEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(ACTIVITY_NAME, "Entry button clicked");
+            }
+        });
     }
 }

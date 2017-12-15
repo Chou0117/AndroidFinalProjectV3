@@ -32,5 +32,13 @@
         android:layout_toRightOf="@id/priceListView">
     </ListView>
 
+    <Button
+        android:id="@+id/createEntryButton"
+        android:text="Add Entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/kiloListView">
+    </Button>
+
 </RelativeLayout>
 
