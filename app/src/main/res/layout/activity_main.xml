@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="ActivityActivityButton"
-        android:src="@drawable/activity_activity_button"
-        />
+        android:src="@drawable/activity_activity_button"/>
+
     <ImageButton
         android:id="@+id/foodActivityButton"
         android:layout_column="1"
@@ -28,8 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="FoodActivityButton"
-        android:src="@drawable/food_activity_button"
-        />
+        android:src="@drawable/food_activity_button"/>
     <ImageButton
         android:id="@+id/thermostatActivityButton"
         android:layout_column="0"
@@ -39,8 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="ThermostatActivityButton"
-        android:src="@drawable/thermostat_activity_button"
-        />
+        android:src="@drawable/thermostat_activity_button"/>
     <ImageButton
         android:id="@+id/automobileActivityButton"
         android:layout_column="1"
@@ -50,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="AutomobileActivityButton"
-        android:src="@drawable/automobile_activity_button"
-        />
+        android:src="@drawable/automobile_activity_button"/>
+
 
 </GridLayout>
