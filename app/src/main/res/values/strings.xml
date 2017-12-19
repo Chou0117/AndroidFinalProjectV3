@@ -2,4 +2,5 @@
     <string name="app_name">Android_Final</string>
     <string name="title_activity__tracker">Activity_Tracker</string>
     <string name="action_settings">Settings</string>
+    <string name="foodRowDescription">Food Row</string>
 </resources>
