@@ -10,36 +10,63 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FoodActivity extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "FoodActivity";
 
+/*
+    TODO Database
+    TODO Calories, Total Fat, Total Carbohydrate
+    TODO Current / Yesterday Average Calories
+    TODO Order Sort
+*/
+
+    //Spinner
+    ArrayAdapter<String> foodTypeAdapter;
+    Spinner foodTypeDropdown;
+    //Input Edit Text
+    EditText foodEditText;
+    //Add Item Button
+    Button foodAddButton;
+    //ListView
     ArrayList<String> foodInformation = new ArrayList<>();
     ListView foodWindow;
-    EditText foodEditText;
     InfoAdapter informationAdapter;
-    Button foodAddButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Food Nutrition Information Tracker");
         Log.i(ACTIVITY_NAME, "In onCreate()");
         super.onCreate(savedInstanceState);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_food);
 
-        foodWindow = findViewById(R.id.foodWindow);
+
+        //Set up food type Spinner
+        foodTypeDropdown = findViewById(R.id.foodTypeSpinner);
+        String[] items = new String[]{"Meal", "Drink", "Snack"};
+        foodTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        foodTypeDropdown.setAdapter(foodTypeAdapter);
+
         foodEditText = findViewById(R.id.foodEditText);
         foodAddButton = findViewById(R.id.foodAddButton);
-//        informationAdapter = new ChatAdapter(this);
+        foodWindow = findViewById(R.id.foodWindow);
+        informationAdapter = new InfoAdapter(this);
 
         foodAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +102,20 @@ public class FoodActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup Parent) {
             LayoutInflater inflater = FoodActivity.this.getLayoutInflater();
             View result;
-                result = inflater.inflate(R.layout.food_item_row, null);
+            result = inflater.inflate(R.layout.food_item_row, null);
 
-//            TextView message = result.findViewById(R.id.food_item_info_text);
-//            message.setText(getItem(position));
+            TextView foodItemType = result.findViewById(R.id.food_item_type_text);
+            foodItemType.setText(foodTypeDropdown.getSelectedItem().toString()+":  ");
+
+            TextView foodItem = result.findViewById(R.id.food_item_info_text);
+            foodItem.setText(getItem(position));
+
+            TextView time = result.findViewById(R.id.food_item_time);
+            long currentTime = System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd  HH:mm");
+            Date netDate = (new Date(currentTime));
+            time.setText(sdf.format(netDate));
+
             return result;
         }
     }

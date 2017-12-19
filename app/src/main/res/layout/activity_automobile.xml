@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/autoTimeListView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content">
+    </ListView>
 
-    <TextView
+    <ListView
+        android:id="@+id/autoLitresListView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/autoTimeListView">
+    </ListView>
+
+    <ListView
+        android:id="@+id/autoPriceListView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/autoLitresListView">
+    </ListView>
+
+    <ListView
+        android:id="@+id/autoMileageListView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/autoPriceListView">
+    </ListView>
+
+    <Button
+        android:id="@+id/autoCreateEntryButton"
+        android:text="Add Entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Automobile"
-        android:textSize = "44sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_toRightOf="@id/autoMileageListView">
+    </Button>
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>
 
