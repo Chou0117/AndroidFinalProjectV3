@@ -26,7 +26,7 @@
     </ListView>
 
     <ListView
-        android:id="@+id/autoKiloListView"
+        android:id="@+id/autoMileageListView"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/autoPriceListView">
@@ -37,8 +37,9 @@
         android:text="Add Entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoKiloListView">
+        android:layout_toRightOf="@id/autoMileageListView">
     </Button>
+
 
 </RelativeLayout>
 

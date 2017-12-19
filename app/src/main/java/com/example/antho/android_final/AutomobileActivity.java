@@ -40,9 +40,15 @@ import android.widget.LinearLayout;
 public class AutomobileActivity extends AppCompatActivity {
 
     private String ACTIVITY_NAME = "AutomobileActivity";
+
     private String autoLitres;
     private String autoPrice;
-    private String autoKilo;
+    private String autoMileage;
+
+    private EditText litresET;
+    private EditText priceET;
+    private EditText mileageET;
+
     Button autoCreateEntryButton;
 
 
@@ -50,7 +56,6 @@ public class AutomobileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
-
         autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
         autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,16 +64,16 @@ public class AutomobileActivity extends AppCompatActivity {
 
 
                 LayoutInflater li= getLayoutInflater();
-                LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_custom_dialog_, null);
-                //final EditText tennisEditText = (EditText)rootTag.findViewById(R.id.newMessage);
+                final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_custom_dialog_, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
-                //AlertDialog alert = builder.create();
 
                 builder.setView(rootTag)
                         .setPositiveButton("Confirm Message", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                              //  snackbarMessage = tennisEditText.getText().toString();
+                                setAutoValues(((EditText)rootTag.findViewById(R.id.autoLitresEditText)).getText().toString(),
+                                        ((EditText)rootTag.findViewById(R.id.autoPriceEditText)).getText().toString(),
+                                        ((EditText)rootTag.findViewById(R.id.autoMileageEditText)).getText().toString());
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -81,5 +86,12 @@ public class AutomobileActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void setAutoValues(String litres, String price, String mileage){
+        autoLitres = litres;
+        autoPrice = price;
+        autoMileage = mileage;
+        Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage);
     }
 }
