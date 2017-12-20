@@ -1,15 +1,26 @@
 package com.example.antho.android_final;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //GENERAL REQUIREMENTS
 //A Fragment
@@ -41,21 +52,35 @@ public class AutomobileActivity extends AppCompatActivity {
 
     private String ACTIVITY_NAME = "AutomobileActivity";
 
+    ArrayList<String> autoArray = new ArrayList<>();
+
     private String autoLitres;
     private String autoPrice;
     private String autoMileage;
 
-    private EditText litresET;
-    private EditText priceET;
-    private EditText mileageET;
+    private ListView listView;
+    private Button autoCreateEntryButton;
+    private AutoDatabaseHelper dbHelper;
+    private SQLiteDatabase db;
+    Cursor cursor;
+    private AutoAdapter autoAdapter;
 
-    Button autoCreateEntryButton;
-
+    ListView autoLitresListView;
+    ListView autoPriceListView;
+    ListView autoMileageListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
+        dbHelper  = new AutoDatabaseHelper(this);
+        autoAdapter = new AutoAdapter(this);
+        listView = (ListView)findViewById(R.id.autoLitresListView);
+        listView.setAdapter(autoAdapter);
+        autoLitresListView = (ListView)findViewById(R.id.autoLitresListView);
+        autoPriceListView = (ListView)findViewById(R.id.autoPriceListView);
+        autoMileageListView  = (ListView)findViewById(R.id.autoMileageListView);
+
         autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
         autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +99,7 @@ public class AutomobileActivity extends AppCompatActivity {
                                 setAutoValues(((EditText)rootTag.findViewById(R.id.autoLitresEditText)).getText().toString(),
                                         ((EditText)rootTag.findViewById(R.id.autoPriceEditText)).getText().toString(),
                                         ((EditText)rootTag.findViewById(R.id.autoMileageEditText)).getText().toString());
+
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -93,5 +119,64 @@ public class AutomobileActivity extends AppCompatActivity {
         autoPrice = price;
         autoMileage = mileage;
         Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage);
+
+        db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("LITRES", autoLitres);
+        cv.put("PRICE", autoPrice);
+        cv.put("MILEAGE", autoMileage);
+        db.insert("Auto_Table","NullColumnName", cv);
+        autoAdapter.notifyDataSetChanged();
+
+        cursor = db.query(dbHelper.AUTO_TABLE, dbHelper.Column_Names,
+                null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                autoArray.add(cursor.getString(1));
+                Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_LITRES)));
+                cursor.moveToNext();
+            }
+        }
     }
+
+
+    private class AutoAdapter extends ArrayAdapter<String> {
+
+        public AutoAdapter(Context ctx) {
+            super(ctx, 0);
+        }
+
+        public int getCount() {
+            return autoArray.size();
+        }
+
+        public String getItem(int position) {
+            return autoArray.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup Parent) {
+            Log.i(ACTIVITY_NAME, "in getView");
+            LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
+            View view;
+            //if (position % 2 == 0)
+                view = inflater.inflate(R.layout.auto_database_layout, null);
+            //else
+              //  result = inflater.inflate(R.layout.chat_row_outgoing, null);
+
+            TextView litresTextDB = view.findViewById(R.id.litresTextDB);
+            litresTextDB.setText(getItem(position));
+            return view;
+        }
+        public long getItemId(int position) {
+            cursor.moveToPosition(position);
+            long databaseID = 0;
+            if(cursor.getCount() > position){
+                databaseID = cursor.getLong(0);
+            }
+            return databaseID;
+        }
+
+    }
+
 }
