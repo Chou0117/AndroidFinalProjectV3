@@ -5,31 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/autoTimeListView"
+    <TextView
+        android:text="Time"
+        android:id="@+id/autoTimeLabel"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
         android:layout_width="50dp"
         android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:text="Litres"
+        android:id="@+id/autoLitresLabel"
+        android:gravity="center"
+        android:layout_width="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/autoTimeLabel"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:text="Price"
+        android:id="@+id/autoPriceLabel"
+        android:gravity="center"
+        android:layout_width="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/autoLitresLabel"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:text="Mileage"
+        android:id="@+id/autoMileageLabel"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_width="50dp"
+        android:layout_toRightOf="@id/autoPriceLabel"
+        android:layout_height="wrap_content">
+    </TextView>
+
+
+    <ListView
+        android:id="@+id/autoTimeListView"
+        android:layout_marginLeft="20dp"
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_below="@id/autoTimeLabel">
     </ListView>
 
     <ListView
         android:id="@+id/autoLitresListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoTimeListView">
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_toRightOf="@id/autoTimeListView"
+        android:layout_below="@id/autoLitresLabel">
     </ListView>
 
     <ListView
         android:id="@+id/autoPriceListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoLitresListView">
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_toRightOf="@id/autoLitresListView"
+        android:layout_below="@id/autoPriceLabel">
     </ListView>
 
     <ListView
         android:id="@+id/autoMileageListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoPriceListView">
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_toRightOf="@id/autoPriceListView"
+        android:layout_below="@id/autoMileageLabel">
     </ListView>
 
     <Button
@@ -37,7 +82,8 @@
         android:text="Add Entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoMileageListView">
+        android:layout_toRightOf="@id/autoMileageListView"
+        android:layout_marginLeft="10dp">
     </Button>
 
 

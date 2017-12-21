@@ -20,12 +20,14 @@ public class AutoDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LITRES = "LITRES";
     public static final String COLUMN_PRICE = "PRICE";
     public static final String COLUMN_MILEAGE = "MILEAGE";
+    public static final String COLUMN_TIME = "TIME";
 
     public static final String[] Column_Names = new String[]{
             PRIMARY_KEY,
             COLUMN_LITRES,
             COLUMN_PRICE,
-            COLUMN_MILEAGE
+            COLUMN_MILEAGE,
+            COLUMN_TIME
     };
 
     public AutoDatabaseHelper(Context ctx) {
@@ -34,7 +36,7 @@ public class AutoDatabaseHelper extends SQLiteOpenHelper {
 }
     public String CREATE_AUTO_TABLE =
             "create table "  + AUTO_TABLE  + " ( " + PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COLUMN_LITRES + " numeric, " + COLUMN_PRICE + " numeric, " + COLUMN_MILEAGE + " numeric ); " ;
+            + COLUMN_LITRES + " numeric, " + COLUMN_PRICE + " numeric, " + COLUMN_MILEAGE + " numeric, " + COLUMN_TIME + " date);";
 
     @Override
     public void onCreate(SQLiteDatabase db){
