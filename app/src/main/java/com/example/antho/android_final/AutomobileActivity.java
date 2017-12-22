@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,7 +115,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
 
                 builder.setView(rootTag)
-                        .setPositiveButton("Confirm Message", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 setAutoValues(((EditText)rootTag.findViewById(R.id.autoLitresEditText)).getText().toString(),
@@ -136,9 +137,104 @@ public class AutomobileActivity extends AppCompatActivity {
 
             }
         });
+
+        litresListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                LayoutInflater li= getLayoutInflater();
+                final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
+                builder.setView(rootTag)
+                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateDatabaseRow(1,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                builder.show();
+            }
+        });
+        priceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                LayoutInflater li= getLayoutInflater();
+                final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
+                builder.setView(rootTag)
+                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateDatabaseRow(2,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                builder.show();
+            }
+        });
+
+        mileageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                LayoutInflater li= getLayoutInflater();
+                final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
+                builder.setView(rootTag)
+                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateDatabaseRow(3,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                builder.show();
+            }
+        });}
+
+
+    private void updateDatabaseRow(int columnValue, int position, String adjustedString){
+
+
+        if(columnValue == 1){ //litres
+            autoLitres = adjustedString;
+            litresArray.set(position, autoLitres);
+        }else if(columnValue == 2){ //price
+            autoPrice = adjustedString;
+            priceArray.set(position, autoPrice);
+        }else{ //mileage
+            autoMileage = adjustedString;
+            mileageArray.set(position, autoMileage);
+        }
+        db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("LITRES", autoLitres);
+        cv.put("PRICE", autoPrice);
+        cv.put("MILEAGE", autoMileage);
+        cv.put("TIME", autoTime);
+        db.update("Auto_Table", cv,"_ID = " + position, null);
+
+        litresAdapter.notifyDataSetChanged();
+        priceAdapter.notifyDataSetChanged();
+        mileageAdapter.notifyDataSetChanged();
+
+
     }
 
-    public void setAutoValues(String litres, String price, String mileage){
+    private void setAutoValues(String litres, String price, String mileage){
         autoLitres = litres;
         autoPrice = price;
         autoMileage = mileage;
