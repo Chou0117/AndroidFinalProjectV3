@@ -98,31 +98,11 @@ public class AutomobileActivity extends AppCompatActivity {
         timeListView = (ListView)findViewById(R.id.autoTimeListView);
         timeListView.setAdapter(timeAdapter);
 
-        //TO BE DECIDED
         db = dbHelper.getReadableDatabase();
         cursor = db.query(dbHelper.AUTO_TABLE, dbHelper.Column_Names,
                 null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                litresArray.add(cursor.getString(1));
-                Log.i(ACTIVITY_NAME,"ADDING TO LITRES ARRAY: " + (cursor.getString(1)));
-                priceArray.add(cursor.getString(2));
-                Log.i(ACTIVITY_NAME,"ADDING TO PRICE ARRAY: " + (cursor.getString(2)));
-                mileageArray.add(cursor.getString(3));
-                Log.i(ACTIVITY_NAME,"ADDING TO MILEAGE ARRAY: " + (cursor.getString(3)));
-                timeArray.add(cursor.getString(4));
-                Log.i(ACTIVITY_NAME,"ADDING TO TIME ARRAY: " + (cursor.getString(4)));
-
-                Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_LITRES)));
-                cursor.moveToNext();
-            }
-        }
-
-        litresAdapter.notifyDataSetChanged();
-        priceAdapter.notifyDataSetChanged();
-        mileageAdapter.notifyDataSetChanged();
-        timeAdapter.notifyDataSetChanged();
-    //--------------------------------------------
+        populateArrays();
+        notifyAdapters();
 
         autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
         autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +120,9 @@ public class AutomobileActivity extends AppCompatActivity {
                                 setAutoValues(((EditText)rootTag.findViewById(R.id.autoLitresEditText)).getText().toString(),
                                         ((EditText)rootTag.findViewById(R.id.autoPriceEditText)).getText().toString(),
                                         ((EditText)rootTag.findViewById(R.id.autoMileageEditText)).getText().toString());
+                                insertIntoDataBase();
+                                addToArrays();
+                                notifyAdapters();
 
                             }
                         })
@@ -162,7 +145,9 @@ public class AutomobileActivity extends AppCompatActivity {
         autoTime = DateFormat.getDateTimeInstance().format(new Date());
         autoTime = autoTime.substring(0, 6);
         Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage + "TIME: " + autoTime);
+    }
 
+    private void insertIntoDataBase(){
         db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("LITRES", autoLitres);
@@ -170,6 +155,21 @@ public class AutomobileActivity extends AppCompatActivity {
         cv.put("MILEAGE", autoMileage);
         cv.put("TIME", autoTime);
         db.insert("Auto_Table","NullColumnName", cv);
+    }
+
+    private void addToArrays(){
+        cursor.moveToLast();
+        litresArray.add(autoLitres);
+        Log.i(ACTIVITY_NAME,"ADDING TO LITRES ARRAY: " + (cursor.getString(1)));
+        priceArray.add(autoPrice);
+        Log.i(ACTIVITY_NAME,"ADDING TO PRICE ARRAY: " + (cursor.getString(2)));
+        mileageArray.add(autoMileage);
+        Log.i(ACTIVITY_NAME,"ADDING TO MILEAGE ARRAY: " + (cursor.getString(3)));
+        timeArray.add(autoTime);
+        Log.i(ACTIVITY_NAME,"ADDING TO TIME ARRAY: " + (cursor.getString(4)));
+    }
+
+    private void populateArrays(){
         cursor = db.query(dbHelper.AUTO_TABLE, dbHelper.Column_Names,
                 null, null, null, null, null, null);
 
@@ -188,6 +188,9 @@ public class AutomobileActivity extends AppCompatActivity {
                 cursor.moveToNext();
             }
         }
+    }
+
+    private void notifyAdapters(){
         litresAdapter.notifyDataSetChanged();
         priceAdapter.notifyDataSetChanged();
         mileageAdapter.notifyDataSetChanged();
