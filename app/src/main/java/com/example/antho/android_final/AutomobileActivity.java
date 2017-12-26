@@ -1,15 +1,28 @@
 package com.example.antho.android_final;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 //GENERAL REQUIREMENTS
 //A Fragment
@@ -41,28 +54,61 @@ public class AutomobileActivity extends AppCompatActivity {
 
     private String ACTIVITY_NAME = "AutomobileActivity";
 
+    ArrayList<String> litresArray = new ArrayList<>();
+    ArrayList<String> priceArray = new ArrayList<>();
+    ArrayList<String> mileageArray = new ArrayList<>();
+    ArrayList<String> timeArray = new ArrayList<>();
+
     private String autoLitres;
     private String autoPrice;
     private String autoMileage;
+    private String autoTime;
 
-    private EditText litresET;
-    private EditText priceET;
-    private EditText mileageET;
+    private ListView litresListView;
+    private ListView priceListView;
+    private ListView mileageListView;
+    private ListView timeListView;
 
-    Button autoCreateEntryButton;
+    private Button autoCreateEntryButton;
+    private AutoDatabaseHelper dbHelper;
+    private SQLiteDatabase db;
+    Cursor cursor;
+    private LitresAdapter litresAdapter;
+    private PriceAdapter priceAdapter;
+    private MileageAdapter mileageAdapter;
+    private TimeAdapter timeAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
+        dbHelper  = new AutoDatabaseHelper(this);
+        litresAdapter = new LitresAdapter(this);
+        priceAdapter = new PriceAdapter(this);
+        mileageAdapter = new MileageAdapter(this);
+        timeAdapter = new TimeAdapter(this);
+
+        litresListView = (ListView)findViewById(R.id.autoLitresListView);
+        litresListView.setAdapter(litresAdapter);
+        priceListView = (ListView)findViewById(R.id.autoPriceListView);
+        priceListView.setAdapter(priceAdapter);
+        mileageListView = (ListView)findViewById(R.id.autoMileageListView);
+        mileageListView.setAdapter(mileageAdapter);
+        timeListView = (ListView)findViewById(R.id.autoTimeListView);
+        timeListView.setAdapter(timeAdapter);
+
+        db = dbHelper.getReadableDatabase();
+        cursor = db.query(dbHelper.AUTO_TABLE, dbHelper.Column_Names,
+                null, null, null, null, null, null);
+        populateArrays();
+        notifyAdapters();
+
         autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
         autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "Entry button clicked");
-
-
                 LayoutInflater li= getLayoutInflater();
                 final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_custom_dialog_, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
@@ -74,6 +120,10 @@ public class AutomobileActivity extends AppCompatActivity {
                                 setAutoValues(((EditText)rootTag.findViewById(R.id.autoLitresEditText)).getText().toString(),
                                         ((EditText)rootTag.findViewById(R.id.autoPriceEditText)).getText().toString(),
                                         ((EditText)rootTag.findViewById(R.id.autoMileageEditText)).getText().toString());
+                                insertIntoDataBase();
+                                addToArrays();
+                                notifyAdapters();
+
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -92,6 +142,195 @@ public class AutomobileActivity extends AppCompatActivity {
         autoLitres = litres;
         autoPrice = price;
         autoMileage = mileage;
-        Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage);
+        autoTime = DateFormat.getDateTimeInstance().format(new Date());
+        autoTime = autoTime.substring(0, 6);
+        Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage + "TIME: " + autoTime);
+    }
+
+    private void insertIntoDataBase(){
+        db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("LITRES", autoLitres);
+        cv.put("PRICE", autoPrice);
+        cv.put("MILEAGE", autoMileage);
+        cv.put("TIME", autoTime);
+        db.insert("Auto_Table","NullColumnName", cv);
+    }
+
+    private void addToArrays(){
+        cursor.moveToLast();
+        litresArray.add(autoLitres);
+        Log.i(ACTIVITY_NAME,"ADDING TO LITRES ARRAY: " + (cursor.getString(1)));
+        priceArray.add(autoPrice);
+        Log.i(ACTIVITY_NAME,"ADDING TO PRICE ARRAY: " + (cursor.getString(2)));
+        mileageArray.add(autoMileage);
+        Log.i(ACTIVITY_NAME,"ADDING TO MILEAGE ARRAY: " + (cursor.getString(3)));
+        timeArray.add(autoTime);
+        Log.i(ACTIVITY_NAME,"ADDING TO TIME ARRAY: " + (cursor.getString(4)));
+    }
+
+    private void populateArrays(){
+        cursor = db.query(dbHelper.AUTO_TABLE, dbHelper.Column_Names,
+                null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                litresArray.add(cursor.getString(1));
+                Log.i(ACTIVITY_NAME,"ADDING TO LITRES ARRAY: " + (cursor.getString(1)));
+                priceArray.add(cursor.getString(2));
+                Log.i(ACTIVITY_NAME,"ADDING TO PRICE ARRAY: " + (cursor.getString(2)));
+                mileageArray.add(cursor.getString(3));
+                Log.i(ACTIVITY_NAME,"ADDING TO MILEAGE ARRAY: " + (cursor.getString(3)));
+                timeArray.add(cursor.getString(4));
+                Log.i(ACTIVITY_NAME,"ADDING TO TIME ARRAY: " + (cursor.getString(4)));
+
+                Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_LITRES)));
+                cursor.moveToNext();
+            }
+        }
+    }
+
+    private void notifyAdapters(){
+        litresAdapter.notifyDataSetChanged();
+        priceAdapter.notifyDataSetChanged();
+        mileageAdapter.notifyDataSetChanged();
+        timeAdapter.notifyDataSetChanged();
+    }
+
+
+    private class LitresAdapter extends ArrayAdapter<String> {
+
+        public LitresAdapter(Context ctx) {
+            super(ctx, 0);
+        }
+
+        public int getCount() {
+            return litresArray.size();
+        }
+
+        public String getItem(int position) {
+            return litresArray.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup Parent) {
+            Log.i(ACTIVITY_NAME, "in getView");
+            LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
+            View view;
+            view = inflater.inflate(R.layout.auto_database_layout, null);
+            TextView litresTextDB = view.findViewById(R.id.textDB);
+            litresTextDB.setText(getItem(position));
+            return view;
+        }
+        public long getItemId(int position) {
+            cursor.moveToPosition(position);
+            long databaseID = 0;
+            if(cursor.getCount() > position){
+                databaseID = cursor.getLong(0);
+            }
+            return databaseID;
+        }
+
+    }
+
+    private class PriceAdapter extends ArrayAdapter<String> {
+
+        public PriceAdapter(Context ctx) {
+            super(ctx, 0);
+        }
+
+        public int getCount() {
+            return priceArray.size();
+        }
+
+        public String getItem(int position) {
+            return priceArray.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup Parent) {
+            Log.i(ACTIVITY_NAME, "in getView");
+            LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
+            View view;
+            view = inflater.inflate(R.layout.auto_database_layout, null);
+            TextView textDB = view.findViewById(R.id.textDB);
+            textDB.setText(getItem(position));
+            return view;
+        }
+        public long getItemId(int position) {
+            cursor.moveToPosition(position);
+            long databaseID = 0;
+            if(cursor.getCount() > position){
+                databaseID = cursor.getLong(0);
+            }
+            return databaseID;
+        }
+
+    }
+
+    private class MileageAdapter extends ArrayAdapter<String> {
+
+        public MileageAdapter(Context ctx) {
+            super(ctx, 0);
+        }
+
+        public int getCount() {
+            return mileageArray.size();
+        }
+
+        public String getItem(int position) {
+            return mileageArray.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup Parent) {
+            Log.i(ACTIVITY_NAME, "in getView");
+            LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
+            View view;
+            view = inflater.inflate(R.layout.auto_database_layout, null);
+            TextView textDB = view.findViewById(R.id.textDB);
+            textDB.setText(getItem(position));
+            return view;
+        }
+        public long getItemId(int position) {
+            cursor.moveToPosition(position);
+            long databaseID = 0;
+            if(cursor.getCount() > position){
+                databaseID = cursor.getLong(0);
+            }
+            return databaseID;
+        }
+
+    }
+
+    private class TimeAdapter extends ArrayAdapter<String> {
+
+        public TimeAdapter(Context ctx) {
+            super(ctx, 0);
+        }
+
+        public int getCount() {
+            return timeArray.size();
+        }
+
+        public String getItem(int position) {
+            return timeArray.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup Parent) {
+            Log.i(ACTIVITY_NAME, "in getView");
+            LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
+            View view;
+            view = inflater.inflate(R.layout.auto_database_layout, null);
+            TextView textDB = view.findViewById(R.id.textDB);
+            textDB.setText(getItem(position));
+            return view;
+        }
+        public long getItemId(int position) {
+            cursor.moveToPosition(position);
+            long databaseID = 0;
+            if(cursor.getCount() > position){
+                databaseID = cursor.getLong(0);
+            }
+            return databaseID;
+        }
+
     }
 }
