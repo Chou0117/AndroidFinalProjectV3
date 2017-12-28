@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,11 +32,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 //GENERAL REQUIREMENTS
-//A Fragment
+//*A Fragment
 //*Listview to present items;
 // clicking shows item details
 //*Items in the listview must be stored, adding and deletion of items
-//An Asynctask(open a database/retrieve data/save data)
+//*An Asynctask(open a database/retrieve data/save data)
 //Progressbar
 //*Button
 //*EditText and an associated text input method
@@ -85,6 +86,11 @@ public class AutomobileActivity extends AppCompatActivity {
     private TextView averageGasPriceTextView;
     private TextView totalLitresPurchasedTextView;
     private Button recalculateButton;
+
+
+
+    private View parentView;
+    private String snackbarMessage = "Click on an icon!";
 
 
 
@@ -229,6 +235,21 @@ public class AutomobileActivity extends AppCompatActivity {
         averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
         totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
 
+
+        parentView = findViewById(R.id.toolBarContent);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
@@ -326,7 +347,30 @@ public class AutomobileActivity extends AppCompatActivity {
         }
         return totalLitres;
     }
-   
+
+    public boolean onOptionsItemSelected(MenuItem mi){
+
+        AlertDialog.Builder builder = null;
+
+        switch(mi.getItemId()) {
+            //ACTION 1
+            case R.id.hockeyAction:
+                Log.d("Toolbar", "hockey action");
+                break;
+
+            //ACTION 2
+            case R.id.baseballAction:
+                Log.d("Toolbar", "baseball action");
+                break;
+
+        }
+        if (builder != null){
+            AlertDialog alert = builder.create();
+            builder.show();
+        }
+        return true;
+    }
+
 
 
     private class LitresAdapter extends ArrayAdapter<String> {
