@@ -326,6 +326,7 @@ public class AutomobileActivity extends AppCompatActivity {
         }
         return totalLitres;
     }
+   
 
 
     private class LitresAdapter extends ArrayAdapter<String> {
