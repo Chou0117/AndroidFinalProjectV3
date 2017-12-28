@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/relativeLayoutRoot">
+    
 
     <TextView
         android:text="Time"
@@ -99,16 +100,8 @@
             android:layout_height="match_parent">
         </fragment>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            style="@style/HeaderBar"
-            app:theme="@style/ActionBarThemeOverlay"
-            app:popupTheme="@style/ActionBarPopupThemeOverlay"
-            android:elevation="4dp"
-            />
     </RelativeLayout>
+
 
 </RelativeLayout>
 

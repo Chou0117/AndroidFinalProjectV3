@@ -9,8 +9,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +23,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -80,6 +85,7 @@ public class AutomobileActivity extends AppCompatActivity {
     private TextView averageGasPriceTextView;
     private TextView totalLitresPurchasedTextView;
     private Button recalculateButton;
+
 
 
     @Override
@@ -224,7 +230,6 @@ public class AutomobileActivity extends AppCompatActivity {
         totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
 
     }
-
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
 
