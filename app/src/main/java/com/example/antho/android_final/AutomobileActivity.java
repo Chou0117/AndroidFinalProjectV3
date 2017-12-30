@@ -28,8 +28,10 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 
@@ -43,7 +45,7 @@ import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 //*Button
 //*EditText and an associated text input method
 //*Toast,
-//Snackbar,
+//*Snackbar,
 //*custom dialog notification
 //*Help menu that shows author, activity number and interface instructions
 //alternate language
