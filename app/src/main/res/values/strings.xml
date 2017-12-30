@@ -3,4 +3,21 @@
     <string name="title_activity__tracker">Activity_Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="foodRowDescription">Food Row</string>
+    <string name="activity_textView">Welcome to the Activity Tracker</string>
+    <string name="activity_Message_1">Click here to input a new activity</string>
+    <string name="activity_Message_2">Click here to see past activity records</string>
+    <string name="activity_Message_3">Click here to see your personal statistics</string>
+    <string name="activity_Button_1">New Activity Record</string>
+    <string name="activity_Button_2">Past Activities</string>
+    <string name="activity_Button_3">Personal Statistics</string>
+    <string name="activity_newRecordInitial">Please choose from one of the 5 activities. Enter the time spent on that activity. And add any comments you wish to make regarding your activity</string>
+    <string name="activity_time">Time spent:</string>
+    <string name="activity_Comments">Comments:</string>
+    <string name="activity_RadioButton1">Running</string>
+    <string name="activity_RadioButton2">Walking</string>
+    <string name="activity_RadioButton3">Biking</string>
+    <string name="activity_RadioButton4">Swimming</string>
+    <string name="activity_RadioButton5">Skating</string>
+    <string name="activity_SubmitButton">Submit Activity</string>
+
 </resources>

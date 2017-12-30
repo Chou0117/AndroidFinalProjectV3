@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello"
+        android:text="@string/activity_textView"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         />
@@ -22,7 +22,7 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="38dp"
-        android:text="Hello" />
+        android:text="@string/activity_Message_1" />
 
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_below="@+id/activity_Button1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Hello" />
+        android:text="@string/activity_Message_2" />
 
     <TextView
         android:id="@+id/activity_Message_3"
@@ -40,7 +40,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Hello" />
+        android:text="@string/activity_Message_3"  />
+
+    <Button
+        android:id="@+id/activity_Button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/activity_Button3"
+        android:layout_below="@+id/activity_Message_1"
+        android:text="@string/activity_Button_1"  />
 
     <Button
         android:id="@+id/activity_Button2"
@@ -49,7 +57,7 @@
         android:layout_below="@+id/activity_Message_2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="38dp"
-        android:text="Hello" />
+        android:text="@string/activity_Button_2" />
 
     <Button
         android:id="@+id/activity_Button3"
@@ -57,15 +65,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/activity_Message_3"
         android:layout_centerHorizontal="true"
-        android:text="Hello" />
+        android:text="@string/activity_Button_3" />
 
-    <Button
-        android:id="@+id/activity_Button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/activity_Button3"
-        android:layout_below="@+id/activity_Message_1"
-        android:text="Hello" />
+
 
     <!--<Button-->
     <!--android:id="@+id/activity_button"-->
