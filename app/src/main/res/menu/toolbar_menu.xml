@@ -2,23 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/hockeyAction"
-        android:title="Hockey"
-        android:icon="@drawable/help_icon"
+    <item android:id="@+id/about"
+        android:title="about"
+        android:icon="@drawable/about"
         android:orderInCategory="101"
         app:showAsAction="always" />
 
-    <item android:id="@+id/baseballAction"
+    <item android:id="@+id/help"
         android:title="Baseball"
         android:orderInCategory="102"
         android:icon="@drawable/help_icon"
         app:showAsAction="always" />
 
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="blank"/>
 </menu>

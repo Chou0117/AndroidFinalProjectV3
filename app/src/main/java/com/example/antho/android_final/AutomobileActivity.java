@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +30,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
+
 //GENERAL REQUIREMENTS
 //*A Fragment
 //*Listview to present items;
@@ -43,7 +44,7 @@ import java.util.Date;
 //*Toast,
 //Snackbar,
 //*custom dialog notification
-//Help menu that shows author, activity number and interface instructions
+//*Help menu that shows author, activity number and interface instructions
 //alternate language
 
 //ACTIVITY REQUIREMENTS
@@ -87,11 +88,7 @@ public class AutomobileActivity extends AppCompatActivity {
     private TextView totalLitresPurchasedTextView;
     private Button recalculateButton;
 
-
-
     private View parentView;
-    private String snackbarMessage = "Click on an icon!";
-
 
 
     @Override
@@ -140,7 +137,8 @@ public class AutomobileActivity extends AppCompatActivity {
                                 insertIntoDataBase();
                                 addToArrays();
                                 notifyAdapters();
-
+                                Snackbar.make(parentView, "Make sure to recalculate your totals", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -240,16 +238,6 @@ public class AutomobileActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, snackbarMessage, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
@@ -348,19 +336,37 @@ public class AutomobileActivity extends AppCompatActivity {
         return totalLitres;
     }
 
+    public boolean onCreateOptionsMenu(Menu m){
+        getMenuInflater().inflate(R.menu.toolbar_menu, m);
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem mi){
 
         AlertDialog.Builder builder = null;
 
         switch(mi.getItemId()) {
             //ACTION 1
-            case R.id.hockeyAction:
-                Log.d("Toolbar", "hockey action");
+            case R.id.about:
+                Log.d("Toolbar", "about");
+                Toast t = Toast.makeText(AutomobileActivity.this, "Activity 4(Automobile) v1.0 was created by Lewis Rannells",  Toast.LENGTH_LONG);
+                t.show();
                 break;
 
             //ACTION 2
-            case R.id.baseballAction:
-                Log.d("Toolbar", "baseball action");
+            case R.id.help:
+                Log.d("Toolbar", "help");
+
+                builder = new AlertDialog.Builder(this);
+                String s1 = "Create an entry by clicking the 'ADD ENTRY' button. ";
+                String s2 = "Total litres and the average gas price for the last month is displayed at the bottom the screen. ";
+                String s3 = "After adding a new entry you wish to recalculate the bottom values click the 'Recalculate' button. ";
+                String s4 = "Items except for the time the data was entered can be edited by clicking on an item in the table";
+                builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
                 break;
 
         }

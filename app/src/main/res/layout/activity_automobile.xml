@@ -27,20 +27,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
     <TextView
         android:text="Time"
         android:id="@+id/autoTimeLabel"
         android:gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_width="50dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
     </TextView>
 
     <TextView
@@ -50,7 +45,9 @@
         android:layout_width="50dp"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@id/autoTimeLabel"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
     </TextView>
 
     <TextView
@@ -60,7 +57,9 @@
         android:layout_width="50dp"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/autoLitresLabel"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
     </TextView>
 
     <TextView
@@ -70,7 +69,9 @@
         android:layout_marginLeft="10dp"
         android:layout_width="50dp"
         android:layout_toRightOf="@id/autoPriceLabel"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
     </TextView>
 
 
@@ -112,7 +113,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/autoMileageListView"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/toolBarContent">
     </Button>
 
 </RelativeLayout>
