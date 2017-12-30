@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -110,8 +111,6 @@ public class AutomobileActivity extends AppCompatActivity {
         timeListView = (ListView)findViewById(R.id.autoTimeListView);
         timeListView.setAdapter(timeAdapter);
 
-
-
         db = dbHelper.getReadableDatabase();
         cursor = db.query(dbHelper.AUTO_TABLE, dbHelper.Column_Names,
                 null, null, null, null, null, null);
@@ -119,7 +118,10 @@ public class AutomobileActivity extends AppCompatActivity {
         notifyAdapters();
 
         autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
+        autoCreateEntryButton.setBackgroundColor(Color.parseColor("#540000"));
+        autoCreateEntryButton.setTextColor(Color.WHITE);
         autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "Entry button clicked");
@@ -219,6 +221,8 @@ public class AutomobileActivity extends AppCompatActivity {
             }
         });
         recalculateButton = (Button)findViewById(R.id.recalculateButton);
+        recalculateButton.setBackgroundColor(Color.parseColor("#540000"));
+        recalculateButton.setTextColor(Color.WHITE);
         recalculateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Snackbar.make(view, "Testing snack", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -233,7 +237,6 @@ public class AutomobileActivity extends AppCompatActivity {
         averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
         totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
 
-
         parentView = findViewById(R.id.toolBarContent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -241,7 +244,6 @@ public class AutomobileActivity extends AppCompatActivity {
     }
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
-
 
         if(columnValue == 1){ //litres
             autoLitres = adjustedString;
@@ -368,7 +370,6 @@ public class AutomobileActivity extends AppCompatActivity {
                             }
                         });
                 break;
-
         }
         if (builder != null){
             AlertDialog alert = builder.create();

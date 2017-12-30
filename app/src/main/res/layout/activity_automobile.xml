@@ -5,7 +5,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/relativeLayoutRoot">
+    android:id="@+id/relativeLayoutRoot"
+
+    >
 
 
 <RelativeLayout
@@ -23,7 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#000000"
+            />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -35,7 +39,8 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolBarContent"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff">
     </TextView>
 
     <TextView
@@ -114,6 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/autoMileageListView"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@id/toolBarContent">
     </Button>
 
