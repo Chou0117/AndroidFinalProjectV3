@@ -39,8 +39,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolBarContent"
-        android:layout_marginTop="10dp"
-        android:textColor="#ffffff">
+        android:layout_marginTop="10dp">
     </TextView>
 
     <TextView
