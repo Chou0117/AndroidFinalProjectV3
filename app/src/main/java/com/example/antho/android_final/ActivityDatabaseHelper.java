@@ -24,7 +24,7 @@ public class ActivityDatabaseHelper extends SQLiteOpenHelper {
     };
 
 
-    private static final String DATABASE_CREATE="CREATE TABLE "+ TABLE_NAME + " ( " + PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ACTIVITY_TYPE + " TEXT NOT NULL, " + ACTIVITY_TIME + " INTEGER, " + ACTIVITY_COMMENTS + " TEXT);";
+    private static final String DATABASE_CREATE="CREATE TABLE "+ TABLE_NAME + " ( " + PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ACTIVITY_TYPE + " TEXT NOT NULL, " + ACTIVITY_TIME + " TEXT NOT NULL, " + ACTIVITY_COMMENTS + " TEXT);";
 
     public ActivityDatabaseHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
