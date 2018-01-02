@@ -390,11 +390,13 @@ public class AutomobileActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         int prog = 0;
         if(timeArray.size() <= 10){
+            prog = 5;
+        }else if(timeArray.size() > 10 && timeArray.size() < 21){
             prog = 33;
-        }else if(timeArray.size() > 10 && timeArray.size() <= 21){
+        }else if(timeArray.size() > 20 && timeArray.size() <= 30) {
             prog = 66;
         }else{
-            prog = 100;
+            prog=100;
         }
         progressBar.setProgress(prog);
     }
