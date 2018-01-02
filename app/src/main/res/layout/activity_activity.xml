@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,13 +7,86 @@
 
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Activity Tracking"
-        android:textSize = "44sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/activity_textView"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/activity_Message_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:text="@string/activity_Message_1" />
+
+
+    <TextView
+        android:id="@+id/activity_Message_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_Button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/activity_Message_2" />
+
+    <TextView
+        android:id="@+id/activity_Message_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/activity_Message_3"  />
+
+    <Button
+        android:id="@+id/activity_Button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/activity_Button3"
+        android:layout_below="@+id/activity_Message_1"
+        android:text="@string/activity_Button_1"  />
+
+    <Button
+        android:id="@+id/activity_Button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_Message_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:text="@string/activity_Button_2" />
+
+    <Button
+        android:id="@+id/activity_Button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_Message_3"
+        android:layout_centerHorizontal="true"
+        android:text="@string/activity_Button_3" />
+
+
+
+    <!--<Button-->
+    <!--android:id="@+id/activity_button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--tools:layout_editor_absoluteX="148dp"-->
+    <!--tools:layout_editor_absoluteY="0dp" />-->
+
+    <!--<ListView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/activity_listView"/>-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/activity_editText"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:inputType="text"-->
+    <!--tools:layout_editor_absoluteX="182dp"-->
+    <!--tools:layout_editor_absoluteY="66dp" />-->
+
+</RelativeLayout>

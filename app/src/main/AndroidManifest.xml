@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="stateHidden">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,13 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".FoodActivity" />
         <activity android:name=".AutomobileActivity" />
         <activity android:name=".ThermostatActivity" />
-        <activity android:name=".ActivityActivity"></activity>
-
-
+        <activity android:name=".ActivityActivity" />
+        <activity android:name=".Activity_NewRecord" />
+        <activity android:name=".Activity_PastRecord" />
+        <activity android:name=".Activity_PersonalStatistics" />
+        <activity android:name=".FoodDetail" />
     </application>
 
 </manifest>
