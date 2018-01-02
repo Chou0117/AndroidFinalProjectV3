@@ -30,7 +30,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--Lewis Strings-->
+    <!--Lewis Strings-->
     <string name="autoLabelTime">Time</string>
     <string name="autoLabelPrice">Price</string>
     <string name="autoLabelLitres">Litres</string>
@@ -39,6 +39,7 @@
     <string name="autoRecalculateButton">Recalculate</string>
     <string name="autoAvgGas">Average Gas for Last Month: </string>
     <string name="autoTotalLitres">Total Gas Purchased Last Month: </string>
+    <string name="title_activity_food2">FoodActivity2</string>
 
 
 

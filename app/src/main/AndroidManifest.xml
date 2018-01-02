@@ -17,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".FoodActivity" />
         <activity android:name=".AutomobileActivity"/>
         <activity android:name=".ThermostatActivity" />
@@ -24,6 +25,7 @@
         <activity android:name=".Activity_NewRecord" />
         <activity android:name=".Activity_PastRecord" />
         <activity android:name=".Activity_PersonalStatistics" />
+        <activity android:name=".FoodDetail" />
     </application>
 
 </manifest>
