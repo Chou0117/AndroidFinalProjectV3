@@ -1,45 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayoutRoot"
+
+    >
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolBarContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="#000000"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:text="@string/autoLabelTime"
+        android:id="@+id/autoTimeLabel"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+    <TextView
+        android:text="@string/autoLabelLitres"
+        android:id="@+id/autoLitresLabel"
+        android:gravity="center"
+        android:layout_width="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/autoTimeLabel"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+    <TextView
+        android:text="@string/autoLabelPrice"
+        android:id="@+id/autoPriceLabel"
+        android:gravity="center"
+        android:layout_width="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/autoLitresLabel"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+    <TextView
+        android:text="@string/autoLabelMileage"
+        android:id="@+id/autoMileageLabel"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_width="50dp"
+        android:layout_toRightOf="@id/autoPriceLabel"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarContent"
+        android:layout_marginTop="10dp">
+    </TextView>
+
 
     <ListView
         android:id="@+id/autoTimeListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content">
+        android:layout_marginLeft="20dp"
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_below="@id/autoTimeLabel">
     </ListView>
 
     <ListView
         android:id="@+id/autoLitresListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoTimeListView">
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_toRightOf="@id/autoTimeListView"
+        android:layout_below="@id/autoLitresLabel">
     </ListView>
 
     <ListView
         android:id="@+id/autoPriceListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoLitresListView">
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_toRightOf="@id/autoLitresListView"
+        android:layout_below="@id/autoPriceLabel">
     </ListView>
 
     <ListView
         android:id="@+id/autoMileageListView"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoPriceListView">
+        android:layout_width="60dp"
+        android:layout_height="300dp"
+        android:layout_toRightOf="@id/autoPriceListView"
+        android:layout_below="@id/autoMileageLabel">
     </ListView>
 
     <Button
         android:id="@+id/autoCreateEntryButton"
-        android:text="Add Entry"
+        android:text="@string/autoEntryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/autoMileageListView">
+        android:layout_toRightOf="@id/autoMileageListView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/toolBarContent">
     </Button>
 
-
 </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:name="com.example.antho.android_final.Auto_Fragment"
+            android:id="@+id/autoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </fragment>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
 

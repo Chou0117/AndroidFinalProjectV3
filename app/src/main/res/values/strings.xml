@@ -3,7 +3,23 @@
     <string name="title_activity__tracker">Activity_Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="foodRowDescription">Food Row</string>
+  
+<!--Cameron Strings-->
     <string name="saveText">Save</string>
     <string name="toolbar_info">Information</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--Lewis Strings-->
+    <string name="autoLabelTime">Time</string>
+    <string name="autoLabelPrice">Price</string>
+    <string name="autoLabelLitres">Litres</string>
+    <string name="autoLabelMileage">Mileage</string>
+    <string name="autoEntryButton">Add Entry</string>
+    <string name="autoRecalculateButton">Recalculate</string>
+    <string name="autoAvgGas">Average Gas for Last Month: </string>
+    <string name="autoTotalLitres">Total Gas Purchased Last Month: </string>
+
 
 </resources>
