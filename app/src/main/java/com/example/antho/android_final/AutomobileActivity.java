@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +31,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 
 //GENERAL REQUIREMENTS
 //*A Fragment
@@ -88,6 +87,7 @@ public class AutomobileActivity extends AppCompatActivity {
     private TextView averageGasPriceTextView;
     private TextView totalLitresPurchasedTextView;
     private Button recalculateButton;
+    private ProgressBar progressBar;
 
     private View parentView;
 
@@ -276,6 +276,9 @@ public class AutomobileActivity extends AppCompatActivity {
         autoPrice = price;
         autoMileage = mileage;
         autoTime = DateFormat.getDateTimeInstance().format(new Date());
+        if(autoTime.substring(5,6).equals(",")){
+            autoTime = autoTime.substring(0,5) + " ";
+        }
         autoTime = autoTime.substring(0, 6);
         Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage + "TIME: " + autoTime);
     }
@@ -322,32 +325,16 @@ public class AutomobileActivity extends AppCompatActivity {
     }
 
     private float calculateAverageGasPrice(){
-        String currentDateStr = DateFormat.getDateTimeInstance().format(new Date());
-        //int currentDateInt = Integer.parseInt(currentDateStr.substring(4,6));
-        int i = 0;
-        float currentDate = Float.parseFloat(priceArray.get(0));
-        int diffDates = 0;
         float avgGas = 0;
-        while(diffDates < 30 && i < priceArray.size()){
+        for(int i = 0; i < priceArray.size(); i++){
             avgGas += Float.parseFloat(priceArray.get(i));
-            if(Float.parseFloat(priceArray.get(i)) != currentDate){
-                diffDates++;
-            }
-            avgGas += Float.parseFloat(priceArray.get(i));
-            Log.i("AverageCalc", "NumDiffDates: " + diffDates + " i:" + i);
-            i++;
         }
-
-        //float avgGas = 0;
-        //for(int i = 0; i < priceArray.size(); i++){
-          //  avgGas += Float.parseFloat(priceArray.get(i));
-        //}
-        avgGas = avgGas/priceArray.size();
-        DecimalFormat df = new DecimalFormat("###.###");
+        avgGas = avgGas / priceArray.size();
+        DecimalFormat df = new DecimalFormat("###.##");
         avgGas = Float.parseFloat(df.format(avgGas));
-
         return avgGas;
-    }
+}
+
     private float calculateTotalLitres(){
         float totalLitres = 0;
         for(int i = 0; i < litresArray.size(); i++){
@@ -395,7 +382,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
 
     private class LitresAdapter extends ArrayAdapter<String> {
