@@ -28,10 +28,8 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 
@@ -222,6 +220,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+
         recalculateButton = (Button)findViewById(R.id.recalculateButton);
         recalculateButton.setBackgroundColor(Color.parseColor("#540000"));
         recalculateButton.setTextColor(Color.WHITE);
@@ -323,13 +322,30 @@ public class AutomobileActivity extends AppCompatActivity {
     }
 
     private float calculateAverageGasPrice(){
+        String currentDateStr = DateFormat.getDateTimeInstance().format(new Date());
+        //int currentDateInt = Integer.parseInt(currentDateStr.substring(4,6));
+        int i = 0;
+        float currentDate = Float.parseFloat(priceArray.get(0));
+        int diffDates = 0;
         float avgGas = 0;
-        for(int i = 0; i < priceArray.size(); i++){
+        while(diffDates < 30 && i < priceArray.size()){
             avgGas += Float.parseFloat(priceArray.get(i));
+            if(Float.parseFloat(priceArray.get(i)) != currentDate){
+                diffDates++;
+            }
+            avgGas += Float.parseFloat(priceArray.get(i));
+            Log.i("AverageCalc", "NumDiffDates: " + diffDates + " i:" + i);
+            i++;
         }
+
+        //float avgGas = 0;
+        //for(int i = 0; i < priceArray.size(); i++){
+          //  avgGas += Float.parseFloat(priceArray.get(i));
+        //}
         avgGas = avgGas/priceArray.size();
         DecimalFormat df = new DecimalFormat("###.###");
         avgGas = Float.parseFloat(df.format(avgGas));
+
         return avgGas;
     }
     private float calculateTotalLitres(){
