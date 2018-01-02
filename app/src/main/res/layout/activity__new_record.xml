@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--•	The user should be able to choose from 5 different activities: Running, Walking, Biking, Swimming or Skating.-->
+    <!--•	The user should be able to enter the amount of time in minutes they did the activity.-->
+    <!--•	The user should also be able to add comment, like “This felt easy”, or “My knee hurts after 10 minutes”. The database should track what time the activity was entered.-->
+
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.antho.android_final.Activity_NewRecord">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_newRecordInitial"
+        android:id="@+id/newRecordInitial"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup"
+        android:layout_below="@+id/newRecordInitial">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_RadioButton1"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_RadioButton2"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_RadioButton3"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_RadioButton4"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_RadioButton5"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioGroup"
+        android:id="@+id/newRecordTimeString"
+        android:text="@string/activity_time"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newRecordTimeString"
+        android:id="@+id/newRecordTime"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newRecordTime"
+        android:id="@+id/newRecordCommentString"
+        android:text="@string/activity_Comments"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newRecordCommentString"
+        android:id="@+id/newRecordComments"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_below="@+id/newRecordComments"
+        android:id="@+id/submit_button"
+        android:text="@string/activity_SubmitButton"/>
+
+</RelativeLayout>
