@@ -169,7 +169,7 @@ public class FoodActivity extends AppCompatActivity {
                                 int minutes = timePicker.getCurrentMinute();
                                 String mi = ""+minutes;
                                 if(minutes<10) mi = "0"+minutes;
-
+                                
                                 String date = m + "/" + d + "  " + h + ":" + mi;
 
                                 foodInformation.add(foodName);
