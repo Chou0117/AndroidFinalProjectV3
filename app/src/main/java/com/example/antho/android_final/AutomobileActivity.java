@@ -332,6 +332,9 @@ public class AutomobileActivity extends AppCompatActivity {
         avgGas = avgGas / priceArray.size();
         DecimalFormat df = new DecimalFormat("###.##");
         avgGas = Float.parseFloat(df.format(avgGas));
+
+        setProgressBar();
+
         return avgGas;
 }
 
@@ -383,6 +386,18 @@ public class AutomobileActivity extends AppCompatActivity {
         return true;
     }
 
+    private void setProgressBar(){
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        int prog = 0;
+        if(timeArray.size() <= 10){
+            prog = 33;
+        }else if(timeArray.size() > 10 && timeArray.size() <= 21){
+            prog = 66;
+        }else{
+            prog = 100;
+        }
+        progressBar.setProgress(prog);
+    }
 
     private class LitresAdapter extends ArrayAdapter<String> {
 
