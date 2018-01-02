@@ -13,7 +13,7 @@ public class ActivityDatabaseHelper extends SQLiteOpenHelper {
     final static String DATABASE_NAME = "messages.db";
     final static int VERSION_NUM = 1;
     final static String PRIMARY_KEY = "_ID";
-    final static String ACTIVITY_TYPE = "KEY_MESSAGE";
+    final static String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     final static String ACTIVITY_TIME = "ACTIVITY_TIME";
     final static String ACTIVITY_COMMENTS = "ACTIVITY_COMMENTS";
     final static String[] ColumnName = new String[]{

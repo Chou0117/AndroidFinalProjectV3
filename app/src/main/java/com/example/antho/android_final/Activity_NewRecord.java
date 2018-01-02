@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class Activity_NewRecord extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButton;
     ArrayList<String> activityList = new ArrayList<String>();
+    Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,26 +50,29 @@ public class Activity_NewRecord extends AppCompatActivity {
 
         submitButton = findViewById(R.id.submit_button);
 
+
         database = adh.getWritableDatabase();
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(this.toString(), "Reached onClick");
-                ContentValues cv = new ContentValues();
-                int selectedID = radioGroup.getCheckedRadioButtonId();
-                radioButton = (RadioButton) findViewById(selectedID);
-                cv.put("ACTIVITY_TYPE", radioButton.getText().toString());
-                cv.put("ACTIVITY_TIME", et.getText().toString());
-                cv.put("ACTIVITY_COMMENTS", et2.getText().toString());
-                try{
-                    database.insert(adh.TABLE_NAME, null, cv);
-                }catch (Exception e){
-                    Log.i(this.toString(), "Error inserting values in database");
-                }
-                aa.notifyDataSetChanged();
-                et.setText("");
-                et2.setText("");
-                radioGroup.clearCheck();
+//                ContentValues cv = new ContentValues();
+//                int selectedID = radioGroup.getCheckedRadioButtonId();
+//                radioButton = (RadioButton) findViewById(selectedID);
+//                cv.put("ACTIVITY_TYPE", radioButton.getText().toString());
+//                cv.put("ACTIVITY_TIME", et.getText().toString());
+//                cv.put("ACTIVITY_COMMENTS", et2.getText().toString());
+//                try{
+//                    database.insert(adh.TABLE_NAME, null, cv);
+//                }catch (Exception e){
+//                    Log.i(this.toString(), "Error inserting values in database");
+//                }
+//                aa.notifyDataSetChanged();
+//                et.setText("");
+//                et2.setText("");
+//                radioGroup.clearCheck();
+                WriteTask write = new WriteTask(ctx);
+                write.execute();
             }
         });
     }
@@ -77,5 +83,47 @@ public class Activity_NewRecord extends AppCompatActivity {
             super(ctx, 0);
         }
 
+    }
+
+    public class WriteTask extends AsyncTask<String, Void, String>{
+        Context ctx;
+        WriteTask(Context ctx){
+            this.ctx = ctx;
+        }
+
+        @Override
+        protected String doInBackground(String... params){
+
+            ActivityDatabaseHelper dbHelper = new ActivityDatabaseHelper(getBaseContext());
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            try{
+                Log.i(this.toString(), "Hey you got here! You might be doing things");
+                ContentValues cv = new ContentValues();
+                int selectedID = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(selectedID);
+                cv.put("ACTIVITY_TYPE", radioButton.getText().toString());
+                cv.put("ACTIVITY_TIME", et.getText().toString());
+                cv.put("ACTIVITY_COMMENTS", et2.getText().toString());
+                Log.i(this.toString(), "Did you just finish doing things? Wow!");
+                try{
+                    database.insert(adh.TABLE_NAME, null, cv);
+                }catch (Exception e){
+                    Log.i(this.toString(), "Error inserting values in database");
+                }
+            } finally {
+                db.close();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void...values){
+            super.onProgressUpdate(values);
+        }
+
+//        @Override
+//        protected void onPostExecute(String result){
+//            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+//        }
     }
 }
