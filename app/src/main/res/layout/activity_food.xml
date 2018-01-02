@@ -12,8 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".FoodActivity2">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -51,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:text="Add" />
+            android:text="@string/foodActivityAddButton" />
 
     </RelativeLayout>
 

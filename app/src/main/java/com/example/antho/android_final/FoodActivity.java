@@ -90,7 +90,7 @@ public class FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setTitle("Nutrition Info Tracker");
+        setTitle(R.string.foodActivityTitle);
         setContentView(R.layout.activity_food);
 
 
@@ -134,9 +134,9 @@ public class FoodActivity extends AppCompatActivity {
                 li = getLayoutInflater();
                 rootTag = (LinearLayout) li.inflate(R.layout.food_input, null);
                 builder1 = new AlertDialog.Builder(FoodActivity.this);
-                builder1.setMessage("What did you eat my friend?")
+                builder1.setMessage(R.string.foodActivityAddGreetingMsg)
                         .setView(rootTag)
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.foodActivityAddButton, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 //                                String foodType = foodTypeDropdown.getSelectedItem().toString();
 
@@ -187,7 +187,7 @@ public class FoodActivity extends AppCompatActivity {
                                 db.insert(tempDBH.FOOD_TABLE, null, values);
 
                                 informationAdapter.notifyDataSetChanged();
-                                Toast t = Toast.makeText(getApplicationContext(), "Got it", Toast.LENGTH_SHORT);
+                                Toast t = Toast.makeText(getApplicationContext(), R.string.foodActivityAddSuccessMsg, Toast.LENGTH_SHORT);
                                 t.show();
                             }
                         });
@@ -346,7 +346,7 @@ public class FoodActivity extends AppCompatActivity {
 
         switch (mi.getItemId()) {
             case R.id.info:
-                Toast toast = Toast.makeText(FoodActivity.this, "Activity 2(Food Tracker) v1.0 was created by Hsing-Cheng Chou", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(FoodActivity.this, R.string.foodToolbarAboutMsg, Toast.LENGTH_LONG);
                 toast.show();
                 break;
 

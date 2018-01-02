@@ -39,7 +39,16 @@
     <string name="autoRecalculateButton">Recalculate</string>
     <string name="autoAvgGas">Average Gas for Last Month: </string>
     <string name="autoTotalLitres">Total Gas Purchased Last Month: </string>
-    <string name="title_activity_food2">FoodActivity2</string>
+
+
+    <!--Johnny Strings-->
+
+    <string name="foodActivityTitle">Nutrition Info Tracker</string>
+    <string name="foodActivityAddButton">Add</string>
+    <string name="foodActivityAddGreetingMsg">What did you eat my friend?</string>
+    <string name="foodActivityAddSuccessMsg">Got it</string>
+
+    <string name="foodToolbarAboutMsg">Activity 2(Food Tracker) v1.0 was created by Hsing-Cheng Chou</string>
 
 
 
