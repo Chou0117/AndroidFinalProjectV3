@@ -4,26 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ListView
+        android:id="@+id/thermostat_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/menu"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp"
-        android:text="House Thermostat"
-        android:textSize="44sp" />
-
-    <Button
-        android:id="@+id/Thermostat_commitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/appToolbar"
         android:layout_alignParentEnd="true"
-        android:text="@string/saveText" />
+        android:layout_alignParentStart="true"/>
 
-   <include
-       android:id="@+id/menu"
-       layout="@menu/thermostat_toolbar"/>
-
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/appToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
 </RelativeLayout>
