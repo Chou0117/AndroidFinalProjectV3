@@ -19,7 +19,7 @@
         </activity>
 
         <activity android:name=".FoodActivity" />
-        <activity android:name=".AutomobileActivity" />
+        <activity android:name=".AutomobileActivity"/>
         <activity android:name=".ThermostatActivity" />
         <activity android:name=".ActivityActivity" />
         <activity android:name=".Activity_NewRecord" />
