@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="com.example.antho.android_final.Auto_Fragment">
+
+    <TextView
+        android:id="@+id/avgGasPriceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/autoAvgGas"/>
+
+    <TextView
+        android:id="@+id/avgGasPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="not set"
+        android:layout_toRightOf="@id/avgGasPriceLabel"/>
+
+    <TextView
+        android:id="@+id/gasAmountPurchasedLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/autoTotalLitres"
+        android:layout_below="@id/avgGasPriceLabel"/>
+
+    <TextView
+        android:id="@+id/gasAmountPurchased"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unset"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/avgGasPrice"
+        android:layout_toRightOf="@id/gasAmountPurchasedLabel" />
+
+    <Button
+        android:id="@+id/recalculateButton"
+        android:text="@string/autoRecalculateButton"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_below="@id/gasAmountPurchasedLabel">
+    </Button>
+
+
+</RelativeLayout>
