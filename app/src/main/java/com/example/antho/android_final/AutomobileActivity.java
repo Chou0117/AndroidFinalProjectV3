@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -90,6 +91,8 @@ public class AutomobileActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private View parentView;
+
+    private AutoTask task;
 
 
     @Override
@@ -242,6 +245,14 @@ public class AutomobileActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        task = new AutoTask();
+        task.execute("");
+        task.onProgressUpdate(20);
+        task.onProgressUpdate(40);
+        task.onProgressUpdate(60);
+        task.onProgressUpdate(80);
+
     }
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
@@ -333,8 +344,6 @@ public class AutomobileActivity extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat("###.##");
         avgGas = Float.parseFloat(df.format(avgGas));
 
-        setProgressBar();
-
         return avgGas;
 }
 
@@ -386,20 +395,31 @@ public class AutomobileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setProgressBar(){
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        int prog = 0;
-        if(timeArray.size() <= 10){
-            prog = 5;
-        }else if(timeArray.size() > 10 && timeArray.size() < 21){
-            prog = 33;
-        }else if(timeArray.size() > 20 && timeArray.size() <= 30) {
-            prog = 66;
-        }else{
-            prog=100;
+    private class AutoTask extends AsyncTask<String, Integer, String>{
+
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar = (ProgressBar)findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(values[0]);
         }
-        progressBar.setProgress(prog);
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String response = "";
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
     }
+
 
     private class LitresAdapter extends ArrayAdapter<String> {
 
