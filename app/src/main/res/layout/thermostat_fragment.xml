@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="15sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/thermoday_text" />
+
+        <Spinner
+            android:id="@+id/thermostatDayF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/thermoday_week"
+            android:prompt="@string/thermoday_prompt" />
+
+    </LinearLayout>
+
+
+    <TimePicker
+        android:id="@+id/thermostatTimeF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="15sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/thermotemp_text" />
+
+        <EditText
+            android:id="@+id/thermostatTempatureF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="15sp">
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="186dp"
+            android:layout_height="wrap_content"
+            android:text="@string/thermobutton_save" />
+
+        <Button
+            android:id="@+id/button_new_save"
+            android:text="@string/thermobutton_new_save_Text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

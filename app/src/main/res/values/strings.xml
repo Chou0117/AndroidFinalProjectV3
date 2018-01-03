@@ -22,15 +22,10 @@
     <string name="activity_RadioButton5">Skating</string>
     <string name="activity_SubmitButton">Submit Activity</string>
 
-  
-<!--Cameron Strings-->
-    <string name="saveText">Save</string>
-    <string name="toolbar_info">Information</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!--Lewis Strings-->
+<!--Lewis Strings-->
     <string name="autoLabelTime">Time</string>
     <string name="autoLabelPrice">Price</string>
     <string name="autoLabelLitres">Litres</string>
@@ -50,6 +45,23 @@
 
     <string name="foodToolbarAboutMsg">Activity 2(Food Tracker) v1.0 was created by Hsing-Cheng Chou</string>
 
+   <!--Cameron's Strings-->
+    <string name="thermosaveText">Save</string>
+    <string name="thermoday_prompt">Choose a day</string>
+    <string name="thermotemp_prompt">Tempature</string>
+    <string name="thermotemp_text">Tempature: </string>
+    <string name="thermoday_text">Day of the week: </string>
+    <string name="thermobutton_new_save_Text">Save as new schedule</string>
+    <string name="thermobutton_save">Save</string>
+    <string-array name="thermoday_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 
 
 </resources>
