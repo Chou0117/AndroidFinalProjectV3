@@ -5,11 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,38 +23,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 //GENERAL REQUIREMENTS
-//A Fragment
-//Listview* to present items; clicking shows item details
-//Items in the listview must be stored, adding and deletion of items
-//An Asynctask(open a database/retrieve data/save data)
+//*A Fragment
+//*Listview to present items;
+// clicking shows item details
+//*Items in the listview must be stored, adding and deletion of items
+//*An Asynctask(open a database/retrieve data/save data)
 //Progressbar
-//Button*
-//EditText* and an associated text input method
-//Toast*, Snackbar, custom dialog notification*
-//Help menu that shows author, activity number and interface instructions
+//*Button
+//*EditText and an associated text input method
+//*Toast,
+//*Snackbar,
+//*custom dialog notification
+//*Help menu that shows author, activity number and interface instructions
 //alternate language
 
 //ACTIVITY REQUIREMENTS
-//User is able to select LITRES, PRICE, KILOMETRES
-//entries displayed in a listview
-//database stores the time the information was recorded
+//*User is able to select LITRES, PRICE, KILOMETRES
+//*entries displayed in a listview
+//*database stores the time the information was recorded
 //app should provide AVERAGE GAS PRICE for last month
 //how much gas was purchased LAST MONTH
 //AVERAGE GAS PER MONTH(?)
 
-//IMPLEMENTATION PLAN
-//Button that pops up a custom dialog to add a new item to the list
-//Listview that shows 4columns (Date, Litres, Price, KM(?))
-//Selecting items from the listview...
-//Toast that pops up when a new entry is made
 
 public class AutomobileActivity extends AppCompatActivity {
 
@@ -79,6 +84,13 @@ public class AutomobileActivity extends AppCompatActivity {
     private MileageAdapter mileageAdapter;
     private TimeAdapter timeAdapter;
 
+    private TextView averageGasPriceTextView;
+    private TextView totalLitresPurchasedTextView;
+    private Button recalculateButton;
+    private ProgressBar progressBar;
+
+    private View parentView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +118,10 @@ public class AutomobileActivity extends AppCompatActivity {
         notifyAdapters();
 
         autoCreateEntryButton = (Button)findViewById(R.id.autoCreateEntryButton);
+        autoCreateEntryButton.setBackgroundColor(Color.parseColor("#540000"));
+        autoCreateEntryButton.setTextColor(Color.WHITE);
         autoCreateEntryButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "Entry button clicked");
@@ -124,7 +139,8 @@ public class AutomobileActivity extends AppCompatActivity {
                                 insertIntoDataBase();
                                 addToArrays();
                                 notifyAdapters();
-
+                                Snackbar.make(parentView, "Make sure to recalculate your totals", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -203,11 +219,32 @@ public class AutomobileActivity extends AppCompatActivity {
                         });
                 builder.show();
             }
-        });}
+        });
 
+        recalculateButton = (Button)findViewById(R.id.recalculateButton);
+        recalculateButton.setBackgroundColor(Color.parseColor("#540000"));
+        recalculateButton.setTextColor(Color.WHITE);
+        recalculateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //Snackbar.make(view, "Testing snack", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
+                averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
+                totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
+                totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
+            }
+        });
+        averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
+        totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
+        averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
+        totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
+
+        parentView = findViewById(R.id.toolBarContent);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
-
 
         if(columnValue == 1){ //litres
             autoLitres = adjustedString;
@@ -239,6 +276,9 @@ public class AutomobileActivity extends AppCompatActivity {
         autoPrice = price;
         autoMileage = mileage;
         autoTime = DateFormat.getDateTimeInstance().format(new Date());
+        if(autoTime.substring(5,6).equals(",")){
+            autoTime = autoTime.substring(0,5) + " ";
+        }
         autoTime = autoTime.substring(0, 6);
         Log.i(ACTIVITY_NAME, "LITRES:" + litres + " PRICE:" + price + " MILEAGE:" + mileage + "TIME: " + autoTime);
     }
@@ -256,13 +296,9 @@ public class AutomobileActivity extends AppCompatActivity {
     private void addToArrays(){
         cursor.moveToLast();
         litresArray.add(autoLitres);
-        Log.i(ACTIVITY_NAME,"ADDING TO LITRES ARRAY: " + (cursor.getString(1)));
         priceArray.add(autoPrice);
-        Log.i(ACTIVITY_NAME,"ADDING TO PRICE ARRAY: " + (cursor.getString(2)));
         mileageArray.add(autoMileage);
-        Log.i(ACTIVITY_NAME,"ADDING TO MILEAGE ARRAY: " + (cursor.getString(3)));
         timeArray.add(autoTime);
-        Log.i(ACTIVITY_NAME,"ADDING TO TIME ARRAY: " + (cursor.getString(4)));
     }
 
     private void populateArrays(){
@@ -272,15 +308,10 @@ public class AutomobileActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 litresArray.add(cursor.getString(1));
-                Log.i(ACTIVITY_NAME,"ADDING TO LITRES ARRAY: " + (cursor.getString(1)));
                 priceArray.add(cursor.getString(2));
-                Log.i(ACTIVITY_NAME,"ADDING TO PRICE ARRAY: " + (cursor.getString(2)));
                 mileageArray.add(cursor.getString(3));
-                Log.i(ACTIVITY_NAME,"ADDING TO MILEAGE ARRAY: " + (cursor.getString(3)));
                 timeArray.add(cursor.getString(4));
-                Log.i(ACTIVITY_NAME,"ADDING TO TIME ARRAY: " + (cursor.getString(4)));
 
-                Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_LITRES)));
                 cursor.moveToNext();
             }
         }
@@ -293,6 +324,82 @@ public class AutomobileActivity extends AppCompatActivity {
         timeAdapter.notifyDataSetChanged();
     }
 
+    private float calculateAverageGasPrice(){
+        float avgGas = 0;
+        for(int i = 0; i < priceArray.size(); i++){
+            avgGas += Float.parseFloat(priceArray.get(i));
+        }
+        avgGas = avgGas / priceArray.size();
+        DecimalFormat df = new DecimalFormat("###.##");
+        avgGas = Float.parseFloat(df.format(avgGas));
+
+        setProgressBar();
+
+        return avgGas;
+}
+
+    private float calculateTotalLitres(){
+        float totalLitres = 0;
+        for(int i = 0; i < litresArray.size(); i++){
+            totalLitres += Float.parseFloat(litresArray.get(i));
+        }
+        return totalLitres;
+    }
+
+    public boolean onCreateOptionsMenu(Menu m){
+        getMenuInflater().inflate(R.menu.toolbar_menu, m);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem mi){
+
+        AlertDialog.Builder builder = null;
+
+        switch(mi.getItemId()) {
+            //ACTION 1
+            case R.id.about:
+                Log.d("Toolbar", "about");
+                Toast t = Toast.makeText(AutomobileActivity.this, "Activity 4(Automobile) v1.0 was created by Lewis Rannells",  Toast.LENGTH_LONG);
+                t.show();
+                break;
+
+            //ACTION 2
+            case R.id.help:
+                Log.d("Toolbar", "help");
+
+                builder = new AlertDialog.Builder(this);
+                String s1 = "Create an entry by clicking the 'ADD ENTRY' button. ";
+                String s2 = "Total litres and the average gas price for the last month is displayed at the bottom the screen. ";
+                String s3 = "After adding a new entry you wish to recalculate the bottom values click the 'Recalculate' button. ";
+                String s4 = "Items except for the time the data was entered can be edited by clicking on an item in the table";
+                builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                break;
+        }
+        if (builder != null){
+            AlertDialog alert = builder.create();
+            builder.show();
+        }
+        return true;
+    }
+
+    private void setProgressBar(){
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        int prog = 0;
+        if(timeArray.size() <= 10){
+            prog = 5;
+        }else if(timeArray.size() > 10 && timeArray.size() < 21){
+            prog = 33;
+        }else if(timeArray.size() > 20 && timeArray.size() <= 30) {
+            prog = 66;
+        }else{
+            prog=100;
+        }
+        progressBar.setProgress(prog);
+    }
 
     private class LitresAdapter extends ArrayAdapter<String> {
 

@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,8 +16,22 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="autoToolbarStyle">
+        <item name="android:background">#002171</item>
+    </style>
+
+    <style name="autoToolbarTheme">
+        <item name="android:background">#0277bd</item>
+    </style>
+
+    <style name="autoToolbarPopupTheme">
+        <item name="android:background">#03a9f4</item>
+    </style>
+
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>
