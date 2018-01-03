@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class Activity_NewRecord extends AppCompatActivity {
     RadioButton radioButton;
     ArrayList<String> activityList = new ArrayList<String>();
     Context ctx = this;
+    ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class Activity_NewRecord extends AppCompatActivity {
 
         submitButton = findViewById(R.id.submit_button);
 
-
+        pb = findViewById(R.id.progress_Bar);
         database = adh.getWritableDatabase();
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,8 @@ public class Activity_NewRecord extends AppCompatActivity {
 //                radioGroup.clearCheck();
                 WriteTask write = new WriteTask(ctx);
                 write.execute();
+                Toast toast = new Toast(ctx);
+                toast.makeText(ctx, "Database entry succesful", toast.LENGTH_LONG).show();
             }
         });
     }
@@ -85,7 +89,7 @@ public class Activity_NewRecord extends AppCompatActivity {
 
     }
 
-    public class WriteTask extends AsyncTask<String, Void, String>{
+    public class WriteTask extends AsyncTask<String, Integer, String>{
         Context ctx;
         WriteTask(Context ctx){
             this.ctx = ctx;
@@ -102,11 +106,15 @@ public class Activity_NewRecord extends AppCompatActivity {
                 int selectedID = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedID);
                 cv.put("ACTIVITY_TYPE", radioButton.getText().toString());
+                publishProgress(25);
                 cv.put("ACTIVITY_TIME", et.getText().toString());
+                publishProgress(50);
                 cv.put("ACTIVITY_COMMENTS", et2.getText().toString());
+                publishProgress(75);
                 Log.i(this.toString(), "Did you just finish doing things? Wow!");
                 try{
                     database.insert(adh.TABLE_NAME, null, cv);
+                    publishProgress(100);
                 }catch (Exception e){
                     Log.i(this.toString(), "Error inserting values in database");
                 }
@@ -116,14 +124,14 @@ public class Activity_NewRecord extends AppCompatActivity {
             return null;
         }
 
+
         @Override
-        protected void onProgressUpdate(Void...values){
-            super.onProgressUpdate(values);
+        protected void onProgressUpdate(Integer ...value){
+            pb.setVisibility(View.VISIBLE);
         }
 
-//        @Override
-//        protected void onPostExecute(String result){
-//            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-//        }
     }
+
+
+
 }

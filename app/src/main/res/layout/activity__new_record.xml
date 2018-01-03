@@ -80,4 +80,11 @@
         android:id="@+id/submit_button"
         android:text="@string/activity_SubmitButton"/>
 
+    <ProgressBar
+        android:id="@+id/progress_Bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
+
 </RelativeLayout>
