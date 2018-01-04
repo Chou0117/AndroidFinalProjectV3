@@ -25,13 +25,14 @@ import static java.lang.Long.parseLong;
 public class Activity_PastRecord extends AppCompatActivity {
 
 
-    ActivityFragment af = new ActivityFragment(this);
+    ActivityFragment af;
     ListView lv;
     ActivityDatabaseHelper adh;
     SQLiteDatabase db;
     Cursor cursor;
     ActivityAdapter activityAdapter;
     Context ctx = this;
+    Activity_PastRecord apr = this;
 
     ArrayList<String> typeList =  new ArrayList<>();
     ArrayList<Integer> timeList =  new ArrayList<>();
@@ -78,7 +79,7 @@ public class Activity_PastRecord extends AppCompatActivity {
                     //will be called if the user is on a phone
                     Intent intent = new Intent(Activity_PastRecord.this, Activity_MessageDetails.class);
 
-                    info.putString("id",""+id);
+                    //info.putString("id",""+id);
                     info.putString("type", "" + activityAdapter.getItem(position));
                     info.putInt("time", activityAdapter.getTime(position));
                     info.putString("comment", "" + activityAdapter.getComment(position));
@@ -88,7 +89,8 @@ public class Activity_PastRecord extends AppCompatActivity {
                     startActivityForResult(intent, 666);
                 } //will be called if the user is on a tablet
                 else {
-                    info.putString("id",""+id);
+                    //info.putString("id",""+id);
+                    af = new ActivityFragment(apr);
                     info.putString("type", "" + activityAdapter.getItem(position));
                     info.putInt("time", activityAdapter.getTime(position));
                     info.putString("comment", "" + activityAdapter.getComment(position));
