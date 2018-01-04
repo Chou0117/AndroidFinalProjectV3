@@ -1,5 +1,6 @@
 package com.example.antho.android_final;
 
+import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -102,6 +103,7 @@ public class AutomobileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
+
         dbHelper  = new AutoDatabaseHelper(this);
         litresAdapter = new LitresAdapter(this);
         priceAdapter = new PriceAdapter(this);
