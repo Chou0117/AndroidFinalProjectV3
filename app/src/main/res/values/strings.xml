@@ -85,15 +85,32 @@
     <string name="foodToolbarAboutMsg">Activity 2(Food Tracker) v1.0 was created by Hsing-Cheng Chou</string>
 
    <!--Cameron's Strings-->
+    <string name="thermoString1">Instructions for House Thermostat.</string>
+    <string name="thermoString2">To add a new schedule for the thermostat, click on the plus sign on the toolbar. </string>
+    <string name="thermoString3">You can edit existing schedules by clicking on them. </string>
+    <string name="thermoString4">You may also save new schedules directly from existing ones. </string>
+    <string name="thermostatTitle">House Thermostat</string>
+    <string name="thermostatVersion">Version 2.6.1</string>
+    <string name="thermostatCreator">By: Cameron OConnor</string>
     <string name="thermosaveText">Save</string>
     <string name="thermoday_prompt">Choose a day</string>
-    <string name="thermotemp_prompt">Tempature</string>
-    <string name="thermotemp_text">Tempature: </string>
+    <string name="thermotemp_prompt">Temperature</string>
+    <string name="thermotemp_text">Temperature: </string>
     <string name="thermotemp_text_celcius">Celcius</string>
     <string name="thermoday_text">Day of the week: </string>
     <string name="thermobutton_delete">Delete</string>
     <string name="thermobutton_new_save_Text">Save as new schedule</string>
     <string name="thermobutton_save">Save</string>
+    <string name="thermobutton_schedule">Save Schedule</string>
+    <string name="thermoDate">Date:</string>
+    <string name="thermobutton_Cancel">Cancel</string>
+    <string name="thermoSuccess">Successfully added!</string>
+    <string name="thermoCreatortext">Creator</string>
+    <string name="thermoInstructionstext">Instructions</string>
+    <string name="thermoAddtext">Add</string>
+    <string name="thermoActivitytext">Activity Activity</string>
+    <string name="thermoFoodtext">Food Activity</string>
+    <string name="thermoAutotext">Auto Activity</string>
     <string-array name="thermoday_week">
         <item>Monday</item>
         <item>Tuesday</item>

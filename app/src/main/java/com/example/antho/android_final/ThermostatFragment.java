@@ -1,5 +1,6 @@
 package com.example.antho.android_final;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -47,6 +48,7 @@ public class ThermostatFragment extends Fragment {
 
     }
 
+    @SuppressLint("ValidFragment")
     public ThermostatFragment(ThermostatActivity thermostatActivity) {
         this.thermostatActivity = thermostatActivity;
     }
