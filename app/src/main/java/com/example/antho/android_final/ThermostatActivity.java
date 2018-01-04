@@ -1,5 +1,6 @@
 package com.example.antho.android_final;
 
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,6 +62,8 @@ public class ThermostatActivity extends AppCompatActivity {
     private String timeformat = "";
     private String messageDA, messageTE, messageTI;
     private ProgressBar progressbar;
+    private ThermostatFragment thermostatFragment;
+    private ThermostatActivity ta = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +73,16 @@ public class ThermostatActivity extends AppCompatActivity {
 
         thermostatList = (ListView) findViewById(R.id.thermostat_list);
 
-        if (findViewById(R.id.fragment_container) != null) {
+        progressbar = (ProgressBar) findViewById(R.id.progressbar);
+        progressbar.bringToFront();
+
+        //Fragments
+        //layout-sw600dp/
+        if (findViewById(R.id.tabletFrame) != null) {
             Log.i("Info", "It's a tablet. Poor you.");
             mTwoPane = true;
         } else {
             Log.i("Info", "It's a phone. Congratulations!");
-            progressbar = (ProgressBar) findViewById(R.id.progressbar);
-            progressbar.bringToFront();
             mTwoPane = false;
         }
 
@@ -115,12 +121,12 @@ public class ThermostatActivity extends AppCompatActivity {
                 arg.putString("TEMPATURE", informationAdapter.getItemTemp(position));
 
                 if (mTwoPane) {
-//
-//                    Log.i("Info", "Item Clicked in Tablet");
-//                    informationAdapter.setArguments(arg);
-//                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.tabletFrame, messageFragment);
-//                    transaction.commit();
+                    Log.i("Info", "Item Clicked in Tablet");
+                    thermostatFragment = new ThermostatFragment(ta);
+                    thermostatFragment.setArguments(arg);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.tabletFrame, thermostatFragment);
+                    transaction.commit();
 
                 } else {
                     Log.i("Info", "Show this if using phone");
@@ -136,7 +142,19 @@ public class ThermostatActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        recreate();
+        Log.i("IMPORATNTATA", "YOU MADE IT HERE");
+        if (resultCode == 0) {
+            Log.i("IMPORATNTATA", "YOU MADE IT HERE AS TABLET");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //stuff that updates ui
+                    informationAdapter.notifyDataSetChanged();
+                }
+            });
+        } else {
+            recreate();
+        }
     }
 
     @Override
@@ -202,8 +220,13 @@ public class ThermostatActivity extends AppCompatActivity {
                             WriteTask write = new WriteTask(ctx);
                             write.execute();
 
-                            Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout), "Successfully added!", Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                            if (findViewById(R.id.tabletFrame) == null) {
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout), "Successfully added!", Snackbar.LENGTH_SHORT);
+                                snackbar.show();
+                            } else {
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout600), "Successfully added!", Snackbar.LENGTH_SHORT);
+                                snackbar.show();
+                            }
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -221,39 +244,7 @@ public class ThermostatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
-        Log.i(ACTIVITY_NAME, "In onResume()");
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        Log.i(ACTIVITY_NAME, "In onStart()");
-        super.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        Log.i(ACTIVITY_NAME, "In onPause()");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(ACTIVITY_NAME, "In onStop()");
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.i(ACTIVITY_NAME, "In onDestroy()");
-        super.onDestroy();
-        cursor.close();
-        thermodb.close();
-    }
-
-    private class ThermoInfoAdapter extends ArrayAdapter<String> {
+   public class ThermoInfoAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater;
 
         public ThermoInfoAdapter(Context ctx) {
@@ -317,6 +308,11 @@ public class ThermostatActivity extends AppCompatActivity {
         }
     }
 
+    public void updateListView(){
+        Log.i("Hello3.0", "Lewis's method");
+        recreate();
+    }
+
     public class WriteTask extends AsyncTask<String, Void, String> {
         Context ctx;
 
@@ -347,7 +343,7 @@ public class ThermostatActivity extends AppCompatActivity {
 
                 try {
                     thermodb.insert(thermodbHelper.TABLE_NAME, "null", cValues);
-                    Thread.sleep(400);
+                    Thread.sleep(300);
                     onPostExecute();
                 } catch (Exception e) {
                     Log.i(this.toString(), "Error inserting values in database");
@@ -367,7 +363,7 @@ public class ThermostatActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             // SHOW THE SPINNER WHILE LOADING FEEDS
-            progressbar.setVisibility(View.VISIBLE);
+                progressbar.setVisibility(View.VISIBLE);
         }
 
         protected void onPostExecute() {
@@ -375,4 +371,37 @@ public class ThermostatActivity extends AppCompatActivity {
             progressbar.setVisibility(View.INVISIBLE);
         }
     }
+
+    @Override
+    public void onResume() {
+        Log.i(ACTIVITY_NAME, "In onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        Log.i(ACTIVITY_NAME, "In onStart()");
+        super.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        Log.i(ACTIVITY_NAME, "In onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.i(ACTIVITY_NAME, "In onStop()");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(ACTIVITY_NAME, "In onDestroy()");
+        super.onDestroy();
+        cursor.close();
+        thermodb.close();
+    }
+
 }
