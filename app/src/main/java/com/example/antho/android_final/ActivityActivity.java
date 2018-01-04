@@ -178,6 +178,8 @@ public class ActivityActivity extends AppCompatActivity {
         String query4 = "SELECT COUNT(" + adh.ACTIVITY_TYPE + ") FROM " + adh.TABLE_NAME + " WHERE " + adh.ACTIVITY_TYPE + " = 'Skating';";
         String query5 = "SELECT COUNT(" + adh.ACTIVITY_TYPE + ") FROM " + adh.TABLE_NAME + " WHERE " + adh.ACTIVITY_TYPE + " = 'Swimming';";
         String query6 = "SELECT COUNT(" + adh.ACTIVITY_TYPE + ") FROM " + adh.TABLE_NAME + ";";
+        String query7 = "SELECT AVG(" + adh.ACTIVITY_TIME + ") FROM " + adh.TABLE_NAME + ";";
+        String query8 = "SELECT SUM(" + adh.ACTIVITY_TIME + ") FROM " + adh.TABLE_NAME + ";";
 
         cursor = db.rawQuery(query1, null);
         String run = "0";
@@ -238,6 +240,26 @@ public class ActivityActivity extends AppCompatActivity {
         }
         stat6 = findViewById(R.id.stat6);
         stat6.setText(total);
+
+        cursor = db.rawQuery(query7, null);
+        String time = "0";
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            time = cursor.getString(0);
+            cursor.moveToNext();
+        }
+        timestat1 = findViewById(R.id.timestat1);
+        timestat1.setText(time);
+
+        cursor = db.rawQuery(query8, null);
+        String timepermonth = "0";
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            timepermonth = cursor.getString(0);
+            cursor.moveToNext();
+        }
+        timestat2 = findViewById(R.id.timestat2);
+        timestat2.setText(timepermonth);
     }
 
     @Override
