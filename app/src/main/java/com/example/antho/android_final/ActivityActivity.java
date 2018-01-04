@@ -30,12 +30,12 @@ public class ActivityActivity extends AppCompatActivity {
         });
 
         final Button personalStatistics = (Button) findViewById(R.id.activity_Button3);
-        personalStatistics.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(ActivityActivity.this, Activity_PersonalStatistics.class);
-                startActivityForResult(intent, 10);
-            }
-        });
+//        personalStatistics.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v){
+//                Intent intent = new Intent(ActivityActivity.this, Activity_PersonalStatistics.class);
+//                startActivityForResult(intent, 10);
+//            }
+//        });
 
     }
 }

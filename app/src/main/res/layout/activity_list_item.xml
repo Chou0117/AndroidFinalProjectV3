@@ -28,4 +28,11 @@
         android:layout_weight="1"
         android:minWidth="150dp"/>
 
+    <TextView
+        android:id="@+id/message_timeStamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_weight="1"
+        android:minWidth="150dp"/>
 </LinearLayout>

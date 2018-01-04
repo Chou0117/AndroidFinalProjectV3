@@ -3,8 +3,8 @@
     <string name="title_activity__tracker">Activity_Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="foodRowDescription">Food Row</string>
-  
-<!--Tony Strings-->
+
+    <!--Tony Strings-->
     <string name="activity_textView">Welcome to the Activity Tracker</string>
     <string name="activity_Message_1">Click here to input a new activity</string>
     <string name="activity_Message_2">Click here to see past activity records</string>
@@ -25,7 +25,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--Lewis Strings-->
+    <!--Lewis Strings-->
     <string name="autoLabelTime">Time</string>
     <string name="autoLabelPrice">Price</string>
     <string name="autoLabelLitres">Litres</string>
@@ -35,7 +35,7 @@
     <string name="autoAvgGas">Average Gas for Last Month: </string>
     <string name="autoTotalLitres">Total Gas Purchased Last Month: </string>
 
-   <!--Cameron's Strings-->
+    <!--Cameron's Strings-->
     <string name="thermosaveText">Save</string>
     <string name="thermoday_prompt">Choose a day</string>
     <string name="thermotemp_prompt">Tempature</string>

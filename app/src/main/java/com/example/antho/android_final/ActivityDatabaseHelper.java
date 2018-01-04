@@ -16,6 +16,7 @@ public class ActivityDatabaseHelper extends SQLiteOpenHelper {
     final static String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     final static String ACTIVITY_TIME = "ACTIVITY_TIME";
     final static String ACTIVITY_COMMENTS = "ACTIVITY_COMMENTS";
+    final static String ACTIVITY_TIMESTAMP = "ACTIVITY_TIMESTAMP";
     final static String[] ColumnName = new String[]{
             PRIMARY_KEY,
             ACTIVITY_TYPE,
@@ -24,7 +25,7 @@ public class ActivityDatabaseHelper extends SQLiteOpenHelper {
     };
 
 
-    private static final String DATABASE_CREATE="CREATE TABLE "+ TABLE_NAME + " ( " + PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ACTIVITY_TYPE + " TEXT NOT NULL, " + ACTIVITY_TIME + " TEXT NOT NULL, " + ACTIVITY_COMMENTS + " TEXT);";
+    private static final String DATABASE_CREATE="CREATE TABLE "+ TABLE_NAME + " ( " + PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ACTIVITY_TYPE + " TEXT NOT NULL, " + ACTIVITY_TIME + " TEXT NOT NULL, " + ACTIVITY_COMMENTS + " TEXT, " + ACTIVITY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
     public ActivityDatabaseHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);

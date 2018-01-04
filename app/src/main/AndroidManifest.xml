@@ -24,7 +24,6 @@
         <activity android:name=".ActivityActivity" />
         <activity android:name=".Activity_NewRecord" />
         <activity android:name=".Activity_PastRecord" />
-        <activity android:name=".Activity_PersonalStatistics" />
         <activity android:name=".FoodDetail" />
     </application>
 

@@ -43,8 +43,8 @@ public class Activity_NewRecord extends AppCompatActivity {
         aa = new ActivityAdapter(this);
 
         database = adh.getReadableDatabase();
-        String[] allColumns = {ActivityDatabaseHelper.PRIMARY_KEY, ActivityDatabaseHelper.ACTIVITY_TYPE, ActivityDatabaseHelper.ACTIVITY_TIME, ActivityDatabaseHelper.ACTIVITY_COMMENTS};
-        cursor = database.query(adh.TABLE_NAME, allColumns, null, null, null, null, null);
+        //String[] allColumns = {ActivityDatabaseHelper.PRIMARY_KEY, ActivityDatabaseHelper.ACTIVITY_TYPE, ActivityDatabaseHelper.ACTIVITY_TIME, ActivityDatabaseHelper.ACTIVITY_COMMENTS};
+        //cursor = database.query(adh.TABLE_NAME, allColumns, null, null, null, null, null);
 
         radioGroup = findViewById((R.id.radioGroup));
         et = findViewById(R.id.newRecordTime);
