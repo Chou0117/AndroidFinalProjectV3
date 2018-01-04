@@ -25,16 +25,17 @@ import static java.lang.Long.parseLong;
 public class Activity_PastRecord extends AppCompatActivity {
 
 
-    ActivityFragment af = new ActivityFragment(this);
+    ActivityFragment af;
     ListView lv;
     ActivityDatabaseHelper adh;
     SQLiteDatabase db;
     Cursor cursor;
     ActivityAdapter activityAdapter;
     Context ctx = this;
+    Activity_PastRecord apr = this;
 
     ArrayList<String> typeList =  new ArrayList<>();
-    ArrayList<String> timeList =  new ArrayList<>();
+    ArrayList<Integer> timeList =  new ArrayList<>();
     ArrayList<String> commentList =  new ArrayList<>();
     ArrayList<String> timeStamp =  new ArrayList<>();
 
@@ -51,7 +52,6 @@ public class Activity_PastRecord extends AppCompatActivity {
 
 
         int r = cursor.getColumnIndex(ActivityDatabaseHelper.ACTIVITY_TYPE);
-        Log.i("Test number", r+"");
         int s = cursor.getColumnIndex(ActivityDatabaseHelper.ACTIVITY_TIME);
         int t = cursor.getColumnIndex(ActivityDatabaseHelper.ACTIVITY_COMMENTS);
         int u = cursor.getColumnIndex(ActivityDatabaseHelper.ACTIVITY_TIMESTAMP);
@@ -59,7 +59,7 @@ public class Activity_PastRecord extends AppCompatActivity {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             typeList.add(cursor.getString(r));
-            timeList.add(cursor.getString(s));
+            timeList.add(cursor.getInt(s));
             commentList.add(cursor.getString(t));
             timeStamp.add(cursor.getString(u));
             cursor.moveToNext();
@@ -68,7 +68,6 @@ public class Activity_PastRecord extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.list_view);
         activityAdapter = new ActivityAdapter(this);
         lv.setAdapter(activityAdapter);
-        Log.i("Hello2.0", "toast");
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,9 +79,9 @@ public class Activity_PastRecord extends AppCompatActivity {
                     //will be called if the user is on a phone
                     Intent intent = new Intent(Activity_PastRecord.this, Activity_MessageDetails.class);
 
-                    info.putString("id",""+id);
+                    //info.putString("id",""+id);
                     info.putString("type", "" + activityAdapter.getItem(position));
-                    info.putString("time", "" + activityAdapter.getTime(position));
+                    info.putInt("time", activityAdapter.getTime(position));
                     info.putString("comment", "" + activityAdapter.getComment(position));
                     info.putString("timestamp", "" + activityAdapter.getTimeStamp(position));
                     info.putBoolean("isPhone", isPhone);
@@ -90,9 +89,10 @@ public class Activity_PastRecord extends AppCompatActivity {
                     startActivityForResult(intent, 666);
                 } //will be called if the user is on a tablet
                 else {
-                    info.putString("id",""+id);
+                    //info.putString("id",""+id);
+                    af = new ActivityFragment(apr);
                     info.putString("type", "" + activityAdapter.getItem(position));
-                    info.putString("time", "" + activityAdapter.getTime(position));
+                    info.putInt("time", activityAdapter.getTime(position));
                     info.putString("comment", "" + activityAdapter.getComment(position));
                     info.putString("timestamp", "" + activityAdapter.getTimeStamp(position));
                     info.putBoolean("isPhone", isPhone);
@@ -111,24 +111,17 @@ public class Activity_PastRecord extends AppCompatActivity {
         public ActivityAdapter(Context ctx){
 
             super(ctx,0);
-            Log.i("Hello2.0", "ArrayAdapters are stupid Hi");
         }
 
         public int getCount(){
             return typeList.size();
         }
-//        public int getCountTime(){
-//            return timeList.size();
-//        }
-//        public int getCountComments(){
-//            return commentList.size();
-//        }
 
         public String getItem(int position){
             return typeList.get(position);
         }
 
-        public String getTime(int position){
+        public Integer getTime(int position){
             return timeList.get(position);
         }
 
@@ -143,18 +136,12 @@ public class Activity_PastRecord extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             LayoutInflater inflater = Activity_PastRecord.this.getLayoutInflater();
-            Log.i("Hello2.0", "ArrayAdapters are stupid");
             convertView = inflater.inflate(R.layout.activity_list_item, null);
-//            if(position%2==0)
-//                result = inflater.inflate(R.layout.chat_row_incoming, null);
-//            else
-//                result = inflater.inflate(R.layout.chat_row_outgoing, null);
-            Log.i("Hello2.7", getItem(position));
             TextView message = convertView.findViewById(R.id.message_type);
             message.setText(getItem(position));
 
             TextView time = convertView.findViewById(R.id.message_time);
-            time.setText(getTime(position));
+            time.setText(String.valueOf(getTime(position)));
 
             TextView comment = convertView.findViewById(R.id.message_comment);
             comment.setText(getComment(position));
@@ -183,7 +170,6 @@ public class Activity_PastRecord extends AppCompatActivity {
     }
 
     public void updateListView(){
-        Log.i("Hello3.0", "Lewis's method");
         this.recreate();
     }
 

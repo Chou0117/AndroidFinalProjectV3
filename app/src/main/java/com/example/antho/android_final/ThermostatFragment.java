@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -30,7 +31,6 @@ public class ThermostatFragment extends Fragment {
     String totaltime, num1, num2, hold1, hold2;
     String[] time;
     Long idforhold;
-    Integer Day = 0;
     Integer Num01, Num02;
     Button saveBtn, saveBtnNw, deleteBtn;
     EditText thermostatTemp;
@@ -40,8 +40,15 @@ public class ThermostatFragment extends Fragment {
     Bundle arg;
     private ThermostatDatabaseHelper thermodbHelper;
     private SQLiteDatabase thermodb;
+    private ThermostatActivity thermostatActivity;
+
 
     public ThermostatFragment() {
+
+    }
+
+    public ThermostatFragment(ThermostatActivity thermostatActivity) {
+        this.thermostatActivity = thermostatActivity;
     }
 
     @Override
@@ -56,30 +63,12 @@ public class ThermostatFragment extends Fragment {
         String te = "No Tempature";
 
         if (arg != null) {
+
             ke = arg.getLong("KEY");
             idforhold = ke;
+
             da = arg.getString("DAY");
-            if (da.equals("Monday")) {
-                Day = 0;
-            }
-            if (da.equals("Tuesday")) {
-                Day = 1;
-            }
-            if (da.equals("Wednesday")) {
-                Day = 2;
-            }
-            if (da == "Thursday") {
-                Day = 3;
-            }
-            if (da == "Friday") {
-                Day = 4;
-            }
-            if (da == "Saturday") {
-                Day = 5;
-            }
-            if (da.equals("Sunday")) {
-                Day = 6;
-            }
+
             ti = arg.getString("TIME");
             time = ti.split(":");
             num1 = time[0];
@@ -95,10 +84,18 @@ public class ThermostatFragment extends Fragment {
         deleteBtn = (Button) myView.findViewById(R.id.button_delete);
 
         thermostatDay = (Spinner) myView.findViewById(R.id.thermostatDayF);
-        thermostatDay.setSelection(Day);
+        for (int i=0;i<thermostatDay.getCount();i++){
+            if (thermostatDay.getItemAtPosition(i).toString().equalsIgnoreCase(da)){
+                thermostatDay.setSelection(i);
+                break;
+            }
+        }
+
+
         thermostatTime = (TimePicker) myView.findViewById(R.id.thermostatTimeF);
         thermostatTime.setCurrentHour(Num01);
         thermostatTime.setCurrentMinute(Num02);
+
         thermostatTemp = (EditText) myView.findViewById(R.id.thermostatTempatureF);
         thermostatTemp.setText(te);
 
@@ -120,10 +117,10 @@ public class ThermostatFragment extends Fragment {
 
                 thermodb.update(thermodbHelper.TABLE_NAME, cValues, "_id = " + idforhold, null);
 
-                if (!mTwoPane)
+                if (!mTwoPane) {
                     getActivity().finish();
-                else {
-                    //thermostatActivity.saveItem();
+                } else {
+                    thermostatActivity.updateListView();
                 }
             }
         });
@@ -146,10 +143,10 @@ public class ThermostatFragment extends Fragment {
 
                 thermodb.insert(thermodbHelper.TABLE_NAME, "null", cValues);
 
-                if (!mTwoPane)
+                if (!mTwoPane) {
                     getActivity().finish();
-                else {
-//                    thermostatActivity.saveNewItem();
+                } else {
+                    thermostatActivity.updateListView();
                 }
             }
         });
@@ -162,10 +159,14 @@ public class ThermostatFragment extends Fragment {
 
                 thermodb.delete(thermodbHelper.TABLE_NAME, "_id = " + idforhold, null);
 
-                if (!mTwoPane)
+                if (!mTwoPane) {
                     getActivity().finish();
-                else {
-//                    thermostatActivity.deleteItem();
+                } else {
+                    try {
+                        thermostatActivity.updateListView();
+                    } catch (Exception e) {
+                        Log.i("ERROR ", "ignore it");
+                    }
                 }
             }
         });
