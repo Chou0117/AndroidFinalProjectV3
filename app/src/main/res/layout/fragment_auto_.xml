@@ -7,12 +7,16 @@
 
     <TextView
         android:id="@+id/avgGasPriceLabel"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/autoWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/autoAvgGas"/>
 
     <TextView
         android:id="@+id/avgGasPrice"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/autoWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="not set"
@@ -20,6 +24,7 @@
 
     <TextView
         android:id="@+id/gasAmountPurchasedLabel"
+        android:textColor="@color/autoWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -28,6 +33,7 @@
 
     <TextView
         android:id="@+id/gasAmountPurchased"
+        android:textColor="@color/autoWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="unset"

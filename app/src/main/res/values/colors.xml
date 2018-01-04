@@ -6,4 +6,7 @@
     <color name="food_row_background_color">#E7E7E7</color>
     <color name="food_row_border_color">#E7E7E7</color>
 
+    <color name="autoRed">#540000</color>
+    <color name="autoWhite">#FFFFFF</color>
+
 </resources>
