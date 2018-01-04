@@ -1,9 +1,9 @@
 package com.example.antho.android_final;
 
+import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -39,24 +39,24 @@ import java.util.Locale;
 //GENERAL REQUIREMENTS
 //*A Fragment
 //*Listview to present items;
-// clicking shows item details
+//*clicking shows item details
 //*Items in the listview must be stored, adding and deletion of items
 //*An Asynctask(open a database/retrieve data/save data)
-//Progressbar
+//*Progressbar
 //*Button
 //*EditText and an associated text input method
 //*Toast,
 //*Snackbar,
 //*custom dialog notification
 //*Help menu that shows author, activity number and interface instructions
-//alternate language
+//*alternate language
 
 //ACTIVITY REQUIREMENTS
 //*User is able to select LITRES, PRICE, KILOMETRES
 //*entries displayed in a listview
 //*database stores the time the information was recorded
-//app should provide AVERAGE GAS PRICE for last month
-//how much gas was purchased LAST MONTH
+//*app should provide AVERAGE GAS PRICE for last month
+//*how much gas was purchased LAST MONTH
 //AVERAGE GAS PER MONTH(?)
 
 
@@ -98,13 +98,12 @@ public class AutomobileActivity extends AppCompatActivity {
     private float avgGas;
     private float totalLitres;
 
-   // private boolean isTablet = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
+
         dbHelper  = new AutoDatabaseHelper(this);
         litresAdapter = new LitresAdapter(this);
         priceAdapter = new PriceAdapter(this);
@@ -148,9 +147,8 @@ public class AutomobileActivity extends AppCompatActivity {
                                 insertIntoDataBase();
                                 addToArrays();
                                 notifyAdapters();
-                                setAveragesStartTask();
-                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                StartTask();
+                                MakeSnack();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -175,9 +173,8 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(1,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
-                                setAveragesStartTask();
-                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                StartTask();
+                                MakeSnack();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -200,9 +197,8 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(2,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
-                                setAveragesStartTask();
-                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                StartTask();
+                                MakeSnack();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -225,9 +221,8 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(3,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
-                                setAveragesStartTask();
-                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                StartTask();
+                                MakeSnack();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -249,9 +244,8 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(4,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
-                                setAveragesStartTask();
-                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
+                                StartTask();
+                                MakeSnack();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -264,16 +258,11 @@ public class AutomobileActivity extends AppCompatActivity {
             }
         });
 
-        setAveragesStartTask();
+        StartTask();
 
         parentView = findViewById(R.id.toolBarContent);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //if (findViewById(R.id.testIpad) == null) {
-        //    isTablet = true;
-        //}
-
     }
 
 
@@ -300,10 +289,7 @@ public class AutomobileActivity extends AppCompatActivity {
         cv.put("TIME", autoTime);
         db.update("Auto_Table", cv,"_ID = " + position, null);
 
-        litresAdapter.notifyDataSetChanged();
-        priceAdapter.notifyDataSetChanged();
-        mileageAdapter.notifyDataSetChanged();
-        timeAdapter.notifyDataSetChanged();
+        notifyAdapters();
 
     }
 
@@ -400,11 +386,14 @@ public class AutomobileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setAveragesStartTask(){
-        Log.i(ACTIVITY_NAME, "Starting TASK and setting AVERAGES");
+    private void StartTask(){
         task = new AutoTask();
         task.execute();
 
+    }
+    private void MakeSnack() {
+        Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     private class AutoTask extends AsyncTask<String, Integer, String>{
@@ -420,8 +409,6 @@ public class AutomobileActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
-            Log.i(ACTIVITY_NAME, "DOINBACKGROUND");
-
             publishProgress(25);
 
             totalLitres = 0;
@@ -432,17 +419,12 @@ public class AutomobileActivity extends AppCompatActivity {
             publishProgress(50);
 
             avgGas = avgGas / priceArray.size();
-            Log.i(ACTIVITY_NAME, "BEFORE PARSE: "+ avgGas);
-            //--------------------------------------------------------------------------------
             DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.ENGLISH);
             otherSymbols.setDecimalSeparator('.');
             otherSymbols.setGroupingSeparator(',');
-            //--------------------------------------------------------------------------------
             DecimalFormat df = new DecimalFormat("###.##", otherSymbols);
             avgGas = Float.parseFloat(df.format(avgGas));
-            Log.i(ACTIVITY_NAME, "AFTER PARSE: "+ avgGas);
             publishProgress(75);
-
 
             for(int i = 0; i < litresArray.size(); i++){
                 totalLitres += Float.parseFloat(litresArray.get(i));
@@ -450,8 +432,6 @@ public class AutomobileActivity extends AppCompatActivity {
 
             publishProgress(100);
             return null;
-
-
         }
 
         @Override
@@ -462,9 +442,7 @@ public class AutomobileActivity extends AppCompatActivity {
             averageGasPriceTextView.setText("$" + avgGas);
             totalLitresPurchasedTextView.setText("" + totalLitres + " Litres");
         }
-
     }
-
 
     private class LitresAdapter extends ArrayAdapter<String> {
 

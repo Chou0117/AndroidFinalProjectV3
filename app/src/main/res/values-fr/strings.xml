@@ -45,7 +45,15 @@
     <string name="activity_toast2">Type d\'entrée incorrect. N\'utilisez que des valeurs numériques pour le temps</string>
     <string name="activity_snackbar">Ajouté avec succès!</string>
 
-
+    <!--Lewis Strings-->
+    <string name="autoLabelTime">Temps</string>
+    <string name="autoLabelPrice">Prix</string>
+    <string name="autoLabelLitres">Litres</string>
+    <string name="autoLabelMileage">Mileage</string>
+    <string name="autoEntryButton">Ajouter une entrée</string>
+    <string name="autoRecalculateButton">Recalculer</string>
+    <string name="autoAvgGas">Gaz moyen pour le mois dernier: </string>
+    <string name="autoTotalLitres">Total de gaz acheté le mois dernier: </string>
 
 
 
