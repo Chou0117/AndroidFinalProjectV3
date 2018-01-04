@@ -105,7 +105,7 @@ public class Activity_NewRecord extends AppCompatActivity {
                 publishProgress(75);
                 try{
                     database.insert(adh.TABLE_NAME, null, cv);
-                    publishProgress(100);
+                    onPostExecute();
                 }catch (Exception e){
                     Log.i(this.toString(), "Error inserting values in database");
                 }
@@ -117,12 +117,17 @@ public class Activity_NewRecord extends AppCompatActivity {
 
 
         @Override
-        protected void onProgressUpdate(Integer ...value){
-            pb.setVisibility(View.VISIBLE);
+        protected void onProgressUpdate(Integer ...value) {super.onProgressUpdate(value);
         }
 
 
-        protected void onPostExectue(){
+        @Override
+        protected void onPreExecute() {
+            // SHOW THE SPINNER WHILE LOADING FEEDS
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        protected void onPostExecute(){
             pb.setVisibility(View.INVISIBLE);
         }
 
