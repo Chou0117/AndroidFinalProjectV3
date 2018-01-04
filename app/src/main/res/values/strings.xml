@@ -40,7 +40,9 @@
     <string name="thermoday_prompt">Choose a day</string>
     <string name="thermotemp_prompt">Tempature</string>
     <string name="thermotemp_text">Tempature: </string>
+    <string name="thermotemp_text_celcius">Celcius</string>
     <string name="thermoday_text">Day of the week: </string>
+    <string name="thermobutton_delete">Delete</string>
     <string name="thermobutton_new_save_Text">Save as new schedule</string>
     <string name="thermobutton_save">Save</string>
     <string-array name="thermoday_week">

@@ -9,28 +9,25 @@ import android.util.Log;
 
 public class ThermostatDatabaseHelper extends SQLiteOpenHelper {
 
-    private SQLiteDatabase database;
-
-    public static  final String TABLE_NAME = "THERMOSTAT";
+    public static final String TABLE_NAME = "THERMOSTAT";
     public static final String KEY_ID = "_id";
     public static final String KEY_DAY = "_day";
     public static final String KEY_TIME = "_time";
     public static final String KEY_TEMPATURE = "_tempature";
-
-    public static final String[] Column_names = new String[]{KEY_DAY, KEY_TIME, KEY_TEMPATURE};
-
+    public static final String[] Column_names = new String[]{KEY_ID, KEY_DAY, KEY_TIME, KEY_TEMPATURE};
     private static final String DATABASE_NAME = "Thermostat.db";
-    private static final int VERSION_NUM = 2;
-
-    public ThermostatDatabaseHelper(Context ctx) {
-        super(ctx, DATABASE_NAME, null, VERSION_NUM);
-    }
+    private static final int VERSION_NUM = 5;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_NAME + "( " + KEY_ID + " integer primary key autoincrement, " + KEY_DAY
             + " text not null, " + KEY_TIME
             + " integer not null, " + KEY_TEMPATURE + " integer not null);";
+    private SQLiteDatabase database;
+
+    public ThermostatDatabaseHelper(Context ctx) {
+        super(ctx, DATABASE_NAME, null, VERSION_NUM);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -65,7 +62,7 @@ public class ThermostatDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void closeDatabase() {
-        if(database != null && database.isOpen()){
+        if (database != null && database.isOpen()) {
             database.close();
         }
     }

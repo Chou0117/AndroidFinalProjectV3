@@ -47,7 +47,7 @@
         <EditText
             android:id="@+id/thermostatTempatureF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -56,21 +56,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="2"
         android:paddingTop="15sp">
 
         <Button
             android:id="@+id/button_save"
-            android:layout_width="186dp"
+            android:text="@string/thermobutton_save"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/thermobutton_save" />
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button_new_save"
             android:text="@string/thermobutton_new_save_Text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_delete"
+        android:text="@string/thermobutton_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"  />
 
 </LinearLayout>
 
