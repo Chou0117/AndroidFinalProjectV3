@@ -20,7 +20,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="16dp"
-        android:hint="Food" />
+        android:hint="@string/foodInputFood" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -37,7 +37,7 @@
             android:layout_marginTop="8dp"
             android:textSize="12dp"
             android:layout_weight="1"
-            android:hint="Calories (g)"
+            android:hint="@string/foodInputCalorie"
             android:inputType="number" />
 
         <EditText
@@ -49,7 +49,7 @@
             android:layout_marginTop="8dp"
             android:textSize="12dp"
             android:layout_weight="1"
-            android:hint="Fat (g)"
+            android:hint="@string/foodInputFat"
             android:inputType="number" />
 
         <EditText
@@ -61,7 +61,7 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:textSize="12dp"
-            android:hint="Carbohydrate (g)"
+            android:hint="@string/foodInputCarbohydrate"
             android:inputType="number" />
     </LinearLayout>
 

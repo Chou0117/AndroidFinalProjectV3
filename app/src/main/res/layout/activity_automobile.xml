@@ -131,6 +131,7 @@
         android:layout_height="wrap_content"
         android:progress="0"
         android:layout_marginTop="30dp"
+        android:visibility="invisible"
         android:layout_below="@id/autoMileageListView"/>
 
 </RelativeLayout>

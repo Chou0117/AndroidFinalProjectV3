@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -86,10 +87,13 @@ public class AutomobileActivity extends AppCompatActivity {
 
     private TextView averageGasPriceTextView;
     private TextView totalLitresPurchasedTextView;
-    private Button recalculateButton;
     private ProgressBar progressBar;
 
     private View parentView;
+
+    private AutoTask task;
+    private float avgGas;
+    private float totalLitres;
 
 
     @Override
@@ -139,7 +143,8 @@ public class AutomobileActivity extends AppCompatActivity {
                                 insertIntoDataBase();
                                 addToArrays();
                                 notifyAdapters();
-                                Snackbar.make(parentView, "Make sure to recalculate your totals", Snackbar.LENGTH_LONG)
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
                         })
@@ -165,6 +170,9 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(1,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -187,6 +195,9 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(2,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -209,6 +220,33 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(3,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                builder.show();
+            }
+        });
+        timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                LayoutInflater li= getLayoutInflater();
+                final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
+                builder.setView(rootTag)
+                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateDatabaseRow(4,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -221,27 +259,13 @@ public class AutomobileActivity extends AppCompatActivity {
             }
         });
 
-        recalculateButton = (Button)findViewById(R.id.recalculateButton);
-        recalculateButton.setBackgroundColor(Color.parseColor("#540000"));
-        recalculateButton.setTextColor(Color.WHITE);
-        recalculateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //Snackbar.make(view, "Testing snack", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
-                averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
-                totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
-                totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
-            }
-        });
-        averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
-        totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
-        averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
-        totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
+        setAveragesStartTask();
 
         parentView = findViewById(R.id.toolBarContent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
     }
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
@@ -252,9 +276,12 @@ public class AutomobileActivity extends AppCompatActivity {
         }else if(columnValue == 2){ //price
             autoPrice = adjustedString;
             priceArray.set(position, autoPrice);
-        }else{ //mileage
+        }else if (columnValue == 3){ //mileage
             autoMileage = adjustedString;
             mileageArray.set(position, autoMileage);
+        }else{
+            autoTime = adjustedString;
+            timeArray.set(position, autoTime);
         }
         db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -267,7 +294,7 @@ public class AutomobileActivity extends AppCompatActivity {
         litresAdapter.notifyDataSetChanged();
         priceAdapter.notifyDataSetChanged();
         mileageAdapter.notifyDataSetChanged();
-
+        timeAdapter.notifyDataSetChanged();
 
     }
 
@@ -324,28 +351,6 @@ public class AutomobileActivity extends AppCompatActivity {
         timeAdapter.notifyDataSetChanged();
     }
 
-    private float calculateAverageGasPrice(){
-        float avgGas = 0;
-        for(int i = 0; i < priceArray.size(); i++){
-            avgGas += Float.parseFloat(priceArray.get(i));
-        }
-        avgGas = avgGas / priceArray.size();
-        DecimalFormat df = new DecimalFormat("###.##");
-        avgGas = Float.parseFloat(df.format(avgGas));
-
-        setProgressBar();
-
-        return avgGas;
-}
-
-    private float calculateTotalLitres(){
-        float totalLitres = 0;
-        for(int i = 0; i < litresArray.size(); i++){
-            totalLitres += Float.parseFloat(litresArray.get(i));
-        }
-        return totalLitres;
-    }
-
     public boolean onCreateOptionsMenu(Menu m){
         getMenuInflater().inflate(R.menu.toolbar_menu, m);
         return true;
@@ -370,7 +375,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 builder = new AlertDialog.Builder(this);
                 String s1 = "Create an entry by clicking the 'ADD ENTRY' button. ";
                 String s2 = "Total litres and the average gas price for the last month is displayed at the bottom the screen. ";
-                String s3 = "After adding a new entry you wish to recalculate the bottom values click the 'Recalculate' button. ";
+                String s3 = "After adding a new entry averages and totals are automatically recalculated. ";
                 String s4 = "Items except for the time the data was entered can be edited by clicking on an item in the table";
                 builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -386,20 +391,99 @@ public class AutomobileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setProgressBar(){
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        int prog = 0;
-        if(timeArray.size() <= 10){
-            prog = 5;
-        }else if(timeArray.size() > 10 && timeArray.size() < 21){
-            prog = 33;
-        }else if(timeArray.size() > 20 && timeArray.size() <= 30) {
-            prog = 66;
-        }else{
-            prog=100;
-        }
-        progressBar.setProgress(prog);
+    private void setAveragesStartTask(){
+        Log.i(ACTIVITY_NAME, "Starting TASK and setting AVERAGES");
+        task = new AutoTask();
+        task.execute();
+
     }
+
+    private class AutoTask extends AsyncTask<String, Integer, String>{
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar = (ProgressBar)findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(values[0]);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            Log.i(ACTIVITY_NAME, "DOINBACKGROUND");
+//            String todaysDate = DateFormat.getDateTimeInstance().format(new Date());
+//            if(todaysDate.substring(5,6).equals(",")){
+//                todaysDate = todaysDate.substring(0,5) + " ";
+//            }
+//            todaysDate = todaysDate.substring(0, 6);
+//
+//            int j = 0;
+//            boolean isThisMonth = true;
+//            totalLitres = 0;
+//            while(j < timeArray.size() - 1 && isThisMonth == true){
+//
+//                if(timeArray.get(j).substring(4,6).equals(todaysDate.substring(4,6))){
+//                    //its the same DATE
+//                    Log.i(ACTIVITY_NAME, "ARRAY DATE: " + timeArray.get(j).substring(4,6) + " TODAYS DATE: " + todaysDate.substring(4,6));
+//                    Log.i(ACTIVITY_NAME, "DEBUG - The Dates Match");
+//                    if (timeArray.get(j).equals(todaysDate)) {
+//                        Log.i(ACTIVITY_NAME, "DEBUG - Its just todays date");
+//                        totalLitres += Float.parseFloat(litresArray.get(j));
+//                    }else{
+//                        Log.i(ACTIVITY_NAME, "reached last month");
+//                       isThisMonth = false;
+//                    }
+//
+//                }else{
+//                    //its just a date
+//
+//
+//                }
+//                //check if its just todays date
+//
+//
+//            }
+
+            //-------------------------------------
+
+            publishProgress(25);
+
+            totalLitres = 0;
+            avgGas = 0;
+            for(int i = 0; i < priceArray.size(); i++){
+                avgGas += Float.parseFloat(priceArray.get(i));
+            }
+            publishProgress(50);
+
+            avgGas = avgGas / priceArray.size();
+            DecimalFormat df = new DecimalFormat("###.##");
+            avgGas = Float.parseFloat(df.format(avgGas));
+            publishProgress(75);
+
+
+            for(int i = 0; i < litresArray.size(); i++){
+                totalLitres += Float.parseFloat(litresArray.get(i));
+            }
+
+            publishProgress(100);
+            return null;
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.INVISIBLE);
+            Log.i(ACTIVITY_NAME, "OnPostExecute!!!");
+            averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
+            totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased); // wondering if these will work
+            averageGasPriceTextView.setText("$" + avgGas);
+            totalLitresPurchasedTextView.setText("" + totalLitres + " Litres");
+        }
+
+    }
+
 
     private class LitresAdapter extends ArrayAdapter<String> {
 
@@ -416,7 +500,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
@@ -450,7 +533,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
@@ -484,7 +566,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
@@ -518,7 +599,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);

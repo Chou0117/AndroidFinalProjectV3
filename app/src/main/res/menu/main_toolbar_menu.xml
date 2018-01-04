@@ -6,38 +6,24 @@
         android:title="Activity Activity"
         android:icon="@drawable/activity"
         android:orderInCategory="101"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item android:id="@+id/FoodAct"
         android:title="Food Activity"
         android:icon="@drawable/food"
         android:orderInCategory="102"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item android:id="@+id/ThermoAct"
         android:title="Thermo Activity"
         android:icon="@drawable/thermo"
         android:orderInCategory="103"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item android:id="@+id/AutoAct"
         android:title="Auto Activity"
         android:icon="@drawable/auto"
         android:orderInCategory="104"
-        app:showAsAction="never" />
-
-    <item android:id="@+id/info"
-        android:title="info"
-        android:icon="@drawable/info"
-        android:orderInCategory="101"
         app:showAsAction="always" />
-
-
-    <item android:id="@+id/help"
-        android:title="info"
-        android:icon="@drawable/help"
-        android:orderInCategory="102"
-        app:showAsAction="always" />
-
 
 </menu>

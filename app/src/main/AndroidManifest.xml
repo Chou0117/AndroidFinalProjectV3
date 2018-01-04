@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.antho.android_final">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,16 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".FoodActivity" />
-        <activity android:name=".AutomobileActivity"/>
+        <activity android:name=".AutomobileActivity" />
         <activity android:name=".ThermostatActivity" />
         <activity android:name=".ThermostatDetails" />
         <activity android:name=".ActivityActivity" />
         <activity android:name=".Activity_NewRecord" />
         <activity android:name=".Activity_PastRecord" />
-        <activity android:name=".Activity_PersonalStatistics" />
         <activity android:name=".FoodDetail" />
+        <activity android:name=".Activity_MessageDetails"></activity>
     </application>
 
 </manifest>

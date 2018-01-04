@@ -10,10 +10,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/activity_textView"
-        android:textSize="24sp"
         android:layout_centerHorizontal="true"
-        />
+        android:text="@string/activity_textView"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/activity_Message_1"
@@ -34,21 +33,14 @@
         android:layout_marginTop="20dp"
         android:text="@string/activity_Message_2" />
 
-    <TextView
-        android:id="@+id/activity_Message_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/activity_Message_3"  />
 
     <Button
         android:id="@+id/activity_Button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/activity_Button3"
         android:layout_below="@+id/activity_Message_1"
-        android:text="@string/activity_Button_1"  />
+        android:layout_centerHorizontal="true"
+        android:text="@string/activity_Button_1" />
 
     <Button
         android:id="@+id/activity_Button2"
@@ -59,34 +51,130 @@
         android:layout_marginBottom="38dp"
         android:text="@string/activity_Button_2" />
 
-    <Button
-        android:id="@+id/activity_Button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_Message_3"
-        android:layout_centerHorizontal="true"
-        android:text="@string/activity_Button_3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_Button2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/statDesc1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Running Workouts: " />
+
+            <TextView
+                android:id="@+id/stat1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-    <!--<Button-->
-    <!--android:id="@+id/activity_button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--tools:layout_editor_absoluteX="148dp"-->
-    <!--tools:layout_editor_absoluteY="0dp" />-->
+            <TextView
+                android:id="@+id/statDesc2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Walking Workouts: "
+                />
 
-    <!--<ListView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/activity_listView"/>-->
+            <TextView
+                android:id="@+id/stat2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
-    <!--<EditText-->
-    <!--android:id="@+id/activity_editText"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:inputType="text"-->
-    <!--tools:layout_editor_absoluteX="182dp"-->
-    <!--tools:layout_editor_absoluteY="66dp" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/statDesc3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Swimming Workouts: " />
+
+            <TextView
+                android:id="@+id/stat3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/statDesc4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Biking Workouts: " />
+
+            <TextView
+                android:id="@+id/stat4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/statDesc5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skating Workouts: " />
+
+            <TextView
+                android:id="@+id/stat5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/statDesc6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Workouts: " />
+
+            <TextView
+                android:id="@+id/stat6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </RelativeLayout>
