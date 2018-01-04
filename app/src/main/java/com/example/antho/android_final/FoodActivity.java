@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import java.util.Calendar;
 
 public class FoodActivity extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "FoodActivity";
+    RelativeLayout root;
     //Frame
     public static boolean mTwoPane;
     //Input Edit Text
@@ -81,6 +83,7 @@ public class FoodActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setTitle(R.string.foodActivityTitle);
         setContentView(R.layout.activity_food);
+        root = findViewById(R.id.foodRootLayout);
 
 
         if (findViewById(R.id.tabletFrame) != null) {
@@ -112,9 +115,6 @@ public class FoodActivity extends AppCompatActivity {
         foodAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Snackbar.make(view, getString(R.string.foodSnackMsg), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 li = getLayoutInflater();
                 rootTag = (LinearLayout) li.inflate(R.layout.food_input, null);
                 builder1 = new AlertDialog.Builder(FoodActivity.this);
@@ -359,16 +359,15 @@ public class FoodActivity extends AppCompatActivity {
             result = inflater.inflate(R.layout.food_item_row, null);
 
             TextView foodItem = result.findViewById(R.id.food_item_info_text);
-            foodItem.setText(getItem(position, 2));
-
             TextView calItem = result.findViewById(R.id.cal_item_info_text);
-            calItem.setText(getItem(position, 3));
             TextView fatItem = result.findViewById(R.id.fat_item_info_text);
-            fatItem.setText(getItem(position, 4));
             TextView carItem = result.findViewById(R.id.car_item_info_text);
-            carItem.setText(getItem(position, 5));
-
             TextView time = result.findViewById(R.id.food_item_time);
+            
+            foodItem.setText(getItem(position, 2));
+            calItem.setText(getItem(position, 3));
+            fatItem.setText(getItem(position, 4));
+            carItem.setText(getItem(position, 5));
             time.setText(getItem(position, 6));
 
             return result;
@@ -431,8 +430,8 @@ public class FoodActivity extends AppCompatActivity {
                 break;
 
             case R.id.info:
-                Toast toast = Toast.makeText(FoodActivity.this, R.string.foodToolbarAuthorMsg, Toast.LENGTH_LONG);
-                toast.show();
+
+                Snackbar.make(root,R.string.foodToolbarAuthorMsg,Snackbar.LENGTH_LONG).show();
                 break;
 
             case R.id.help:

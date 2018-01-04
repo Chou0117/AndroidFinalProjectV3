@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +21,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -301,7 +302,7 @@ public class FoodFragment extends Fragment {
                                     Log.i(className, "BitmapFactory DecodeStream");
                                     BitmapFactory.Options bounds = new BitmapFactory.Options();
                                     bounds.inJustDecodeBounds = false;
-                                    bounds.inSampleSize = 16;
+                                    bounds.inSampleSize = 4;
                                     Bitmap image = BitmapFactory.decodeStream(imageInput, null, bounds);
 
                                     Log.i(className, "finished Input Stream");
