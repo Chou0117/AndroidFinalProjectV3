@@ -5,17 +5,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,17 +25,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
-import static com.example.antho.android_final.ThermostatDatabaseHelper.KEY_ID;
 
 public class ThermostatActivity extends AppCompatActivity {
 
@@ -67,7 +58,7 @@ public class ThermostatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTitle("House Thermostat");
+        setTitle(R.string.thermostatTitle);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thermostat);
 
@@ -169,8 +160,25 @@ public class ThermostatActivity extends AppCompatActivity {
         int id = item.getItemId();
         AlertDialog.Builder builder = null;
 
+        Intent intent;
+        switch (id) {
+
+            case R.id.ActivityAct:
+                intent = new Intent(ThermostatActivity.this, ActivityActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.FoodAct:
+                intent = new Intent(ThermostatActivity.this, FoodActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.AutoAct:
+                intent = new Intent(ThermostatActivity.this, AutomobileActivity.class);
+                startActivity(intent);
+                break;
+        }
+
         if (id == R.id.about) {
-            Toast.makeText(ThermostatActivity.this, "House Thermostat." + "\n" + "Version 1.3" + "\n" + "By: Cameron O'Connor", Toast.LENGTH_LONG).show();
+            Toast.makeText(ThermostatActivity.this, getString(R.string.thermostatTitle) + "\n" + getString(R.string.thermostatVersion) + "\n" + getString(R.string.thermostatCreator), Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -178,10 +186,10 @@ public class ThermostatActivity extends AppCompatActivity {
             Log.d("Toolbar", "instructions");
 
             builder = new AlertDialog.Builder(this);
-            String s1 = "Instructions for House Thermostat.";
-            String s2 = "To add a new schedule for the thermostat, click on the plus sign on the toolbar. ";
-            String s3 = "You can edit existing schedules by clicking on them. ";
-            String s4 = "You may also save new schedules directly from existing ones. ";
+            String s1 = getString(R.string.thermoString1);
+            String s2 = getString(R.string.thermoString2);
+            String s3 = getString(R.string.thermoString3);
+            String s4 = getString(R.string.thermoString4);
             builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                 }
@@ -202,7 +210,7 @@ public class ThermostatActivity extends AppCompatActivity {
             final EditText etEnteredTemp = (EditText) rootTag.findViewById(R.id.thermostatTempature);
             builder = new AlertDialog.Builder(ThermostatActivity.this);
             builder.setView(rootTag)
-                    .setPositiveButton("Save Schedule", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.thermobutton_schedule), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             inputDay = etEnteredDay.getSelectedItem().toString();
@@ -221,15 +229,15 @@ public class ThermostatActivity extends AppCompatActivity {
                             write.execute();
 
                             if (findViewById(R.id.tabletFrame) == null) {
-                                Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout), "Successfully added!", Snackbar.LENGTH_SHORT);
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout), getString(R.string.thermoSuccess), Snackbar.LENGTH_SHORT);
                                 snackbar.show();
                             } else {
-                                Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout600), "Successfully added!", Snackbar.LENGTH_SHORT);
+                                Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout600), getString(R.string.thermoSuccess), Snackbar.LENGTH_SHORT);
                                 snackbar.show();
                             }
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.thermobutton_Cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             return;
@@ -241,6 +249,7 @@ public class ThermostatActivity extends AppCompatActivity {
             thermostatList.setAdapter(informationAdapter);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -296,7 +305,7 @@ public class ThermostatActivity extends AppCompatActivity {
             result = inflater.inflate(R.layout.thermostat_item_row, null);
 
             TextView Day = result.findViewById(R.id.thermostat_day);
-            Day.setText("Date: " + getItemDay(position) + "  ");
+            Day.setText(getString(R.string.thermoDate) + " " + getItemDay(position) + "  ");
 
             TextView Time = result.findViewById(R.id.thermostat_time);
             Time.setText(getItemTime(position));
@@ -309,7 +318,7 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
     public void updateListView(){
-        Log.i("Hello3.0", "Lewis's method");
+        Log.i("updateListView", "Inside the updateListView");
         recreate();
     }
 
