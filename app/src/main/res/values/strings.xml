@@ -8,12 +8,10 @@
     <string name="activity_textView">Welcome to the Activity Tracker</string>
     <string name="activity_Message_1">Click here to input a new activity</string>
     <string name="activity_Message_2">Click here to see past activity records</string>
-    <string name="activity_Message_3">Click here to see your personal statistics</string>
     <string name="activity_Button_1">New Activity Record</string>
     <string name="activity_Button_2">Past Activities</string>
-    <string name="activity_Button_3">Personal Statistics</string>
     <string name="activity_newRecordInitial">Please choose from one of the 5 activities. Enter the time spent on that activity. And add any comments you wish to make regarding your activity</string>
-    <string name="activity_time">Time spent:</string>
+    <string name="activity_time">Time spent in minutes (Only numeric values):</string>
     <string name="activity_Comments">Comments:</string>
     <string name="activity_RadioButton1">Running</string>
     <string name="activity_RadioButton2">Walking</string>
@@ -21,6 +19,34 @@
     <string name="activity_RadioButton4">Swimming</string>
     <string name="activity_RadioButton5">Skating</string>
     <string name="activity_SubmitButton">Submit Activity</string>
+    <string name="activity_menuStat1">Time per Month:</string>
+    <string name="activity_menuStat2">Time this Month:</string>
+    <string name="activity_menuStat3">Running Activities:</string>
+    <string name="activity_menuStat4">Walking Activities:</string>
+    <string name="activity_menuStat5">Biking Activities:</string>
+    <string name="activity_menuStat6">Skating Activities:</string>
+    <string name="activity_menuStat7">Swimming Activities:</string>
+    <string name="activity_menuStat8">Total Activities:</string>
+    <string name="activity_typeView">Type:</string>
+    <string name="activity_timeView">Time:</string>
+    <string name="activity_commentView">Comments:</string>
+    <string name="activity_timeStampView">Date and Time: </string>
+    <string name="activity_edit">EDIT</string>
+    <string name="activity_delete">DELETE</string>
+    <string name="activity_save">SAVE</string>
+    <string name="activity_details1">Activity Tracker.</string>
+    <string name="activity_details2">Version 1.3</string>
+    <string name="activity_details3">By: Anthony Geleynse</string>
+    <string name="activity_help1">Instructions for Activity Tracker."</string>
+    <string name="activity_help2">To add a new Activity click on the \'New Activity\' button. You can then choose your options and save your activity. </string>
+    <string name="activity_help3">If you click on the Past Activities button you can see all past activities and by clicking on them you can either edit or delete them. </string>
+    <string name="activity_help4">You can see your overall statistic here on the HomePage </string>
+    <string name="activity_toast1">Database entry successful</string>
+    <string name="activity_toast2">Incorrect entry type. Only use numeric values for time</string>
+    <string name="activity_snackbar">Successfully Added!</string>
+
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
