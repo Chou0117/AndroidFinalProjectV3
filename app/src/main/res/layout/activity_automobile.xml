@@ -139,7 +139,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/autoRed">
 
         <fragment
             android:name="com.example.antho.android_final.Auto_Fragment"

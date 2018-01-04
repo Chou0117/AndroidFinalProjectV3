@@ -5,6 +5,43 @@
     <string name="action_settings">Settings</string>
     <string name="foodRowDescription">Food Row</string>
 
+    <!--Cameron's Strings-->
+    <string name="thermostatTitle">Thermostat de maison</string>
+    <string name="thermostatVersion">Version 2.6.1</string>
+    <string name="thermostatCreator">Par: Cameron OConnor</string>
+    <string name="thermoString1">Instructions pour le thermostat domestique.</string>
+    <string name="thermoString2">Pour ajouter un nouveau calendrier pour le thermostat, cliquez sur le signe plus dans la barre doutils. </string>
+    <string name="thermoString3">Vous pouvez modifier les horaires existants en cliquant dessus. </string>
+    <string name="thermoString4">Vous pouvez également enregistrer de nouvelles planifications directement à partir de celles existantes. </string>
+    <string name="thermosaveText">Sauvegarder</string>
+    <string name="thermoday_prompt">Choisissez un jour</string>
+    <string name="thermotemp_prompt">Température</string>
+    <string name="thermotemp_text">Température: </string>
+    <string name="thermotemp_text_celcius">Celcius</string>
+    <string name="thermoday_text">Jour de la semaine: </string>
+    <string name="thermobutton_delete">Effacer</string>
+    <string name="thermobutton_new_save_Text">Enregistrer nouvel horaire</string>
+    <string name="thermobutton_save">Sauvegarder</string>
+    <string name="thermobutton_schedule">Enregistrer lhoraire</string>
+    <string name="thermoSuccess">Ajouté avec succès!</string>
+    <string name="thermobutton_Cancel">Annuler</string>
+    <string name="thermoDate">La date:</string>
+    <string name="thermoCreatortext">Créateur</string>
+    <string name="thermoInstructionstext">Instructions</string>
+    <string name="thermoAddtext">Ajouter</string>
+    <string name="thermoActivitytext">Activité Activité</string>
+    <string name="thermoFoodtext">Activité alimentaire</string>
+    <string name="thermoAutotext">Activité automobile</string>
+    <string-array name="thermoday_week">
+        <item>Lundi</item>
+        <item>Mardi</item>
+        <item>Mercredi</item>
+        <item>Jeudi</item>
+        <item>Vendredi</item>
+        <item>Samedi</item>
+        <item>Dimanche</item>
+    </string-array>
+
     <!--Tony Strings-->
     <string name="activity_Message_1">Cliquez ici pour entrer une nouvelle activité</string>
     <string name="activity_Message_2">Cliquez ici pour voir les enregistrements d\'activité passés</string>
@@ -54,6 +91,55 @@
     <string name="autoRecalculateButton">Recalculer</string>
     <string name="autoAvgGas">Gaz moyen pour le mois dernier: </string>
     <string name="autoTotalLitres">Total de gaz acheté le mois dernier: </string>
+
+    <string name="autoConfirmEntry">Confirmer l\'entrée</string>
+    <string name="autoCancel">Annuler</string>
+    <string name="autoHelpOne">Créez une entrée en cliquant sur le bouton AJOUTER ENTRÉE.</string>
+    <string name="autoHelpTwo">Le total des litres et le prix moyen du gaz pour le dernier mois sont affichés en bas de l\'écran.</string>
+    <string name="autoHelpThree">Après avoir ajouté une nouvelle entrée, les moyennes et les totaux sont automatiquement recalculés.</string>
+    <string name="autoHelpFour">Les éléments sauf le moment où les données ont été entrées peuvent être modifiés en cliquant sur un élément dans le tableau</string>
+    <string name="autoRecalculateSnack">Recalculer les rapports...</string>
+    <string name="autoAbout">Activity 4(Automobile) v1.0 a été créé par Lewis Rannells</string>
+
+
+    <!--Johnny Strings-->
+
+    <string name="foodActivityTitle">Suivi des aliments</string>
+    <string name="foodActivityAddButton">Ajouter</string>
+    <string name="foodActivityCancelButton">Annuler</string>
+    <string name="foodActivityAddGreetingMsg">Qu\'avez-vous mangé, mon ami?</string>
+    <string name="foodActivityAddSuccessMsg">Je l\'ai</string>
+    <string name="foodActivityLabelYT">Calories d\'hier: </string>
+    <string name="foodActivityLabelEA">Calories quotidiennes AVG: </string>
+    <string name="foodActivityLabelTT">Calories d\'aujourd\'hui: </string>
+
+    <string name="foodFragmentDate">Date </string>
+    <string name="foodFragmentName">Nom  </string>
+    <string name="foodFragmentCalorie">Calorie  </string>
+    <string name="foodFragmentFat">Graisse </string>
+    <string name="foodFragmentCarbohydrate">Glucides  </string>
+    <string name="foodFragmentDeleteButton">Effacer l\'article</string>
+    <string name="foodFragmentEditButton">Modifier l\'article</string>
+
+    <string name="foodItemRowCal">Cal:</string>
+    <string name="foodItemRowFat">Fat:</string>
+    <string name="foodItemRowCar">Car:</string>
+
+    <string name="foodInputFood">Aliments</string>
+    <string name="foodInputCalorie">Calories (g)</string>
+    <string name="foodInputFat">Graisse (g)</string>
+    <string name="foodInputCarbohydrate">Glucides (g)</string>
+
+    <string name="foodToolbarAuthor">Auteur</string>
+    <string name="foodToolbarHelp">Aide</string>
+    <string name="foodToolbarAuthorMsg">Activité 2 (Food Tracker) créé par Hsing-Cheng (Johnny) Chou</string>
+
+    <string name="foodOKButton">D\'accord</string>
+    <string name="foodToolbarInstructionMsg1">Bienvenue sur Nutrition Tracker!</string>
+    <string name="foodToolbarInstructionMsg2">Appuyez sur Ajouter pour ajouter un aliment. Merci de ne laisser aucun espace.</string>
+    <string name="foodToolbarInstructionMsg3">Cliquez sur l\'élément pour supprimer, modifier et afficher l\'image!</string>
+    <string name="foodToolbarInstructionMsg4">Chaque événement Add, Delete, Edit mettra à jour les numéros de statistiques</string>
+
 
 
 
