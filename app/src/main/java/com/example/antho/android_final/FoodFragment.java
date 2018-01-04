@@ -302,7 +302,7 @@ public class FoodFragment extends Fragment {
                                     Log.i(className, "BitmapFactory DecodeStream");
                                     BitmapFactory.Options bounds = new BitmapFactory.Options();
                                     bounds.inJustDecodeBounds = false;
-                                    bounds.inSampleSize = 4;
+                                    bounds.inSampleSize = 2;
                                     Bitmap image = BitmapFactory.decodeStream(imageInput, null, bounds);
 
                                     Log.i(className, "finished Input Stream");

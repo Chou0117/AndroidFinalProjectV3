@@ -63,7 +63,7 @@
 
     <!--Johnny Strings-->
 
-    <string name="foodActivityTitle">Food Tracker</string>
+       <string name="foodActivityTitle">Food Tracker</string>
     <string name="foodActivityAddButton">Add</string>
     <string name="foodActivityCancelButton">Cancel</string>
     <string name="foodActivityAddGreetingMsg">What did you eat, my friend?</string>
@@ -71,7 +71,6 @@
     <string name="foodActivityLabelYT">Yesterday\'s Calories: </string>
     <string name="foodActivityLabelEA">Everyday Calories AVG: </string>
     <string name="foodActivityLabelTT">Today\'s Total: </string>
-
 
     <string name="foodFragmentDate">Date  </string>
     <string name="foodFragmentName">Name  </string>

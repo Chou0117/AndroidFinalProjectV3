@@ -363,7 +363,7 @@ public class FoodActivity extends AppCompatActivity {
             TextView fatItem = result.findViewById(R.id.fat_item_info_text);
             TextView carItem = result.findViewById(R.id.car_item_info_text);
             TextView time = result.findViewById(R.id.food_item_time);
-            
+
             foodItem.setText(getItem(position, 2));
             calItem.setText(getItem(position, 3));
             fatItem.setText(getItem(position, 4));
