@@ -38,24 +38,24 @@ import java.util.Locale;
 //GENERAL REQUIREMENTS
 //*A Fragment
 //*Listview to present items;
-// clicking shows item details
+//*clicking shows item details
 //*Items in the listview must be stored, adding and deletion of items
 //*An Asynctask(open a database/retrieve data/save data)
-//Progressbar
+//*Progressbar
 //*Button
 //*EditText and an associated text input method
 //*Toast,
 //*Snackbar,
 //*custom dialog notification
 //*Help menu that shows author, activity number and interface instructions
-//alternate language
+//*alternate language
 
 //ACTIVITY REQUIREMENTS
 //*User is able to select LITRES, PRICE, KILOMETRES
 //*entries displayed in a listview
 //*database stores the time the information was recorded
-//app should provide AVERAGE GAS PRICE for last month
-//how much gas was purchased LAST MONTH
+//*app should provide AVERAGE GAS PRICE for last month
+//*how much gas was purchased LAST MONTH
 //AVERAGE GAS PER MONTH(?)
 
 
