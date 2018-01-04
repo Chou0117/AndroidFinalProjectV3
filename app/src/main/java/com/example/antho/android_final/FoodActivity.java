@@ -112,6 +112,9 @@ public class FoodActivity extends AppCompatActivity {
         foodAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Snackbar.make(view, getString(R.string.foodSnackMsg), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 li = getLayoutInflater();
                 rootTag = (LinearLayout) li.inflate(R.layout.food_input, null);
                 builder1 = new AlertDialog.Builder(FoodActivity.this);
@@ -128,14 +131,25 @@ public class FoodActivity extends AppCompatActivity {
                                 String foodName = foodEditText.getText().toString();
 
                                 calorieIn = rootTag.findViewById(R.id.calories);
-                                int calorie = Integer.parseInt(calorieIn.getText().toString());
+                                int calorie;
+                                if(!calorieIn.getText().toString().equals(""))
+                                    calorie = Integer.parseInt(calorieIn.getText().toString());
+                                else
+                                    calorie = 0;
 
                                 fatIn = rootTag.findViewById(R.id.fat);
-                                int fat = Integer.parseInt(fatIn.getText().toString());
+                                int fat;
+                                if(!fatIn.getText().toString().equals(""))
+                                    fat = Integer.parseInt(fatIn.getText().toString());
+                                else
+                                    fat = 0;
 
                                 carbohydrateIn = rootTag.findViewById(R.id.carbohydrate);
-                                int carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
-
+                                int carbohydrate;
+                                if(!carbohydrateIn.getText().toString().equals(""))
+                                    carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
+                                else
+                                    carbohydrate = 0;
                                 datePicker = rootTag.findViewById(R.id.datePicker);
 
                                 int year = datePicker.getYear();
@@ -173,7 +187,7 @@ public class FoodActivity extends AppCompatActivity {
                                 values.put(tempDBH.Column_Names[6], date);
                                 db.insert(tempDBH.FOOD_TABLE, null, values);
 
-                                String query = "SELECT * FROM " + tempDBH.FOOD_TABLE + " order by "+tempDBH.Column_Names[6] + " DESC;" ;
+                                String query = "SELECT * FROM " + tempDBH.FOOD_TABLE + " order by " + tempDBH.Column_Names[6] + " DESC;";
                                 cursor = db.rawQuery(query, null);
 
                                 informationAdapter.notifyDataSetChanged();
@@ -223,7 +237,6 @@ public class FoodActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         updateStatistic();
     }
-
 
 
     public void updateStatistic() {
@@ -289,7 +302,7 @@ public class FoodActivity extends AppCompatActivity {
     //Item Deleting
     public void deleteItem(int i) {
         db.execSQL("delete from " + tempDBH.FOOD_TABLE + " where " + tempDBH.Column_Names[0] + " =" + i + ";");
-        if(mTwoPane) {
+        if (mTwoPane) {
             getFragmentManager().beginTransaction().remove(mf).commit();
             recreate();
         }
@@ -428,7 +441,7 @@ public class FoodActivity extends AppCompatActivity {
                 String c = getString(R.string.foodToolbarInstructionMsg3);
                 String d = getString(R.string.foodToolbarInstructionMsg4);
                 String l = "\n\n***********************************\n";
-                String instructionText = a + l + b + l + c + l + d +l;
+                String instructionText = a + l + b + l + c + l + d + l;
 
                 instruction = new AlertDialog.Builder(this);
                 instruction.setMessage(instructionText)

@@ -46,6 +46,7 @@
     <string name="foodActivityLabelEA">Everyday Calories AVG: </string>
     <string name="foodActivityLabelTT">Today\'s Total: </string>
 
+
     <string name="foodFragmentDate">Date  </string>
     <string name="foodFragmentName">Name  </string>
     <string name="foodFragmentCalorie">Calorie  </string>
@@ -58,12 +59,13 @@
     <string name="foodItemRowFat">Fat:</string>
     <string name="foodItemRowCar">Car:</string>
 
-
     <string name="foodInputFood">Food</string>
     <string name="foodInputCalorie">Calories (g)</string>
     <string name="foodInputFat">Fat (g)</string>
     <string name="foodInputCarbohydrate">Carbohydrate (g)</string>
 
+
+    <string name="foodSnackMsg">A doctor a day. Keep the apple away.</string>
     <string name="foodToolbarAuthor">Author</string>
     <string name="foodToolbarHelp">Help</string>
     <string name="foodToolbarAuthorMsg">Activity 2(Food Tracker) created by Hsing-Cheng (Johnny) Chou</string>
