@@ -2,7 +2,6 @@ package com.example.antho.android_final;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,13 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -46,7 +43,6 @@ import java.net.URL;
 
 import static android.graphics.BitmapFactory.decodeStream;
 import static com.example.antho.android_final.FoodActivity.mTwoPane;
-import static java.lang.String.join;
 
 public class FoodFragment extends Fragment {
     FoodActivity foodActivity;
@@ -111,7 +107,6 @@ public class FoodFragment extends Fragment {
                 int deleteRN = rid + 1;
                 getActivity().setResult(deleteRN, intent);
                 if (!mTwoPane) {
-                    foodActivity.updateStatistic();
                     getActivity().finish();
                 }else {
                     foodActivity.deleteItem(rid);
@@ -124,10 +119,6 @@ public class FoodFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 rid = Integer.parseInt(arg.getString("_ID"));
-                int editRN = -1 * (rid + 1);
-
-                Log.i("Result Code", "" + rid);
-                Log.i("Result Code", "" + editRN);
                 editBox(inflater);
             }
         });
@@ -143,7 +134,7 @@ public class FoodFragment extends Fragment {
     public void editBox(LayoutInflater inflater) {
 
         LayoutInflater li = inflater;
-        View rootTag = (LinearLayout) li.inflate(R.layout.food_input, null);
+        View rootTag = li.inflate(R.layout.food_input, null);
 
         foodEditText = rootTag.findViewById(R.id.foodEditText);
         foodEditText.setText(n);
@@ -154,7 +145,10 @@ public class FoodFragment extends Fragment {
         carbohydrateIn = rootTag.findViewById(R.id.carbohydrate);
         carbohydrateIn.setText(h);
         datePicker = rootTag.findViewById(R.id.datePicker);
+        datePicker.updateDate(Integer.parseInt(d.substring(0,4)), Integer.parseInt(d.substring(5,7))-1, Integer.parseInt(d.substring(8,10)));
         timePicker = rootTag.findViewById(R.id.timePicker);
+        timePicker.setCurrentHour(Integer.parseInt(d.substring(12,14)));
+        timePicker.setCurrentMinute(Integer.parseInt(d.substring(15,17)));
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setMessage(R.string.foodActivityAddGreetingMsg)
@@ -206,8 +200,6 @@ public class FoodFragment extends Fragment {
                         Toast t = Toast.makeText(getActivity().getApplicationContext(), R.string.foodActivityAddSuccessMsg, Toast.LENGTH_SHORT);
                         t.show();
                         if (!mTwoPane){
-
-                            foodActivity.updateStatistic();
                             getActivity().finish();
                         }
                         else {
@@ -332,8 +324,6 @@ public class FoodFragment extends Fragment {
                         }
                         eventType = parser.next();
                     }
-
-
                 } else {
                     Log.i(className, "File found! Load file!");
                     FileInputStream fis = null;
@@ -350,9 +340,7 @@ public class FoodFragment extends Fragment {
             } catch (IOException e) {
                 Log.i(className, "IO Error" + e.getMessage());
             }
-
             return null;
-
         }
 
 

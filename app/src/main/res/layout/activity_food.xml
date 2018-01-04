@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Yesterday's Calories: "/>
+            android:text="@string/foodActivityLabelYT"/>
 
         <TextView
             android:id="@+id/calorieslabelTotalYesterday"
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Everyday Calories AVG: "/>
+            android:text="@string/foodActivityLabelEA"/>
 
         <TextView
             android:id="@+id/caloriesAvg"
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Today's Total: "
+        android:text="@string/foodActivityLabelTT"
         android:layout_above="@+id/totalLabelLinearLayout"/>
 
     <LinearLayout
@@ -86,21 +86,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Calories" />
+            android:text="@string/foodInputCalorie" />
 
         <TextView
             android:id="@+id/foodLabelTotalFat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Fat" />
+            android:text="@string/foodInputFat" />
 
         <TextView
             android:id="@+id/foodLabelTotalCarbohydrate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Carbohydrate" />
+            android:text="@string/foodInputCarbohydrate" />
     </LinearLayout>
 
     <LinearLayout
