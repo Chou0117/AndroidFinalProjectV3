@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,29 +55,20 @@ public class Activity_NewRecord extends AppCompatActivity {
 
         pb = findViewById(R.id.progress_Bar);
         database = adh.getWritableDatabase();
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(this.toString(), "Reached onClick");
-//                ContentValues cv = new ContentValues();
-//                int selectedID = radioGroup.getCheckedRadioButtonId();
-//                radioButton = (RadioButton) findViewById(selectedID);
-//                cv.put("ACTIVITY_TYPE", radioButton.getText().toString());
-//                cv.put("ACTIVITY_TIME", et.getText().toString());
-//                cv.put("ACTIVITY_COMMENTS", et2.getText().toString());
-//                try{
-//                    database.insert(adh.TABLE_NAME, null, cv);
-//                }catch (Exception e){
-//                    Log.i(this.toString(), "Error inserting values in database");
-//                }
-//                aa.notifyDataSetChanged();
-//                et.setText("");
-//                et2.setText("");
-//                radioGroup.clearCheck();
-                WriteTask write = new WriteTask(ctx);
-                write.execute();
-                Toast toast = new Toast(ctx);
-                toast.makeText(ctx, "Database entry succesful", toast.LENGTH_LONG).show();
+
+                if (isInteger(et.getText().toString())){
+                    WriteTask write = new WriteTask(ctx);
+                    write.execute();
+                    Toast toast = new Toast(ctx);
+                    toast.makeText(ctx, R.string.activity_toast1, toast.LENGTH_LONG).show();
+                }else{
+                    Toast toast = new Toast(ctx);
+                    toast.makeText(ctx, R.string.activity_toast2, toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -101,17 +93,16 @@ public class Activity_NewRecord extends AppCompatActivity {
             ActivityDatabaseHelper dbHelper = new ActivityDatabaseHelper(getBaseContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             try{
-                Log.i(this.toString(), "Hey you got here! You might be doing things");
+
                 ContentValues cv = new ContentValues();
                 int selectedID = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedID);
                 cv.put("ACTIVITY_TYPE", radioButton.getText().toString());
                 publishProgress(25);
-                cv.put("ACTIVITY_TIME", et.getText().toString());
+                cv.put("ACTIVITY_TIME", Integer.parseInt(et.getText().toString()));
                 publishProgress(50);
                 cv.put("ACTIVITY_COMMENTS", et2.getText().toString());
                 publishProgress(75);
-                Log.i(this.toString(), "Did you just finish doing things? Wow!");
                 try{
                     database.insert(adh.TABLE_NAME, null, cv);
                     publishProgress(100);
@@ -130,8 +121,24 @@ public class Activity_NewRecord extends AppCompatActivity {
             pb.setVisibility(View.VISIBLE);
         }
 
+
+        protected void onPostExectue(){
+            pb.setVisibility(View.INVISIBLE);
+        }
+
     }
 
 
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
 
 }
