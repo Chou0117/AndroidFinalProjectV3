@@ -68,7 +68,6 @@ public class FoodFragment extends Fragment {
     FoodDatabaseHelper tempDBH;
     SQLiteDatabase db;
 
-
     public FoodFragment() {
 
     }
@@ -111,9 +110,10 @@ public class FoodFragment extends Fragment {
                 rid = Integer.parseInt(arg.getString("_ID"));
                 int deleteRN = rid + 1;
                 getActivity().setResult(deleteRN, intent);
-                if (!mTwoPane)
+                if (!mTwoPane) {
+                    foodActivity.updateStatistic();
                     getActivity().finish();
-                else {
+                }else {
                     foodActivity.deleteItem(rid);
                 }
             }
@@ -171,6 +171,9 @@ public class FoodFragment extends Fragment {
                         int fat = Integer.parseInt(fatIn.getText().toString());
                         int carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
 
+                        int year = datePicker.getYear();
+                        String y = "" + year;
+
                         int month = datePicker.getMonth() + 1;
                         String m = "" + month;
                         if (month < 10) m = "0" + month;
@@ -187,7 +190,7 @@ public class FoodFragment extends Fragment {
                         String mi = "" + minutes;
                         if (minutes < 10) mi = "0" + minutes;
 
-                        String date = m + "/" + d + "  " + h + ":" + mi;
+                        String date = y + "-" + m + "-" + d + "  " + h + ":" + mi;
 
                         ContentValues values = new ContentValues();
                         tempDBH = new FoodDatabaseHelper(getActivity().getApplicationContext());
@@ -202,9 +205,13 @@ public class FoodFragment extends Fragment {
 
                         Toast t = Toast.makeText(getActivity().getApplicationContext(), R.string.foodActivityAddSuccessMsg, Toast.LENGTH_SHORT);
                         t.show();
-                        if (!mTwoPane) getActivity().finish();
+                        if (!mTwoPane){
+
+                            foodActivity.updateStatistic();
+                            getActivity().finish();
+                        }
                         else {
-                            foodActivity.editItem(rid);
+                            foodActivity.editItem();
                         }
                     }
                 });
@@ -286,12 +293,11 @@ public class FoodFragment extends Fragment {
                                     URL imageURL = new URL(urlImage);
                                     HttpURLConnection connection = (HttpURLConnection) imageURL.openConnection();
                                     connection.setReadTimeout(10000);
-                                    connection.setConnectTimeout(30000);
+                                    connection.setConnectTimeout(15000);
                                     connection.setRequestMethod("GET");
                                     connection.setDoInput(true);
 
                                     Log.i(className, "Before Connection 2");
-//                                    connection.connect();
 
                                     publishProgress(80);
                                     Log.i(className, "Connection 2 start");
@@ -299,16 +305,6 @@ public class FoodFragment extends Fragment {
                                     Log.i(className, "Start Input Stream");
 
                                     InputStream imageInput = new BufferedInputStream(connection.getInputStream());
-//                                    InputStream imageInput = new BufferedInputStream(connection.getInputStream());
-//                                    BitmapFactory.Options opts = new BitmapFactory.Options();
-//                                    int width = opts.outWidth;
-//                                    int height = opts.outHeight;
-//                                    int largerSide = Math.max(width, height);
-//                                    opts.inJustDecodeBounds = false; // This time it's for real!
-//                                    int sampleSize = 50; // Calculate your sampleSize here
-//                                    opts.inSampleSize = sampleSize;
-//                                    Log.i(className, "BitmapFactory DecodeStream");
-//                                    Bitmap image = BitmapFactory.decodeStream(imageInput,null,opts);
 
                                     Log.i(className, "BitmapFactory DecodeStream");
                                     BitmapFactory.Options bounds = new BitmapFactory.Options();
@@ -334,14 +330,6 @@ public class FoodFragment extends Fragment {
                                 }
                             }
                         }
-
-
-//                        String test = "/head";
-//                        if (test.equals(parser.getName()))
-//                        {
-//                            currentFood = BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.picnotfound);
-//                            break;
-//                        }
                         eventType = parser.next();
                     }
 
