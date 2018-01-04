@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,20 +25,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +79,8 @@ public class FoodActivity extends AppCompatActivity {
     private EditText calorieIn;
     private EditText fatIn;
     private EditText carbohydrateIn;
+    DatePicker datePicker;
+    TimePicker timePicker;
     //Add Item Button
     private Button foodAddButton;
     //Array for inputs
@@ -81,7 +101,11 @@ public class FoodActivity extends AppCompatActivity {
     LayoutInflater li;
     AlertDialog.Builder builder1;
 
+    FoodActivity fa = this;
+    FoodFragment mf;
+    Bundle arg;
     Long iD;
+    int rid;
 
 
     @Override
@@ -136,6 +160,10 @@ public class FoodActivity extends AppCompatActivity {
                 builder1 = new AlertDialog.Builder(FoodActivity.this);
                 builder1.setMessage(R.string.foodActivityAddGreetingMsg)
                         .setView(rootTag)
+                        .setNegativeButton(R.string.foodActivityCancelButton, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        })
                         .setPositiveButton(R.string.foodActivityAddButton, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 //                                String foodType = foodTypeDropdown.getSelectedItem().toString();
@@ -152,24 +180,24 @@ public class FoodActivity extends AppCompatActivity {
                                 carbohydrateIn = rootTag.findViewById(R.id.carbohydrate);
                                 int carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
 
-                                DatePicker datePicker = rootTag.findViewById(R.id.datePicker);
+                                datePicker = rootTag.findViewById(R.id.datePicker);
                                 int month = datePicker.getMonth() + 1;
-                                String m = ""+month;
-                                if(month<10) m = "0"+month;
+                                String m = "" + month;
+                                if (month < 10) m = "0" + month;
 
                                 int day = datePicker.getDayOfMonth();
-                                String d = ""+day;
-                                if(day<10) d = "0"+day;
+                                String d = "" + day;
+                                if (day < 10) d = "0" + day;
 
-                                TimePicker timePicker = rootTag.findViewById(R.id.timePicker);
+                                timePicker = rootTag.findViewById(R.id.timePicker);
                                 int hour = timePicker.getCurrentHour();
-                                String h = ""+hour;
-                                if(hour<10) h = "0"+hour;
+                                String h = "" + hour;
+                                if (hour < 10) h = "0" + hour;
 
                                 int minutes = timePicker.getCurrentMinute();
-                                String mi = ""+minutes;
-                                if(minutes<10) mi = "0"+minutes;
-                                
+                                String mi = "" + minutes;
+                                if (minutes < 10) mi = "0" + minutes;
+
                                 String date = m + "/" + d + "  " + h + ":" + mi;
 
                                 foodInformation.add(foodName);
@@ -205,21 +233,23 @@ public class FoodActivity extends AppCompatActivity {
 
 
                 iD = id;
-                Bundle arg = new Bundle();
+                arg = new Bundle();
                 arg.putString(tempDBH.Column_Names[0], "" + id);
-                arg.putString(tempDBH.Column_Names[2],  informationAdapter.getItem(position,2));
-                arg.putString(tempDBH.Column_Names[3],  informationAdapter.getItem(position,3));
-                arg.putString(tempDBH.Column_Names[4],  informationAdapter.getItem(position,4));
-                arg.putString(tempDBH.Column_Names[5],  informationAdapter.getItem(position,5));
-                arg.putString(tempDBH.Column_Names[6],  informationAdapter.getItem(position,6));
+                arg.putString(tempDBH.Column_Names[2], informationAdapter.getItem(position, 2));
+                arg.putString(tempDBH.Column_Names[3], informationAdapter.getItem(position, 3));
+                arg.putString(tempDBH.Column_Names[4], informationAdapter.getItem(position, 4));
+                arg.putString(tempDBH.Column_Names[5], informationAdapter.getItem(position, 5));
+                arg.putString(tempDBH.Column_Names[6], informationAdapter.getItem(position, 6));
 
                 if (mTwoPane) {
-//
-//                    Log.i("Info", "Item Clicked in Tablet");
-//                    informationAdapter.setArguments(arg);
-//                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.tabletFrame, messageFragment);
-//                    transaction.commit();
+
+                    Log.i("Info", "Item Clicked in Tablet");
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    mf = new FoodFragment();
+                    mf.setParentActivity(fa);
+                    mf.setArguments(arg);
+                    transaction.replace(R.id.tabletFrame, mf);
+                    transaction.commit();
 
                 } else {
                     Log.i("Info", "Show this if using phone");
@@ -234,14 +264,35 @@ public class FoodActivity extends AppCompatActivity {
         /* Tool Bar */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     //Item Deleting
-    public void deleteItem() {
-        db.execSQL("delete from " + tempDBH.FOOD_TABLE + " where " + tempDBH.Column_Names[0] + " =" + Integer.parseInt(cursor.getString(0)) + ";");
-//        getFragmentManager().beginTransaction().remove(messageFragment).commit();
+    public void deleteItem(int i) {
+        db.execSQL("delete from " + tempDBH.FOOD_TABLE + " where " + tempDBH.Column_Names[0] + " =" + i + ";");
+        getFragmentManager().beginTransaction().remove(mf).commit();
         recreate();
+    }
+
+    //Item Editing
+    public void editItem(int position) {
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        FoodFragment mf2 = new FoodFragment();
+//        mf2.setParentActivity(fa);
+//        cursor = db.query(tempDBH.FOOD_TABLE, tempDBH.Column_Names,
+//                null, null, null, null, null, null);
+//        cursor.moveToPosition(position-1);
+//        arg.putString(tempDBH.Column_Names[2], cursor.getString(2));
+//        arg.putString(tempDBH.Column_Names[3], cursor.getString(3));
+//        arg.putString(tempDBH.Column_Names[4], cursor.getString(4));
+//        arg.putString(tempDBH.Column_Names[5], cursor.getString(5));
+//        arg.putString(tempDBH.Column_Names[6], cursor.getString(6));
+//        mf2.setArguments(arg);
+//        transaction.replace(R.id.tabletFrame, mf2);
+//        transaction.commit();
+
+        getFragmentManager().beginTransaction().remove(mf).commit();
+        recreate();
+
     }
 
     @Override
@@ -250,11 +301,12 @@ public class FoodActivity extends AppCompatActivity {
         Log.i("Delete", "" + requestCode);
         Log.i("Delete", "Item Deleting");
         if (requestCode == 999) {
-            if (mTwoPane)
-                deleteItem();
-            else
-                db.execSQL("delete from " + tempDBH.FOOD_TABLE + " where " + tempDBH.Column_Names[0] + " ='" + resultCode + "';");
+            if(resultCode>0) {
+                rid = resultCode-1;
+                deleteItem(rid);
+            }
         }
+
         recreate();
     }
 
@@ -343,8 +395,22 @@ public class FoodActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem mi) {
 
         AlertDialog.Builder instruction;
-
+        Intent intent;
         switch (mi.getItemId()) {
+
+            case R.id.ActivityAct:
+                intent = new Intent(FoodActivity.this, ActivityActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ThermoAct:
+                intent = new Intent(FoodActivity.this, ThermostatActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.AutoAct:
+                intent = new Intent(FoodActivity.this, AutomobileActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.info:
                 Toast toast = Toast.makeText(FoodActivity.this, R.string.foodToolbarAboutMsg, Toast.LENGTH_LONG);
                 toast.show();
