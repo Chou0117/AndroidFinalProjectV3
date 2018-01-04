@@ -3,6 +3,7 @@ package com.example.antho.android_final;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -30,8 +31,10 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 //GENERAL REQUIREMENTS
 //*A Fragment
@@ -94,6 +97,8 @@ public class AutomobileActivity extends AppCompatActivity {
     private AutoTask task;
     private float avgGas;
     private float totalLitres;
+
+   // private boolean isTablet = false;
 
 
     @Override
@@ -262,11 +267,15 @@ public class AutomobileActivity extends AppCompatActivity {
         setAveragesStartTask();
 
         parentView = findViewById(R.id.toolBarContent);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //if (findViewById(R.id.testIpad) == null) {
+        //    isTablet = true;
+        //}
+
     }
+
 
     private void updateDatabaseRow(int columnValue, int position, String adjustedString){
 
@@ -412,40 +421,6 @@ public class AutomobileActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             Log.i(ACTIVITY_NAME, "DOINBACKGROUND");
-//            String todaysDate = DateFormat.getDateTimeInstance().format(new Date());
-//            if(todaysDate.substring(5,6).equals(",")){
-//                todaysDate = todaysDate.substring(0,5) + " ";
-//            }
-//            todaysDate = todaysDate.substring(0, 6);
-//
-//            int j = 0;
-//            boolean isThisMonth = true;
-//            totalLitres = 0;
-//            while(j < timeArray.size() - 1 && isThisMonth == true){
-//
-//                if(timeArray.get(j).substring(4,6).equals(todaysDate.substring(4,6))){
-//                    //its the same DATE
-//                    Log.i(ACTIVITY_NAME, "ARRAY DATE: " + timeArray.get(j).substring(4,6) + " TODAYS DATE: " + todaysDate.substring(4,6));
-//                    Log.i(ACTIVITY_NAME, "DEBUG - The Dates Match");
-//                    if (timeArray.get(j).equals(todaysDate)) {
-//                        Log.i(ACTIVITY_NAME, "DEBUG - Its just todays date");
-//                        totalLitres += Float.parseFloat(litresArray.get(j));
-//                    }else{
-//                        Log.i(ACTIVITY_NAME, "reached last month");
-//                       isThisMonth = false;
-//                    }
-//
-//                }else{
-//                    //its just a date
-//
-//
-//                }
-//                //check if its just todays date
-//
-//
-//            }
-
-            //-------------------------------------
 
             publishProgress(25);
 
@@ -457,8 +432,15 @@ public class AutomobileActivity extends AppCompatActivity {
             publishProgress(50);
 
             avgGas = avgGas / priceArray.size();
-            DecimalFormat df = new DecimalFormat("###.##");
+            Log.i(ACTIVITY_NAME, "BEFORE PARSE: "+ avgGas);
+            //--------------------------------------------------------------------------------
+            DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.ENGLISH);
+            otherSymbols.setDecimalSeparator('.');
+            otherSymbols.setGroupingSeparator(',');
+            //--------------------------------------------------------------------------------
+            DecimalFormat df = new DecimalFormat("###.##", otherSymbols);
             avgGas = Float.parseFloat(df.format(avgGas));
+            Log.i(ACTIVITY_NAME, "AFTER PARSE: "+ avgGas);
             publishProgress(75);
 
 
@@ -475,9 +457,8 @@ public class AutomobileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.INVISIBLE);
-            Log.i(ACTIVITY_NAME, "OnPostExecute!!!");
             averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
-            totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased); // wondering if these will work
+            totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
             averageGasPriceTextView.setText("$" + avgGas);
             totalLitresPurchasedTextView.setText("" + totalLitres + " Litres");
         }
