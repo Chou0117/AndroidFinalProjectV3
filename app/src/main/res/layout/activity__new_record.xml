@@ -26,6 +26,7 @@
         android:layout_below="@+id/newRecordInitial">
 
         <RadioButton
+            android:id="@+id/running"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/activity_RadioButton1"/>

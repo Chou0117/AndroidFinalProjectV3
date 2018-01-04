@@ -253,7 +253,7 @@ public class ActivityActivity extends AppCompatActivity {
         AlertDialog.Builder builder = null;
 
         if (id == R.id.about) {
-            Toast.makeText(ActivityActivity.this, "Activity Tracker." + "\n" + "Version 1.3" + "\n" + "By: Anthony Geleynse", Toast.LENGTH_LONG).show();
+            Toast.makeText(ActivityActivity.this, getString(R.string.activity_details1) + "\n" + getString(R.string.activity_details2)  + "\n" + getString(R.string.activity_details3) , Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -261,11 +261,7 @@ public class ActivityActivity extends AppCompatActivity {
             Log.d("Toolbar", "instructions");
 
             builder = new AlertDialog.Builder(this);
-            String s1 = "Instructions for Activity Tracker.";
-            String s2 = "To add a new Activity click on the 'New Activity' button. You can then choose your options and save your activity. ";
-            String s3 = "If you click on the Past Activities button you can see all past activities and by clicking on them you can either edit or delete them. ";
-            String s4 = "You can see your overall statistic here on the HomePage ";
-            builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setMessage(getString(R.string.activity_help1) + "\n" + "\n" + getString(R.string.activity_help2) + "\n" + "\n" + getString(R.string.activity_help3) + "\n" + "\n" + getString(R.string.activity_help4)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                 }
             });
