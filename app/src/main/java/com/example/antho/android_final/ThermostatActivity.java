@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ThermostatActivity extends AppCompatActivity {
+public class  ThermostatActivity extends AppCompatActivity {
 
     private ArrayList<String> thermostatTempAr = new ArrayList<>();
     private ArrayList<String> thermostatDayAr = new ArrayList<>();

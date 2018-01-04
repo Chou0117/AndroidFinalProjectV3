@@ -1,54 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDFFDD">
-    <TextView
-        android:id="@+id/fragFoodDate"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="Message Details" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/fragFoodName"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DDFFDD">
+
+            <TextView
+                android:id="@+id/fragFoodDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/foodFragmentDate"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/fragFoodNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodDateLabel"
+                android:text="@string/foodFragmentName"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/fragFoodCalorieLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodNameLabel"
+                android:text="@string/foodFragmentCalorie"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/fragFoodFatLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodCalorieLabel"
+                android:text="@string/foodFragmentFat"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/fragFoodCarbohydrateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodFatLabel"
+                android:text="@string/foodFragmentCarbohydrate"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DDFFDD">
+
+            <TextView
+                android:id="@+id/fragFoodDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/foodFragmentDate"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/fragFoodName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodDate"
+                android:text="@string/foodFragmentName"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/fragFoodCalorie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodName"
+                android:text="@string/foodFragmentCalorie"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/fragFoodFat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodCalorie"
+                android:text="@string/foodFragmentFat"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/fragFoodCarbohydrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragFoodFat"
+                android:text="@string/foodFragmentCarbohydrate"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="30dp"
-        android:layout_below="@+id/fragFoodDate"/>
+        android:orientation="horizontal"
+        android:background="#DDFFDD">
 
-    <TextView
-        android:id="@+id/fragFoodCalorie"
+        <Button
+            android:id="@+id/foodFragDeleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:text="@string/foodFragmentDeleteButton" />
+
+        <Button
+            android:id="@+id/foodFragEditButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:text="@string/foodFragmentEditButton" />
+
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calorie"
-        android:textSize="20dp"
-        android:layout_below="@+id/fragFoodName"/>
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        android:gravity="center"
+        />
 
-    <TextView
-        android:id="@+id/fragFoodFat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fat"
-        android:textSize="20dp"
-        android:layout_below="@+id/fragFoodCalorie"/>
+    <ImageView
+        android:id="@+id/currentFood"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 
-    <TextView
-        android:id="@+id/fragFoodCarbohydrate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Carbohydrate"
-        android:textSize="20dp"
-        android:layout_below="@+id/fragFoodFat"/>
 
-    <Button
-        android:id="@+id/messageDeleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Message"
-        android:layout_alignParentBottom="true"/>
-
-</RelativeLayout>
+</LinearLayout>

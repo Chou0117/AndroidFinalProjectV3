@@ -28,6 +28,7 @@ public class AutoDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_PRICE,
             COLUMN_MILEAGE,
             COLUMN_TIME
+
     };
 
     public AutoDatabaseHelper(Context ctx) {
