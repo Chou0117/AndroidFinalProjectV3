@@ -26,12 +26,14 @@ public class ActivityFragment extends android.app.Fragment {
     Activity_PastRecord apr;
     String timeStamp;
     Button saveButton;
-    EditText typeView;
     EditText timeView;
     EditText commentView;
     EditText timeStampView;
     ActivityDatabaseHelper dbHelper;
     Spinner dropdown;
+    ArrayAdapter<String> adapter;
+    String[] items = new String[]{"Running", "Walking", "Skating", "Swimming", "Biking"};
+
 
     public ActivityFragment() {
         // Required empty public constructor
@@ -55,22 +57,22 @@ public class ActivityFragment extends android.app.Fragment {
         final View v = inflater.inflate(R.layout.fragment_activity, container, false);
 
         dropdown= v.findViewById(R.id.spinner1); dropdown.setEnabled(false);
-        typeView = v.findViewById(R.id.activity_type); typeView.setEnabled(false);
         timeView = v.findViewById(R.id.activity_time); timeView.setEnabled(false);
         commentView = v.findViewById(R.id.activity_comment); commentView.setEnabled(false);
         timeStampView = v.findViewById(R.id.activity_timeStamp); timeStampView.setEnabled(false);
         String type = getArguments().getString("type");
 
-        String[] items = new String[]{"Running", "Walking", "Skating", "Swimming", "Biking"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(apr.getBaseContext(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
-
-
+        for (int i=0;i<dropdown.getCount();i++){
+            if (dropdown.getItemAtPosition(i).toString().equalsIgnoreCase(type)){
+                dropdown.setSelection(i);
+                break;
+            }
+        }
         String time = getArguments().getString("time");
         String comment = getArguments().getString("comment");
         timeStamp = getArguments().getString("timestamp");
 
-        typeView.setText(type);
         timeView.setText(time);
         commentView.setText(comment);
         timeStampView.setText(timeStamp);
@@ -99,7 +101,7 @@ public class ActivityFragment extends android.app.Fragment {
             @Override
             public void onClick(View v){
                 saveButton.setEnabled(true);
-                typeView.setEnabled(true);
+                dropdown.setEnabled(true);
                 timeView.setEnabled(true);
                 commentView.setEnabled(true);
             }
@@ -121,7 +123,7 @@ public class ActivityFragment extends android.app.Fragment {
 
                 Log.i(this.toString(), "Did you just finish doing things? Wow!");
 //                try{
-                    db.execSQL("UPDATE " + dbHelper.TABLE_NAME+ " SET ACTIVITY_TYPE = '"+ typeView.getText().toString()+ "', ACTIVITY_TIME = '" + timeView.getText().toString() + "', ACTIVITY_COMMENTS = '" +commentView.getText().toString() + "' WHERE ACTIVITY_TIMESTAMP = '"+timeStamp+"';");
+                    db.execSQL("UPDATE " + dbHelper.TABLE_NAME+ " SET ACTIVITY_TYPE = '"+ dropdown.getSelectedItem().toString()+ "', ACTIVITY_TIME = '" + timeView.getText().toString() + "', ACTIVITY_COMMENTS = '" +commentView.getText().toString() + "' WHERE ACTIVITY_TIMESTAMP = '"+timeStamp+"';");
                     //db.insert(dbHelper.TABLE_NAME, null, cv);
                     apr.updateListView();
 //                }catch (Exception e){
@@ -137,6 +139,8 @@ public class ActivityFragment extends android.app.Fragment {
     public void onAttach(Activity activity){
         super.onAttach(activity);
         dbHelper = new ActivityDatabaseHelper(activity);
+        adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, items);
+
     }
 
 
