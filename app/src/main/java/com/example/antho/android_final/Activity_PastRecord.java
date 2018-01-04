@@ -31,6 +31,7 @@ public class Activity_PastRecord extends AppCompatActivity {
     SQLiteDatabase db;
     Cursor cursor;
     ActivityAdapter activityAdapter;
+    Context ctx = this;
 
     ArrayList<String> typeList =  new ArrayList<>();
     ArrayList<String> timeList =  new ArrayList<>();
@@ -77,13 +78,16 @@ public class Activity_PastRecord extends AppCompatActivity {
                 boolean isPhone = findViewById(R.id.frameLayout)==null;
                 if (isPhone){
                     //will be called if the user is on a phone
-//                    Intent intent = new Intent(Activity_PastRecord.this, MessageDetails.class);
-//
-//                    info.putString("id",""+id);
-//                    info.putString("message", "" + messageAdapter.getItem(position));
-//                    info.putBoolean("isPhone", isPhone);
-//                    intent.putExtras(info);
-//                    startActivityForResult(intent, 666);
+                    Intent intent = new Intent(Activity_PastRecord.this, Activity_MessageDetails.class);
+
+                    info.putString("id",""+id);
+                    info.putString("type", "" + activityAdapter.getItem(position));
+                    info.putString("time", "" + activityAdapter.getTime(position));
+                    info.putString("comment", "" + activityAdapter.getComment(position));
+                    info.putString("timestamp", "" + activityAdapter.getTimeStamp(position));
+                    info.putBoolean("isPhone", isPhone);
+                    intent.putExtras(info);
+                    startActivityForResult(intent, 666);
                 } //will be called if the user is on a tablet
                 else {
                     info.putString("id",""+id);
@@ -180,6 +184,11 @@ public class Activity_PastRecord extends AppCompatActivity {
 
     public void updateListView(){
         Log.i("Hello3.0", "Lewis's method");
+        this.recreate();
+    }
+
+    @Override
+    protected void onActivityResult(int requestcode, int resultcode, Intent data){
         this.recreate();
     }
 

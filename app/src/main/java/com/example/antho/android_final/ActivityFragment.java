@@ -115,20 +115,19 @@ public class ActivityFragment extends android.app.Fragment {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
                 Log.i(this.toString(), "Hey you got here! You might be doing things");
-//                ContentValues cv = new ContentValues();
-//
-//                cv.put("ACTIVITY_TYPE", typeView.getText().toString());
-//                cv.put("ACTIVITY_TIME", timeView.getText().toString());
-//                cv.put("ACTIVITY_COMMENTS", commentView.getText().toString());
 
                 Log.i(this.toString(), "Did you just finish doing things? Wow!");
-//                try{
+                try{
                     db.execSQL("UPDATE " + dbHelper.TABLE_NAME+ " SET ACTIVITY_TYPE = '"+ dropdown.getSelectedItem().toString()+ "', ACTIVITY_TIME = '" + timeView.getText().toString() + "', ACTIVITY_COMMENTS = '" +commentView.getText().toString() + "' WHERE ACTIVITY_TIMESTAMP = '"+timeStamp+"';");
                     //db.insert(dbHelper.TABLE_NAME, null, cv);
+
+                if (!getArguments().getBoolean("isPhone")){
                     apr.updateListView();
-//                }catch (Exception e){
-//                    Log.i(this.toString(), "Error inserting values in database");
-//                }
+                }
+
+               }catch (Exception e){
+                   Log.i(this.toString(), "Error inserting values in database");
+               }
             }
         });
 

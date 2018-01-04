@@ -10,7 +10,7 @@
         android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -20,9 +20,8 @@
             android:layout_height="match_parent"
             android:gravity="left"
             android:text="Type: "
-            android:textSize="30sp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"
+            android:minHeight="70dp"
+            android:maxHeight="70dp"
             />
 
         <TextView
@@ -31,9 +30,8 @@
             android:layout_height="match_parent"
             android:gravity="left"
             android:text="Time: "
-            android:textSize="30sp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"/>
+            android:minHeight="70dp"
+            android:maxHeight="70dp"/>
 
         <TextView
             android:id="@+id/comment"
@@ -41,9 +39,8 @@
             android:layout_height="match_parent"
             android:gravity="left"
             android:text="Comments: "
-            android:textSize="30sp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"
+            android:minHeight="70dp"
+            android:maxHeight="70dp"
             />
 
         <TextView
@@ -52,21 +49,20 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:text="Date and Time: "
-            android:textSize="30sp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"
+            android:minHeight="70dp"
+            android:maxHeight="70dp"
             />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
         <Spinner
             android:id="@+id/spinner1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"
@@ -78,10 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:minWidth="150dp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"
-            android:textSize="25sp"
+            android:minHeight="70dp"
+            android:maxHeight="70dp"
             />
 
         <EditText
@@ -89,20 +83,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:minWidth="150dp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"
-            android:textSize="25sp"/>
+            android:minHeight="70dp"
+            android:maxHeight="70dp" />
 
         <EditText
             android:id="@+id/activity_timeStamp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:minWidth="150dp"
-            android:minHeight="50dp"
-            android:maxHeight="50dp"
-            android:textSize="25sp"/></LinearLayout>
+            android:minHeight="70dp"
+            android:maxHeight="70dp" />
 
         <Button
             android:id="@+id/editButton"
@@ -124,6 +114,7 @@
             android:enabled="false"/>
     </LinearLayout>
 
+    </LinearLayout>
 
 
 
