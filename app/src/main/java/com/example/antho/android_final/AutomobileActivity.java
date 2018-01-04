@@ -132,13 +132,12 @@ public class AutomobileActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Log.i(ACTIVITY_NAME, "Entry button clicked");
                 LayoutInflater li= getLayoutInflater();
                 final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_custom_dialog_, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
 
                 builder.setView(rootTag)
-                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.autoConfirmEntry, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 setAutoValues(((EditText)rootTag.findViewById(R.id.autoLitresEditText)).getText().toString(),
@@ -151,7 +150,7 @@ public class AutomobileActivity extends AppCompatActivity {
                                 MakeSnack();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.autoCancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 return;
@@ -169,7 +168,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
                 builder.setView(rootTag)
-                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.autoConfirmEntry, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(1,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
@@ -177,7 +176,7 @@ public class AutomobileActivity extends AppCompatActivity {
                                 MakeSnack();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.autoCancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 return;
@@ -193,7 +192,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
                 builder.setView(rootTag)
-                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.autoConfirmEntry, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(2,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
@@ -201,7 +200,7 @@ public class AutomobileActivity extends AppCompatActivity {
                                 MakeSnack();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.autoCancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 return;
@@ -217,7 +216,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
                 builder.setView(rootTag)
-                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.autoConfirmEntry, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(3,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
@@ -225,7 +224,7 @@ public class AutomobileActivity extends AppCompatActivity {
                                 MakeSnack();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.autoCancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 return;
@@ -240,7 +239,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
                 builder.setView(rootTag)
-                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.autoConfirmEntry, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(4,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
@@ -248,7 +247,7 @@ public class AutomobileActivity extends AppCompatActivity {
                                 MakeSnack();
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.autoCancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 return;
@@ -358,21 +357,14 @@ public class AutomobileActivity extends AppCompatActivity {
         switch(mi.getItemId()) {
             //ACTION 1
             case R.id.about:
-                Log.d("Toolbar", "about");
-                Toast t = Toast.makeText(AutomobileActivity.this, "Activity 4(Automobile) v1.0 was created by Lewis Rannells",  Toast.LENGTH_LONG);
+                Toast t = Toast.makeText(AutomobileActivity.this, R.string.autoAbout,  Toast.LENGTH_LONG);
                 t.show();
                 break;
 
             //ACTION 2
             case R.id.help:
-                Log.d("Toolbar", "help");
-
                 builder = new AlertDialog.Builder(this);
-                String s1 = "Create an entry by clicking the 'ADD ENTRY' button. ";
-                String s2 = "Total litres and the average gas price for the last month is displayed at the bottom the screen. ";
-                String s3 = "After adding a new entry averages and totals are automatically recalculated. ";
-                String s4 = "Items except for the time the data was entered can be edited by clicking on an item in the table";
-                builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4)
+                builder.setMessage(getString(R.string.autoHelpOne) + "\n" + "\n" + getString(R.string.autoHelpTwo) + "\n" + "\n" + getString(R.string.autoHelpThree) + "\n" + "\n" + getString(R.string.autoHelpFour))
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
@@ -392,7 +384,7 @@ public class AutomobileActivity extends AppCompatActivity {
 
     }
     private void MakeSnack() {
-        Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+        Snackbar.make(parentView, R.string.autoRecalculateSnack, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

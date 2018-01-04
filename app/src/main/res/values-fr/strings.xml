@@ -55,6 +55,15 @@
     <string name="autoAvgGas">Gaz moyen pour le mois dernier: </string>
     <string name="autoTotalLitres">Total de gaz acheté le mois dernier: </string>
 
+    <string name="autoConfirmEntry">Confirmer l\'entrée</string>
+    <string name="autoCancel">Annuler</string>
+    <string name="autoHelpOne">Créez une entrée en cliquant sur le bouton AJOUTER ENTRÉE.</string>
+    <string name="autoHelpTwo">Le total des litres et le prix moyen du gaz pour le dernier mois sont affichés en bas de l\'écran.</string>
+    <string name="autoHelpThree">Après avoir ajouté une nouvelle entrée, les moyennes et les totaux sont automatiquement recalculés.</string>
+    <string name="autoHelpFour">Les éléments sauf le moment où les données ont été entrées peuvent être modifiés en cliquant sur un élément dans le tableau</string>
+    <string name="autoRecalculateSnack">Recalculer les rapports...</string>
+    <string name="autoAbout">Activity 4(Automobile) v1.0 a été créé par Lewis Rannells</string>
+
 
 
 </resources>
