@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +35,7 @@ public class Activity_NewRecord extends AppCompatActivity {
     ArrayList<String> activityList = new ArrayList<String>();
     Context ctx = this;
     ProgressBar pb;
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class Activity_NewRecord extends AppCompatActivity {
         //cursor = database.query(adh.TABLE_NAME, allColumns, null, null, null, null, null);
 
         radioGroup = findViewById((R.id.radioGroup));
+        radioGroup.check(R.id.running);
         et = findViewById(R.id.newRecordTime);
         et2 = findViewById(R.id.newRecordComments);
 
@@ -55,6 +58,8 @@ public class Activity_NewRecord extends AppCompatActivity {
 
         pb = findViewById(R.id.progress_Bar);
         database = adh.getWritableDatabase();
+
+        //FrameLayout frameLayout = findViewById(R.id.sn)
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +71,10 @@ public class Activity_NewRecord extends AppCompatActivity {
                     Toast toast = new Toast(ctx);
                     toast.makeText(ctx, R.string.activity_toast1, toast.LENGTH_LONG).show();
                 }else{
-                    Toast toast = new Toast(ctx);
-                    toast.makeText(ctx, R.string.activity_toast2, toast.LENGTH_LONG).show();
+
+                    snackbar.make(v, "Hello incorrect data", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                    Toast toast = new Toast(ctx);
+//                    toast.makeText(ctx, R.string.activity_toast2, toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -3,7 +3,8 @@
     android:id="@+id/framLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.antho.android_final.ActivityFragment">
+    tools:context="com.example.antho.android_final.ActivityFragment"
+    android:background="#CCFFDD">
 
     <LinearLayout
         android:layout_width="wrap_content"
