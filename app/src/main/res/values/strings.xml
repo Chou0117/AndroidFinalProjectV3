@@ -35,7 +35,30 @@
     <string name="autoAvgGas">Average Gas for Last Month: </string>
     <string name="autoTotalLitres">Total Gas Purchased Last Month: </string>
 
-    <!--Cameron's Strings-->
+    <!--Johnny Strings-->
+
+    <string name="foodActivityTitle">Nutrition Info Tracker</string>
+    <string name="foodActivityAddButton">Add</string>
+    <string name="foodActivityCancelButton">Cancel</string>
+    <string name="foodActivityAddGreetingMsg">What did you eat, my friend?</string>
+    <string name="foodActivityAddSuccessMsg">Got it</string>
+
+    <string name="foodFragmentDate">Date  </string>
+    <string name="foodFragmentName">Name  </string>
+    <string name="foodFragmentCalorie">Calorie  </string>
+    <string name="foodFragmentFat">Fat  </string>
+    <string name="foodFragmentCarbohydrate">Carbohydrate  </string>
+    <string name="foodFragmentDeleteButton">Delete Item</string>
+    <string name="foodFragmentEditButton">Edit Item</string>
+
+    <string name="foodInputFood">Food</string>
+    <string name="foodInputCalorie">Calories (g)</string>
+    <string name="foodInputFat">Fat (g)</string>
+    <string name="foodInputCarbohydrate">Carbohydrate (g)</string>
+
+    <string name="foodToolbarAboutMsg">Activity 2(Food Tracker) v1.0 was created by Hsing-Cheng Chou</string>
+
+   <!--Cameron's Strings-->
     <string name="thermosaveText">Save</string>
     <string name="thermoday_prompt">Choose a day</string>
     <string name="thermotemp_prompt">Tempature</string>
