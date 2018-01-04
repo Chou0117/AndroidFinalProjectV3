@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,8 +55,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class FoodActivity extends AppCompatActivity {
@@ -181,6 +184,10 @@ public class FoodActivity extends AppCompatActivity {
                                 int carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
 
                                 datePicker = rootTag.findViewById(R.id.datePicker);
+
+                                int year = datePicker.getYear();
+                                String y = "" + year;
+
                                 int month = datePicker.getMonth() + 1;
                                 String m = "" + month;
                                 if (month < 10) m = "0" + month;
@@ -198,7 +205,7 @@ public class FoodActivity extends AppCompatActivity {
                                 String mi = "" + minutes;
                                 if (minutes < 10) mi = "0" + minutes;
 
-                                String date = m + "/" + d + "  " + h + ":" + mi;
+                                String date = y + "-" + m + "-" + d + "  " + h + ":" + mi;
 
                                 foodInformation.add(foodName);
                                 calorieValue.add(calorie);
@@ -217,6 +224,8 @@ public class FoodActivity extends AppCompatActivity {
                                 informationAdapter.notifyDataSetChanged();
                                 Toast t = Toast.makeText(getApplicationContext(), R.string.foodActivityAddSuccessMsg, Toast.LENGTH_SHORT);
                                 t.show();
+
+                                updateStatistic();
                             }
                         });
                 builder1.create().show();
@@ -264,35 +273,90 @@ public class FoodActivity extends AppCompatActivity {
         /* Tool Bar */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        updateStatistic();
+    }
+
+    public void updateStatistic() {
+        Calendar td = Calendar.getInstance();
+        td.add(Calendar.DATE,0);
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        String today = dateFormat1.format(td.getTime());
+
+        Calendar yd = Calendar.getInstance();
+        yd.add(Calendar.DATE, -1);
+        String yesterday = dateFormat1.format(yd.getTime());
+        int totalCalories = 0;
+        int totalFat = 0;
+        int totalCarbohydrate = 0;
+        int yesterdaysTotal = 0;
+        double everydayAVG = 0;
+
+        cursor = db.query(tempDBH.FOOD_TABLE, tempDBH.Column_Names,
+                null, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String date = cursor.getString(6).substring(0, 10).trim();
+            if (date.equals(today)) {
+                totalCalories += cursor.getInt(3);
+
+                totalFat += cursor.getInt(4);
+                totalCarbohydrate += cursor.getInt(5);
+            }
+            if (date.equals(yesterday)) {
+                yesterdaysTotal += cursor.getInt(3);
+            }
+            cursor.moveToNext();
+        }
+
+        TextView todayCal = findViewById(R.id.foodTotalCalorie);
+        todayCal.setText("" + totalCalories);
+
+        TextView todayFat = findViewById(R.id.foodTotalFat);
+        todayFat.setText("" + totalFat);
+
+        TextView todayCar = findViewById(R.id.foodTotalCarbohydrate);
+        todayCar.setText("" + totalCarbohydrate);
+
+        TextView yesterdayCal = findViewById(R.id.calorieslabelTotalYesterday);
+        yesterdayCal.setText("" + yesterdaysTotal);
+
+        String query = "SELECT strftime('%Y-%m-%d',"+tempDBH.Column_Names[6]+") as day,AVG("+tempDBH.Column_Names[3] +") FROM "+tempDBH.FOOD_TABLE+" group by day";
+//        String query = "SELECT strftime('%Y-%m-%d'," + tempDBH.Column_Names[6] + ") as day FROM " + tempDBH.FOOD_TABLE;
+//        String query = "SELECT strftime('%Y-%m-%d',"+tempDBH.Column_Names[6]+") as day FROM " + tempDBH.FOOD_TABLE;
+        cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Log.i("T everyDay AVG Day", "" + cursor.getString(0));
+            Log.i("T everyDay AVG Cal",""+cursor.getString(1));
+            everydayAVG += Double.parseDouble(cursor.getString(1));
+            cursor.moveToNext();
+        }
+        int days = cursor.getCount();
+
+        Log.i("T everyDay AVG Clc", "" + cursor.getColumnCount());
+        Log.i("T everyDay AVG Cln", "" + cursor.getColumnName(0));
+        Log.i("T everyDay AVG Cln",""+cursor.getColumnName(1));
+        Log.i("T everyDay AVG Cnt", "" + cursor.getCount());
+
+        DecimalFormat df = new DecimalFormat("#.00");
+
+        TextView calAVG = findViewById(R.id.caloriesAvg);
+        calAVG.setText("" + df.format(everydayAVG/days));
     }
 
     //Item Deleting
     public void deleteItem(int i) {
         db.execSQL("delete from " + tempDBH.FOOD_TABLE + " where " + tempDBH.Column_Names[0] + " =" + i + ";");
+
         getFragmentManager().beginTransaction().remove(mf).commit();
         recreate();
     }
 
     //Item Editing
-    public void editItem(int position) {
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        FoodFragment mf2 = new FoodFragment();
-//        mf2.setParentActivity(fa);
-//        cursor = db.query(tempDBH.FOOD_TABLE, tempDBH.Column_Names,
-//                null, null, null, null, null, null);
-//        cursor.moveToPosition(position-1);
-//        arg.putString(tempDBH.Column_Names[2], cursor.getString(2));
-//        arg.putString(tempDBH.Column_Names[3], cursor.getString(3));
-//        arg.putString(tempDBH.Column_Names[4], cursor.getString(4));
-//        arg.putString(tempDBH.Column_Names[5], cursor.getString(5));
-//        arg.putString(tempDBH.Column_Names[6], cursor.getString(6));
-//        mf2.setArguments(arg);
-//        transaction.replace(R.id.tabletFrame, mf2);
-//        transaction.commit();
+    public void editItem() {
 
         getFragmentManager().beginTransaction().remove(mf).commit();
         recreate();
-
     }
 
     @Override
@@ -301,10 +365,12 @@ public class FoodActivity extends AppCompatActivity {
         Log.i("Delete", "" + requestCode);
         Log.i("Delete", "Item Deleting");
         if (requestCode == 999) {
-            if(resultCode>0) {
-                rid = resultCode-1;
+            if (resultCode > 0) {
+                rid = resultCode - 1;
                 deleteItem(rid);
+                updateStatistic();
             }
+
         }
 
         recreate();
@@ -348,6 +414,13 @@ public class FoodActivity extends AppCompatActivity {
 
             TextView foodItem = result.findViewById(R.id.food_item_info_text);
             foodItem.setText(getItem(position, 2));
+
+            TextView calItem = result.findViewById(R.id.cal_item_info_text);
+            calItem.setText(getItem(position, 3));
+            TextView fatItem = result.findViewById(R.id.fat_item_info_text);
+            fatItem.setText(getItem(position, 4));
+            TextView carItem = result.findViewById(R.id.car_item_info_text);
+            carItem.setText(getItem(position, 5));
 
             TextView time = result.findViewById(R.id.food_item_time);
             time.setText(getItem(position, 6));
