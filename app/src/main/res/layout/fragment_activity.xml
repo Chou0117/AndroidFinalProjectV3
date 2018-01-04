@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/framLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.antho.android_final.ActivityFragment">
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:text="Type: "
+            android:text="@string/activity_typeView"
             android:minHeight="70dp"
             android:maxHeight="70dp"
             />
@@ -29,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:text="Time: "
+            android:text="@string/activity_timeView"
             android:minHeight="70dp"
             android:maxHeight="70dp"/>
 
@@ -38,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left"
-            android:text="Comments: "
+            android:text="@string/activity_commentView"
             android:minHeight="70dp"
             android:maxHeight="70dp"
             />
@@ -48,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:text="Date and Time: "
+            android:text="@string/activity_timeStampView"
             android:minHeight="70dp"
             android:maxHeight="70dp"
             />
@@ -98,19 +99,19 @@
             android:id="@+id/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"/>
+            android:text="@string/activity_edit"/>
 
         <Button
             android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"/>
+            android:text="@string/activity_delete"/>
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="@string/activity_save"
             android:enabled="false"/>
     </LinearLayout>
 

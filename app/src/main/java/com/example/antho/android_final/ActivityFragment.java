@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,11 +70,11 @@ public class ActivityFragment extends android.app.Fragment {
                 break;
             }
         }
-        String time = getArguments().getString("time");
+        Integer time = getArguments().getInt("time");
         String comment = getArguments().getString("comment");
         timeStamp = getArguments().getString("timestamp");
 
-        timeView.setText(time);
+        timeView.setText(String.valueOf(time));
         commentView.setText(comment);
         timeStampView.setText(timeStamp);
 
@@ -113,18 +114,13 @@ public class ActivityFragment extends android.app.Fragment {
             public void onClick(View v){
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                Log.i(this.toString(), "Hey you got here! You might be doing things");
-
-                Log.i(this.toString(), "Did you just finish doing things? Wow!");
                 try{
                     db.execSQL("UPDATE " + dbHelper.TABLE_NAME+ " SET ACTIVITY_TYPE = '"+ dropdown.getSelectedItem().toString()+ "', ACTIVITY_TIME = '" + timeView.getText().toString() + "', ACTIVITY_COMMENTS = '" +commentView.getText().toString() + "' WHERE ACTIVITY_TIMESTAMP = '"+timeStamp+"';");
-                    //db.insert(dbHelper.TABLE_NAME, null, cv);
-
+                    Snackbar snackbar = Snackbar.make(v.findViewById(R.id.framLayout), "Successfully added!", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 if (!getArguments().getBoolean("isPhone")){
                     apr.updateListView();
                 }
-
                }catch (Exception e){
                    Log.i(this.toString(), "Error inserting values in database");
                }
