@@ -171,6 +171,8 @@ public class AutomobileActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(1,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
                                 setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -194,6 +196,8 @@ public class AutomobileActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(2,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
                                 setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -217,6 +221,32 @@ public class AutomobileActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(3,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
                                 setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                builder.show();
+            }
+        });
+        timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                LayoutInflater li= getLayoutInflater();
+                final LinearLayout rootTag = (LinearLayout)li.inflate(R.layout.auto_edit_layout, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AutomobileActivity.this);
+                builder.setView(rootTag)
+                        .setPositiveButton("Confirm Entry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateDatabaseRow(4,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -246,9 +276,12 @@ public class AutomobileActivity extends AppCompatActivity {
         }else if(columnValue == 2){ //price
             autoPrice = adjustedString;
             priceArray.set(position, autoPrice);
-        }else{ //mileage
+        }else if (columnValue == 3){ //mileage
             autoMileage = adjustedString;
             mileageArray.set(position, autoMileage);
+        }else{
+            autoTime = adjustedString;
+            timeArray.set(position, autoTime);
         }
         db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -261,6 +294,7 @@ public class AutomobileActivity extends AppCompatActivity {
         litresAdapter.notifyDataSetChanged();
         priceAdapter.notifyDataSetChanged();
         mileageAdapter.notifyDataSetChanged();
+        timeAdapter.notifyDataSetChanged();
 
     }
 
@@ -341,7 +375,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 builder = new AlertDialog.Builder(this);
                 String s1 = "Create an entry by clicking the 'ADD ENTRY' button. ";
                 String s2 = "Total litres and the average gas price for the last month is displayed at the bottom the screen. ";
-                String s3 = "After adding a new entry you wish to recalculate the bottom values click the 'Recalculate' button. ";
+                String s3 = "After adding a new entry averages and totals are automatically recalculated. ";
                 String s4 = "Items except for the time the data was entered can be edited by clicking on an item in the table";
                 builder.setMessage(s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3 + "\n" + "\n" + s4)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -376,7 +410,43 @@ public class AutomobileActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            Log.i(ACTIVITY_NAME, "OMG WE IN DOIN BACKGROUND");
+
+            Log.i(ACTIVITY_NAME, "DOINBACKGROUND");
+//            String todaysDate = DateFormat.getDateTimeInstance().format(new Date());
+//            if(todaysDate.substring(5,6).equals(",")){
+//                todaysDate = todaysDate.substring(0,5) + " ";
+//            }
+//            todaysDate = todaysDate.substring(0, 6);
+//
+//            int j = 0;
+//            boolean isThisMonth = true;
+//            totalLitres = 0;
+//            while(j < timeArray.size() - 1 && isThisMonth == true){
+//
+//                if(timeArray.get(j).substring(4,6).equals(todaysDate.substring(4,6))){
+//                    //its the same DATE
+//                    Log.i(ACTIVITY_NAME, "ARRAY DATE: " + timeArray.get(j).substring(4,6) + " TODAYS DATE: " + todaysDate.substring(4,6));
+//                    Log.i(ACTIVITY_NAME, "DEBUG - The Dates Match");
+//                    if (timeArray.get(j).equals(todaysDate)) {
+//                        Log.i(ACTIVITY_NAME, "DEBUG - Its just todays date");
+//                        totalLitres += Float.parseFloat(litresArray.get(j));
+//                    }else{
+//                        Log.i(ACTIVITY_NAME, "reached last month");
+//                       isThisMonth = false;
+//                    }
+//
+//                }else{
+//                    //its just a date
+//
+//
+//                }
+//                //check if its just todays date
+//
+//
+//            }
+
+            //-------------------------------------
+
             publishProgress(25);
 
             totalLitres = 0;
@@ -390,9 +460,12 @@ public class AutomobileActivity extends AppCompatActivity {
             DecimalFormat df = new DecimalFormat("###.##");
             avgGas = Float.parseFloat(df.format(avgGas));
             publishProgress(75);
+
+
             for(int i = 0; i < litresArray.size(); i++){
                 totalLitres += Float.parseFloat(litresArray.get(i));
             }
+
             publishProgress(100);
             return null;
 
