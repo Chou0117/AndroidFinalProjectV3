@@ -190,7 +190,7 @@ public class FoodFragment extends Fragment {
                         String mi = "" + minutes;
                         if (minutes < 10) mi = "0" + minutes;
 
-                        String date = y + "/" + m + "/" + d + "  " + h + ":" + mi;
+                        String date = y + "-" + m + "-" + d + "  " + h + ":" + mi;
 
                         ContentValues values = new ContentValues();
                         tempDBH = new FoodDatabaseHelper(getActivity().getApplicationContext());
