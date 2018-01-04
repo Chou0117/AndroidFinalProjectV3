@@ -7,17 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,57 +20,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class FoodActivity extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "FoodActivity";
-
-    /*
-        TODO Database
-        TODO Calories, Total Fat, Total Carbohydrate
-        TODO Current / Yesterday Average Calories
-        TODO Order Sort
-    */
+    RelativeLayout root;
     //Frame
     public static boolean mTwoPane;
-
-    //    MessageFragment messageFragment = new MessageFragment(this);
-    //Spinner
-//    private ArrayAdapter<String> foodTypeAdapter;
-//    private Spinner foodTypeDropdown;
     //Input Edit Text
     private EditText foodEditText;
     private EditText calorieIn;
@@ -110,7 +75,6 @@ public class FoodActivity extends AppCompatActivity {
     Long iD;
     int rid;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(ACTIVITY_NAME, "In onCreate()");
@@ -119,19 +83,12 @@ public class FoodActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setTitle(R.string.foodActivityTitle);
         setContentView(R.layout.activity_food);
+        root = findViewById(R.id.foodRootLayout);
 
 
         if (findViewById(R.id.tabletFrame) != null) {
-            Log.i("Info", "It's a tablet");
             mTwoPane = true;
         }
-
-
-//        //Set up food type Spinner
-//        foodTypeDropdown = findViewById(R.id.foodTypeSpinner);
-//        String[] items = new String[]{"Meal", "Drink", "Snack"};
-//        foodTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-//        foodTypeDropdown.setAdapter(foodTypeAdapter);
 
 //        //Components
         foodAddButton = findViewById(R.id.foodAddButton);
@@ -142,7 +99,7 @@ public class FoodActivity extends AppCompatActivity {
         tempDBH = new FoodDatabaseHelper(getApplicationContext());
         db = tempDBH.getWritableDatabase();
         cursor = db.query(tempDBH.FOOD_TABLE, tempDBH.Column_Names,
-                null, null, null, null, null, null);
+                null, null, null, null, tempDBH.Column_Names[6] + " DESC", null);
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 foodInformation.add(cursor.getString(2));
@@ -169,20 +126,30 @@ public class FoodActivity extends AppCompatActivity {
                         })
                         .setPositiveButton(R.string.foodActivityAddButton, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                String foodType = foodTypeDropdown.getSelectedItem().toString();
 
                                 foodEditText = rootTag.findViewById(R.id.foodEditText);
                                 String foodName = foodEditText.getText().toString();
 
                                 calorieIn = rootTag.findViewById(R.id.calories);
-                                int calorie = Integer.parseInt(calorieIn.getText().toString());
+                                int calorie;
+                                if(!calorieIn.getText().toString().equals(""))
+                                    calorie = Integer.parseInt(calorieIn.getText().toString());
+                                else
+                                    calorie = 0;
 
                                 fatIn = rootTag.findViewById(R.id.fat);
-                                int fat = Integer.parseInt(fatIn.getText().toString());
+                                int fat;
+                                if(!fatIn.getText().toString().equals(""))
+                                    fat = Integer.parseInt(fatIn.getText().toString());
+                                else
+                                    fat = 0;
 
                                 carbohydrateIn = rootTag.findViewById(R.id.carbohydrate);
-                                int carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
-
+                                int carbohydrate;
+                                if(!carbohydrateIn.getText().toString().equals(""))
+                                    carbohydrate = Integer.parseInt(carbohydrateIn.getText().toString());
+                                else
+                                    carbohydrate = 0;
                                 datePicker = rootTag.findViewById(R.id.datePicker);
 
                                 int year = datePicker.getYear();
@@ -213,13 +180,15 @@ public class FoodActivity extends AppCompatActivity {
                                 carbohydrateValue.add(carbohydrate);
                                 dateValue.add(date);
 
-//                                values.put(tempDBH.Column_Names[1], foodType);
                                 values.put(tempDBH.Column_Names[2], foodName);
                                 values.put(tempDBH.Column_Names[3], calorie);
                                 values.put(tempDBH.Column_Names[4], fat);
                                 values.put(tempDBH.Column_Names[5], carbohydrate);
                                 values.put(tempDBH.Column_Names[6], date);
                                 db.insert(tempDBH.FOOD_TABLE, null, values);
+
+                                String query = "SELECT * FROM " + tempDBH.FOOD_TABLE + " order by " + tempDBH.Column_Names[6] + " DESC;";
+                                cursor = db.rawQuery(query, null);
 
                                 informationAdapter.notifyDataSetChanged();
                                 Toast t = Toast.makeText(getApplicationContext(), R.string.foodActivityAddSuccessMsg, Toast.LENGTH_SHORT);
@@ -229,18 +198,14 @@ public class FoodActivity extends AppCompatActivity {
                             }
                         });
                 builder1.create().show();
-
             }
         });
 
         foodWindow.setAdapter(informationAdapter);
 
-
         foodWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-
                 iD = id;
                 arg = new Bundle();
                 arg.putString(tempDBH.Column_Names[0], "" + id);
@@ -251,8 +216,6 @@ public class FoodActivity extends AppCompatActivity {
                 arg.putString(tempDBH.Column_Names[6], informationAdapter.getItem(position, 6));
 
                 if (mTwoPane) {
-
-                    Log.i("Info", "Item Clicked in Tablet");
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     mf = new FoodFragment();
                     mf.setParentActivity(fa);
@@ -261,7 +224,6 @@ public class FoodActivity extends AppCompatActivity {
                     transaction.commit();
 
                 } else {
-                    Log.i("Info", "Show this if using phone");
                     Intent intent = new Intent(FoodActivity.this, FoodDetail.class);
                     intent.putExtras(arg);
                     startActivityForResult(intent, 999);
@@ -276,9 +238,10 @@ public class FoodActivity extends AppCompatActivity {
         updateStatistic();
     }
 
+
     public void updateStatistic() {
         Calendar td = Calendar.getInstance();
-        td.add(Calendar.DATE,0);
+        td.add(Calendar.DATE, 0);
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         String today = dateFormat1.format(td.getTime());
 
@@ -320,41 +283,33 @@ public class FoodActivity extends AppCompatActivity {
         TextView yesterdayCal = findViewById(R.id.calorieslabelTotalYesterday);
         yesterdayCal.setText("" + yesterdaysTotal);
 
-        String query = "SELECT strftime('%Y-%m-%d',"+tempDBH.Column_Names[6]+") as day,AVG("+tempDBH.Column_Names[3] +") FROM "+tempDBH.FOOD_TABLE+" group by day";
-//        String query = "SELECT strftime('%Y-%m-%d'," + tempDBH.Column_Names[6] + ") as day FROM " + tempDBH.FOOD_TABLE;
-//        String query = "SELECT strftime('%Y-%m-%d',"+tempDBH.Column_Names[6]+") as day FROM " + tempDBH.FOOD_TABLE;
+        String query = "SELECT strftime('%Y-%m-%d'," + tempDBH.Column_Names[6] + ") as day,AVG(" + tempDBH.Column_Names[3] + ") FROM " + tempDBH.FOOD_TABLE + " group by day";
         cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Log.i("T everyDay AVG Day", "" + cursor.getString(0));
-            Log.i("T everyDay AVG Cal",""+cursor.getString(1));
+            Log.i("T everyDay AVG Cal", "" + cursor.getString(1));
             everydayAVG += Double.parseDouble(cursor.getString(1));
             cursor.moveToNext();
         }
         int days = cursor.getCount();
-
-        Log.i("T everyDay AVG Clc", "" + cursor.getColumnCount());
-        Log.i("T everyDay AVG Cln", "" + cursor.getColumnName(0));
-        Log.i("T everyDay AVG Cln",""+cursor.getColumnName(1));
-        Log.i("T everyDay AVG Cnt", "" + cursor.getCount());
-
         DecimalFormat df = new DecimalFormat("#.00");
 
         TextView calAVG = findViewById(R.id.caloriesAvg);
-        calAVG.setText("" + df.format(everydayAVG/days));
+        calAVG.setText("" + df.format(everydayAVG / days));
     }
 
     //Item Deleting
     public void deleteItem(int i) {
         db.execSQL("delete from " + tempDBH.FOOD_TABLE + " where " + tempDBH.Column_Names[0] + " =" + i + ";");
-
-        getFragmentManager().beginTransaction().remove(mf).commit();
-        recreate();
+        if (mTwoPane) {
+            getFragmentManager().beginTransaction().remove(mf).commit();
+            recreate();
+        }
     }
 
     //Item Editing
     public void editItem() {
-
         getFragmentManager().beginTransaction().remove(mf).commit();
         recreate();
     }
@@ -362,17 +317,13 @@ public class FoodActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("Delete", "" + requestCode);
-        Log.i("Delete", "Item Deleting");
         if (requestCode == 999) {
             if (resultCode > 0) {
                 rid = resultCode - 1;
                 deleteItem(rid);
                 updateStatistic();
             }
-
         }
-
         recreate();
     }
 
@@ -392,8 +343,6 @@ public class FoodActivity extends AppCompatActivity {
             cursor = db.query(tempDBH.FOOD_TABLE, tempDBH.Column_Names,
                     null, null, null, null, null, null);
             cursor.moveToPosition(position);
-            Log.i("Position", "" + position);
-//            cursor.getString(0);
             return Long.parseLong(cursor.getString(0));
         }
 
@@ -409,20 +358,16 @@ public class FoodActivity extends AppCompatActivity {
             View result;
             result = inflater.inflate(R.layout.food_item_row, null);
 
-//            TextView foodItemType = result.findViewById(R.id.food_item_type_text);
-//            foodItemType.setText(foodTypeDropdown.getSelectedItem().toString() + ":  ");
-
             TextView foodItem = result.findViewById(R.id.food_item_info_text);
-            foodItem.setText(getItem(position, 2));
-
             TextView calItem = result.findViewById(R.id.cal_item_info_text);
-            calItem.setText(getItem(position, 3));
             TextView fatItem = result.findViewById(R.id.fat_item_info_text);
-            fatItem.setText(getItem(position, 4));
             TextView carItem = result.findViewById(R.id.car_item_info_text);
-            carItem.setText(getItem(position, 5));
-
             TextView time = result.findViewById(R.id.food_item_time);
+
+            foodItem.setText(getItem(position, 2));
+            calItem.setText(getItem(position, 3));
+            fatItem.setText(getItem(position, 4));
+            carItem.setText(getItem(position, 5));
             time.setText(getItem(position, 6));
 
             return result;
@@ -457,7 +402,7 @@ public class FoodActivity extends AppCompatActivity {
     public void onDestroy() {
         Log.i(ACTIVITY_NAME, "In onDestroy()");
         super.onDestroy();
-//        db.close();
+        db.close();
     }
 
     public boolean onCreateOptionsMenu(Menu m) {
@@ -485,30 +430,28 @@ public class FoodActivity extends AppCompatActivity {
                 break;
 
             case R.id.info:
-                Toast toast = Toast.makeText(FoodActivity.this, R.string.foodToolbarAboutMsg, Toast.LENGTH_LONG);
-                toast.show();
+
+                Snackbar.make(root,R.string.foodToolbarAuthorMsg,Snackbar.LENGTH_LONG).show();
                 break;
 
             case R.id.help:
+                String a = getString(R.string.foodToolbarInstructionMsg1);
+                String b = getString(R.string.foodToolbarInstructionMsg2);
+                String c = getString(R.string.foodToolbarInstructionMsg3);
+                String d = getString(R.string.foodToolbarInstructionMsg4);
+                String l = "\n\n***********************************\n";
+                String instructionText = a + l + b + l + c + l + d + l;
 
                 instruction = new AlertDialog.Builder(this);
-//                String s1 = "You eat....";
-//                String s2 = "You track....";
-//                String s3 = "If not....";
-//                String s4 = "You fat....";
-                instruction.setMessage("You eat...." + "\n" + "\n" + "You track...." + "\n" + "\n" + "If not...." + "\n" + "\n" + "You fat....")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                instruction.setMessage(instructionText)
+                        .setPositiveButton(getString(R.string.foodOKButton), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
-                AlertDialog alert = instruction.create();
+                instruction.create();
                 instruction.show();
                 break;
         }
-//        if (instruction != null){
-//            AlertDialog alert = instruction.create();
-//            instruction.show();
-//        }
         return true;
     }
 }

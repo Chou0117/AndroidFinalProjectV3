@@ -102,5 +102,45 @@
     <string name="autoAbout">Activity 4(Automobile) v1.0 a été créé par Lewis Rannells</string>
 
 
+    <!--Johnny Strings-->
+
+    <string name="foodActivityTitle">Suivi des aliments</string>
+    <string name="foodActivityAddButton">Ajouter</string>
+    <string name="foodActivityCancelButton">Annuler</string>
+    <string name="foodActivityAddGreetingMsg">Qu\'avez-vous mangé, mon ami?</string>
+    <string name="foodActivityAddSuccessMsg">Je l\'ai</string>
+    <string name="foodActivityLabelYT">Calories d\'hier: </string>
+    <string name="foodActivityLabelEA">Calories quotidiennes AVG: </string>
+    <string name="foodActivityLabelTT">Calories d\'aujourd\'hui: </string>
+
+    <string name="foodFragmentDate">Date </string>
+    <string name="foodFragmentName">Nom  </string>
+    <string name="foodFragmentCalorie">Calorie  </string>
+    <string name="foodFragmentFat">Graisse </string>
+    <string name="foodFragmentCarbohydrate">Glucides  </string>
+    <string name="foodFragmentDeleteButton">Effacer l\'article</string>
+    <string name="foodFragmentEditButton">Modifier l\'article</string>
+
+    <string name="foodItemRowCal">Cal:</string>
+    <string name="foodItemRowFat">Fat:</string>
+    <string name="foodItemRowCar">Car:</string>
+
+    <string name="foodInputFood">Aliments</string>
+    <string name="foodInputCalorie">Calories (g)</string>
+    <string name="foodInputFat">Graisse (g)</string>
+    <string name="foodInputCarbohydrate">Glucides (g)</string>
+
+    <string name="foodToolbarAuthor">Auteur</string>
+    <string name="foodToolbarHelp">Aide</string>
+    <string name="foodToolbarAuthorMsg">Activité 2 (Food Tracker) créé par Hsing-Cheng (Johnny) Chou</string>
+
+    <string name="foodOKButton">D\'accord</string>
+    <string name="foodToolbarInstructionMsg1">Bienvenue sur Nutrition Tracker!</string>
+    <string name="foodToolbarInstructionMsg2">Appuyez sur Ajouter pour ajouter un aliment. Merci de ne laisser aucun espace.</string>
+    <string name="foodToolbarInstructionMsg3">Cliquez sur l\'élément pour supprimer, modifier et afficher l\'image!</string>
+    <string name="foodToolbarInstructionMsg4">Chaque événement Add, Delete, Edit mettra à jour les numéros de statistiques</string>
+
+
+
 
 </resources>

@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:gravity="left|center"
             android:singleLine="true"
-            android:text="Cal:"
+            android:text="@string/foodItemRowCal"
             android:textSize="20dp" />
         <TextView
             android:id="@+id/cal_item_info_text"
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:gravity="left|center"
             android:singleLine="true"
-            android:text="Fat:"
+            android:text="@string/foodItemRowFat"
             android:textSize="20dp" />
         <TextView
             android:id="@+id/fat_item_info_text"
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:gravity="left|center"
             android:singleLine="true"
-            android:text="Car:"
+            android:text="@string/foodItemRowCar"
             android:textSize="20dp" />
         <TextView
             android:id="@+id/car_item_info_text"
