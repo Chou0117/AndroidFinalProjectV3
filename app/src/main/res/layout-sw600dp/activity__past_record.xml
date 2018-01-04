@@ -2,20 +2,24 @@
     <!--•	You should use fragments to show a ListView displays the activities, either ordered by time or as a daily summary of activities and time exercising.
     Users should be able to delete or edit previous entries, like changing the activity type or time spent, or change comments.-->
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.antho.android_final.Activity_PastRecord">
 
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_view" />
+
     <ListView
         android:id="@+id/list_view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
