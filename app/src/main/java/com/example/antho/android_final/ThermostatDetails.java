@@ -1,6 +1,7 @@
 package com.example.antho.android_final;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 /**
@@ -8,24 +9,20 @@ import android.os.Bundle;
  */
 
 public class ThermostatDetails extends Activity {
+    Bundle arg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.thermostat_details);
 
-        String ID = getIntent().getStringExtra("Id");
-        String Day = getIntent().getStringExtra("Day");
-        String Time = getIntent().getStringExtra("Time");
-        String Temp = getIntent().getStringExtra("Temp");
-        Bundle bundle = new Bundle();
-        bundle.putString("Id", ID);
-        bundle.putString("Day", Day);
-        bundle.putString("Time", Time);
-        bundle.putString("Temp", Temp);
+        arg = getIntent().getExtras();
 
-        ThermostatFragment messageFragment = new ThermostatFragment();
-        messageFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().add(R.id.fragment_container, messageFragment).commit();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        ThermostatFragment tf = new ThermostatFragment();
+
+        tf.setArguments(arg);
+        transaction.replace(R.id.fragment_container, tf);
+        transaction.commit();
     }
 }

@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -32,8 +38,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class  ThermostatActivity extends AppCompatActivity {
+import static com.example.antho.android_final.ThermostatDatabaseHelper.KEY_ID;
 
+public class ThermostatActivity extends AppCompatActivity {
+
+    public static boolean mTwoPane;
+    Context ctx = this;
     private ArrayList<String> thermostatTempAr = new ArrayList<>();
     private ArrayList<String> thermostatDayAr = new ArrayList<>();
     private ArrayList<String> thermostatTimeAr = new ArrayList<>();
@@ -49,8 +59,8 @@ public class  ThermostatActivity extends AppCompatActivity {
     private String inputTimeM = "";
     private String inputTemp = "";
     private String timeformat = "";
-
-
+    private String messageDA, messageTE, messageTI;
+    private ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,26 +70,35 @@ public class  ThermostatActivity extends AppCompatActivity {
 
         thermostatList = (ListView) findViewById(R.id.thermostat_list);
 
+        if (findViewById(R.id.fragment_container) != null) {
+            Log.i("Info", "It's a tablet. Poor you.");
+            mTwoPane = true;
+        } else {
+            Log.i("Info", "It's a phone. Congratulations!");
+            progressbar = (ProgressBar) findViewById(R.id.progressbar);
+            progressbar.bringToFront();
+            mTwoPane = false;
+        }
+
         informationAdapter = new ThermoInfoAdapter(this);
         thermostatList.setAdapter(informationAdapter);
         thermodbHelper = new ThermostatDatabaseHelper(this);
         thermodb = thermodbHelper.getWritableDatabase();
         final ContentValues cValues = new ContentValues();
 
-        cursor = thermodb.query(thermodbHelper.TABLE_NAME, thermodbHelper.Column_names,null, null, null, null, null, null);
-        int colIndexDA= cursor.getColumnIndex(ThermostatDatabaseHelper.KEY_DAY);
+        cursor = thermodb.query(thermodbHelper.TABLE_NAME, thermodbHelper.Column_names, null, null, null, null, null, null);
+        int colIndexDA = cursor.getColumnIndex(ThermostatDatabaseHelper.KEY_DAY);
         int colIndexTI = cursor.getColumnIndex(ThermostatDatabaseHelper.KEY_TIME);
         int colIndexTE = cursor.getColumnIndex(ThermostatDatabaseHelper.KEY_TEMPATURE);
-
 
         mTopToolbar = (Toolbar) findViewById(R.id.appToolbar);
         setSupportActionBar(mTopToolbar);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            String messageDA = cursor.getString(colIndexDA);
-            String messageTI = cursor.getString(colIndexTI);
-            String messageTE = cursor.getString(colIndexTE);
+            messageDA = cursor.getString(colIndexDA);
+            messageTI = cursor.getString(colIndexTI);
+            messageTE = cursor.getString(colIndexTE);
             thermostatDayAr.add(messageDA);
             thermostatTimeAr.add(messageTI);
             thermostatTempAr.add(messageTE);
@@ -89,16 +108,35 @@ public class  ThermostatActivity extends AppCompatActivity {
         thermostatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String msg = (String) informationAdapter.getItem(position);
-                long msgId = informationAdapter.getItemId(position);
-                String messageId = String.valueOf(msgId);
+                Bundle arg = new Bundle();
+                arg.putLong("KEY", informationAdapter.getItemId(position));
+                arg.putString("DAY", informationAdapter.getItemDay(position));
+                arg.putString("TIME", informationAdapter.getItemTime(position));
+                arg.putString("TEMPATURE", informationAdapter.getItemTemp(position));
 
+                if (mTwoPane) {
+//
+//                    Log.i("Info", "Item Clicked in Tablet");
+//                    informationAdapter.setArguments(arg);
+//                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.tabletFrame, messageFragment);
+//                    transaction.commit();
+
+                } else {
+                    Log.i("Info", "Show this if using phone");
                     Intent intent = new Intent(ThermostatActivity.this, ThermostatDetails.class);
-                    intent.putExtra("message", msg);
-                    intent.putExtra("messageId", messageId);
-                    startActivityForResult(intent, 10);
+                    intent.putExtras(arg);
+                    startActivityForResult(intent, 999);
+                }
+
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        recreate();
     }
 
     @Override
@@ -114,7 +152,7 @@ public class  ThermostatActivity extends AppCompatActivity {
         AlertDialog.Builder builder = null;
 
         if (id == R.id.about) {
-            Toast.makeText(ThermostatActivity.this, "Version 1.3 By: Cameron O'Connor", Toast.LENGTH_LONG).show();
+            Toast.makeText(ThermostatActivity.this, "House Thermostat." + "\n" + "Version 1.3" + "\n" + "By: Cameron O'Connor", Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -154,22 +192,18 @@ public class  ThermostatActivity extends AppCompatActivity {
 
                             inputTimeH = etEnteredTime.getCurrentHour().toString();
                             inputTimeM = etEnteredTime.getCurrentMinute().toString();
-                            String am_pm = (etEnteredTime.getCurrentHour() < 12) ? "AM" : "PM";
-                            timeformat = (" " + inputTimeH + ":" + inputTimeM + " " + am_pm);
+                            inputTimeM = ("00" + inputTimeM).substring(inputTimeM.length());
+                            timeformat = (inputTimeH + ":" + inputTimeM);
                             thermostatTimeAr.add(timeformat);
 
                             inputTemp = etEnteredTemp.getText().toString();
                             thermostatTempAr.add(inputTemp);
 
-                            //inserts the new message into the database
-                            ContentValues cValues = new ContentValues();
-                            cValues.put(thermodbHelper.KEY_DAY, inputDay);
-                            cValues.put(thermodbHelper.KEY_TIME, timeformat);
-                            cValues.put(thermodbHelper.KEY_TEMPATURE, inputTemp);
-                            thermodb.insert(thermodbHelper.TABLE_NAME,"null", cValues);
+                            WriteTask write = new WriteTask(ctx);
+                            write.execute();
 
-                            informationAdapter.notifyDataSetChanged();
-
+                            Snackbar snackbar = Snackbar.make(findViewById(R.id.thermostatlayout), "Successfully added!", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -185,45 +219,6 @@ public class  ThermostatActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private class ThermoInfoAdapter extends ArrayAdapter<String> {
-        LayoutInflater inflater;
-
-        public ThermoInfoAdapter(Context ctx) {
-            super(ctx, 0);
-            inflater = ThermostatActivity.this.getLayoutInflater();
-        }
-
-        public int getCount() {return thermostatTempAr.size();}
-
-        public int getCountDay() {return thermostatDayAr.size();}
-
-        public int getCountTime() {return thermostatTimeAr.size();}
-
-        public int getCountTemp() {return thermostatTempAr.size();}
-
-        public String getItemDay(int position) {return thermostatDayAr.get(position);}
-
-        public String getItemTime(int position) {return thermostatTimeAr.get(position);}
-
-        public String getItemTemp(int position) { return thermostatTempAr.get(position); }
-
-        public View getView(int position, View convertView, ViewGroup Parent) {
-            View result = convertView;
-            result = inflater.inflate(R.layout.thermostat_item_row, null);
-
-            TextView Day = result.findViewById(R.id.thermostat_day);
-            Day.setText("Date: " + getItemDay(position));
-
-            TextView Time = result.findViewById(R.id.thermostat_time);
-            Time.setText(getItemTime(position));
-
-            TextView Tempature = result.findViewById(R.id.thermostat_temp);
-            Tempature.setText(getItemTemp(position));
-
-            return result;
-        }
     }
 
     @Override
@@ -256,5 +251,128 @@ public class  ThermostatActivity extends AppCompatActivity {
         super.onDestroy();
         cursor.close();
         thermodb.close();
+    }
+
+    private class ThermoInfoAdapter extends ArrayAdapter<String> {
+        LayoutInflater inflater;
+
+        public ThermoInfoAdapter(Context ctx) {
+            super(ctx, 0);
+            inflater = ThermostatActivity.this.getLayoutInflater();
+        }
+
+        public int getCount() {
+            return thermostatTempAr.size();
+        }
+
+        public int getCountDay() {
+            return thermostatDayAr.size();
+        }
+
+        public int getCountTime() {
+            return thermostatTimeAr.size();
+        }
+
+        public int getCountTemp() {
+            return thermostatTempAr.size();
+        }
+
+        @Override
+        public long getItemId(int position) {
+
+            cursor = thermodb.query(thermodbHelper.TABLE_NAME, thermodbHelper.Column_names,
+                    null, null, null, null, null, null);
+            cursor.moveToPosition(position);
+            Log.i("Position", "" + position);
+//            cursor.getString(0);
+            return Long.parseLong(cursor.getString(0));
+        }
+
+        public String getItemDay(int position) {
+            return thermostatDayAr.get(position);
+        }
+
+        public String getItemTime(int position) {
+            return thermostatTimeAr.get(position);
+        }
+
+        public String getItemTemp(int position) {
+            return thermostatTempAr.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup Parent) {
+            View result = convertView;
+            result = inflater.inflate(R.layout.thermostat_item_row, null);
+
+            TextView Day = result.findViewById(R.id.thermostat_day);
+            Day.setText("Date: " + getItemDay(position) + "  ");
+
+            TextView Time = result.findViewById(R.id.thermostat_time);
+            Time.setText(getItemTime(position));
+
+            TextView Tempature = result.findViewById(R.id.thermostat_temp);
+            Tempature.setText(getItemTemp(position));
+
+            return result;
+        }
+    }
+
+    public class WriteTask extends AsyncTask<String, Void, String> {
+        Context ctx;
+
+        WriteTask(Context ctx) {
+            this.ctx = ctx;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            thermodbHelper = new ThermostatDatabaseHelper(getApplicationContext());
+            thermodb = thermodbHelper.getWritableDatabase();
+
+            try {
+                //inserts the new message into the database
+                ContentValues cValues = new ContentValues();
+                cValues.put(thermodbHelper.KEY_DAY, inputDay);
+                cValues.put(thermodbHelper.KEY_TIME, timeformat);
+                cValues.put(thermodbHelper.KEY_TEMPATURE, inputTemp);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //stuff that updates ui
+                        informationAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                try {
+                    thermodb.insert(thermodbHelper.TABLE_NAME, "null", cValues);
+                    Thread.sleep(400);
+                    onPostExecute();
+                } catch (Exception e) {
+                    Log.i(this.toString(), "Error inserting values in database");
+                }
+
+            } finally {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // SHOW THE SPINNER WHILE LOADING FEEDS
+            progressbar.setVisibility(View.VISIBLE);
+        }
+
+        protected void onPostExecute() {
+            // HIDE THE SPINNER AFTER LOADING FEEDS
+            progressbar.setVisibility(View.INVISIBLE);
+        }
     }
 }
