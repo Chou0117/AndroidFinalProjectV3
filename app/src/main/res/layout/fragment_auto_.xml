@@ -35,15 +35,4 @@
         android:layout_below="@id/avgGasPrice"
         android:layout_toRightOf="@id/gasAmountPurchasedLabel" />
 
-    <Button
-        android:id="@+id/recalculateButton"
-        android:text="@string/autoRecalculateButton"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="60dp"
-        android:layout_below="@id/gasAmountPurchasedLabel">
-    </Button>
-
-
 </RelativeLayout>
