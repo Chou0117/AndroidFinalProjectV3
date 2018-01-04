@@ -87,12 +87,13 @@ public class AutomobileActivity extends AppCompatActivity {
 
     private TextView averageGasPriceTextView;
     private TextView totalLitresPurchasedTextView;
-    private Button recalculateButton;
     private ProgressBar progressBar;
 
     private View parentView;
 
     private AutoTask task;
+    private float avgGas;
+    private float totalLitres;
 
 
     @Override
@@ -142,7 +143,8 @@ public class AutomobileActivity extends AppCompatActivity {
                                 insertIntoDataBase();
                                 addToArrays();
                                 notifyAdapters();
-                                Snackbar.make(parentView, "Make sure to recalculate your totals", Snackbar.LENGTH_LONG)
+                                setAveragesStartTask();
+                                Snackbar.make(parentView, "Recalculating Reports...", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                             }
                         })
@@ -168,6 +170,7 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(1,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -190,6 +193,7 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(2,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -212,6 +216,7 @@ public class AutomobileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 updateDatabaseRow(3,position, ((EditText)rootTag.findViewById(R.id.editDatabaseEditText)).getText().toString());
+                                setAveragesStartTask();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -224,34 +229,12 @@ public class AutomobileActivity extends AppCompatActivity {
             }
         });
 
-        recalculateButton = (Button)findViewById(R.id.recalculateButton);
-        recalculateButton.setBackgroundColor(Color.parseColor("#540000"));
-        recalculateButton.setTextColor(Color.WHITE);
-        recalculateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //Snackbar.make(view, "Testing snack", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
-                averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
-                totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
-                totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
-            }
-        });
-        averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
-        totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased);
-        averageGasPriceTextView.setText("$" + calculateAverageGasPrice());
-        totalLitresPurchasedTextView.setText("" + calculateTotalLitres() + " Litres");
+        setAveragesStartTask();
 
         parentView = findViewById(R.id.toolBarContent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        task = new AutoTask();
-        task.execute("");
-        task.onProgressUpdate(20);
-        task.onProgressUpdate(40);
-        task.onProgressUpdate(60);
-        task.onProgressUpdate(80);
 
     }
 
@@ -278,7 +261,6 @@ public class AutomobileActivity extends AppCompatActivity {
         litresAdapter.notifyDataSetChanged();
         priceAdapter.notifyDataSetChanged();
         mileageAdapter.notifyDataSetChanged();
-
 
     }
 
@@ -335,26 +317,6 @@ public class AutomobileActivity extends AppCompatActivity {
         timeAdapter.notifyDataSetChanged();
     }
 
-    private float calculateAverageGasPrice(){
-        float avgGas = 0;
-        for(int i = 0; i < priceArray.size(); i++){
-            avgGas += Float.parseFloat(priceArray.get(i));
-        }
-        avgGas = avgGas / priceArray.size();
-        DecimalFormat df = new DecimalFormat("###.##");
-        avgGas = Float.parseFloat(df.format(avgGas));
-
-        return avgGas;
-}
-
-    private float calculateTotalLitres(){
-        float totalLitres = 0;
-        for(int i = 0; i < litresArray.size(); i++){
-            totalLitres += Float.parseFloat(litresArray.get(i));
-        }
-        return totalLitres;
-    }
-
     public boolean onCreateOptionsMenu(Menu m){
         getMenuInflater().inflate(R.menu.toolbar_menu, m);
         return true;
@@ -395,8 +357,14 @@ public class AutomobileActivity extends AppCompatActivity {
         return true;
     }
 
-    private class AutoTask extends AsyncTask<String, Integer, String>{
+    private void setAveragesStartTask(){
+        Log.i(ACTIVITY_NAME, "Starting TASK and setting AVERAGES");
+        task = new AutoTask();
+        task.execute();
 
+    }
+
+    private class AutoTask extends AsyncTask<String, Integer, String>{
 
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -408,14 +376,37 @@ public class AutomobileActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            String response = "";
+            Log.i(ACTIVITY_NAME, "OMG WE IN DOIN BACKGROUND");
+            publishProgress(25);
 
-            return response;
+            totalLitres = 0;
+            avgGas = 0;
+            for(int i = 0; i < priceArray.size(); i++){
+                avgGas += Float.parseFloat(priceArray.get(i));
+            }
+            publishProgress(50);
+
+            avgGas = avgGas / priceArray.size();
+            DecimalFormat df = new DecimalFormat("###.##");
+            avgGas = Float.parseFloat(df.format(avgGas));
+            publishProgress(75);
+            for(int i = 0; i < litresArray.size(); i++){
+                totalLitres += Float.parseFloat(litresArray.get(i));
+            }
+            publishProgress(100);
+            return null;
+
+
         }
 
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.INVISIBLE);
+            Log.i(ACTIVITY_NAME, "OnPostExecute!!!");
+            averageGasPriceTextView = (TextView)findViewById(R.id.avgGasPrice);
+            totalLitresPurchasedTextView = (TextView)findViewById(R.id.gasAmountPurchased); // wondering if these will work
+            averageGasPriceTextView.setText("$" + avgGas);
+            totalLitresPurchasedTextView.setText("" + totalLitres + " Litres");
         }
 
     }
@@ -436,7 +427,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
@@ -470,7 +460,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
@@ -504,7 +493,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
@@ -538,7 +526,6 @@ public class AutomobileActivity extends AppCompatActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup Parent) {
-            Log.i(ACTIVITY_NAME, "in getView");
             LayoutInflater inflater = AutomobileActivity.this.getLayoutInflater();
             View view;
             view = inflater.inflate(R.layout.auto_database_layout, null);
